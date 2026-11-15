@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>MyPlaces cần quyền truy cập vị trí để hiển thị vị trí hiện tại của bạn trên bản đồ và giúp bạn thêm địa điểm mới.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>MyPlaces cần quyền truy cập ảnh để bạn có thể thêm ảnh vào các địa điểm và kỷ niệm.</string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <true/>
+    </dict>
+</dict>
+</plist>

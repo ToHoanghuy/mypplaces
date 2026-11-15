@@ -1,0 +1,61 @@
+name: MyPlaces
+options:
+  bundleIdPrefix: com.mypplaces
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15.0"
+
+settings:
+  SWIFT_VERSION: "5.9"
+  IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+
+configs:
+  Debug: debug
+  Release: release
+
+targets:
+  MyPlaces:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - path: MyPlaces
+    settings:
+      base:
+        DEVELOPMENT_TEAM: ""
+        PRODUCT_BUNDLE_IDENTIFIER: com.mypplaces.MyPlaces
+        INFOPLIST_FILE: MyPlaces/Info.plist
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+        ENABLE_PREVIEWS: YES
+      configs:
+        Debug:
+          SUPABASE_CONFIG_PATH: $(SRCROOT)/Config.xcconfig
+        Release:
+          SUPABASE_CONFIG_PATH: $(SRCROOT)/Config.xcconfig
+    dependencies:
+      - package: Supabase
+        product: Supabase
+    scheme:
+      testTargets:
+        - MyPlacesTests
+      gatherCoverageData: true
+
+  MyPlacesTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: MyPlacesTests
+    dependencies:
+      - target: MyPlaces
+    settings:
+      BUNDLE_LOADER: $(TEST_HOST)
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/MyPlaces.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyPlaces
+
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: 2.5.0
