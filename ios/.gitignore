@@ -1,0 +1,26 @@
+# Xcode
+*.xcodeproj
+*.xcworkspace
+!*.xcworkspace/contents.xcworkspacedata
+xcuserdata/
+DerivedData/
+.DS_Store
+
+# Config
+Config.xcconfig
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# CocoaPods (if used)
+Pods/
+Podfile.lock
+
+# Build
+build/
+*.ipa
+
+# Code coverage
+*.profdata
+*.coverage

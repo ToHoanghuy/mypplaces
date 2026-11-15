@@ -1,0 +1,10 @@
+//
+// Config.example.xcconfig
+// MyPlaces
+//
+// Sao chép file này thành Config.xcconfig và điền thông tin Supabase của bạn
+// Config.xcconfig sẽ bị gitignore để bảo mật
+//
+
+SUPABASE_URL = https:/$()/ektlcjoxnjlyiyzzzjob.supabase.co
+SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrdGxjam94bmpseWl5enpqb2IiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTczMTY2NjEyMCwiZXhwIjoyMDQ3MjQyMTIwfQ.placeholder_for_actual_key
