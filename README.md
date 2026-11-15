@@ -1,3 +1,4 @@
+
 # MyPlaces
 
 Ứng dụng iOS giúp lưu giữ địa điểm đã ghé thăm, tổ chức các địa điểm thành hành trình, ghi lại hình ảnh và ghi chú ngắn, đồng thời chia sẻ trải nghiệm với bạn bè.
@@ -304,3 +305,175 @@ Tất cả tables phải enable RLS với policies:
 ## License
 
 TBD
+
+# MyPlaces – Supabase migration package (v1.1)
+
+Bộ migration SQL + pgTAP test cho backend Supabase của MyPlaces (iOS / SwiftUI / MapKit).
+Nguồn: BRD v1.1 (10/11/2026, v1.1 thắng v1.0 khi mâu thuẫn) và ERD & Permission Design v1.1,
+cùng 5 quyết định đã chốt (D1–D5, bên dưới).
+
+```
+supabase/
+├── config.toml                      # cấu hình tối thiểu cho Supabase CLI (viết tay, chưa chạy với CLI thật)
+├── seed.sql                         # rỗng (không có dữ liệu mẫu)
+├── migrations/
+│   ├── 20261115000001_extensions_and_enums.sql
+│   ├── 20261115000002_tables.sql
+│   ├── 20261115000003_triggers.sql
+│   ├── 20261115000004_helper_functions.sql
+│   ├── 20261115000005_rls_policies.sql
+│   ├── 20261115000006_projections.sql
+│   ├── 20261115000007_sharing_rpcs.sql
+│   ├── 20261115000008_storage.sql
+│   └── 20261115000009_grants_and_realtime.sql
+└── tests/database/                  # pgTAP (supabase test db)
+    ├── 00000_test_helpers.test.sql  # schema `tests` + helper (PHẢI chạy đầu tiên)
+    ├── 01_schema_hardening.test.sql
+    ├── 02_places_visits_rls.test.sql
+    ├── 03_memories_rls.test.sql
+    ├── 04_journals_projection.test.sql
+    ├── 05_invitations_membership.test.sql
+    └── 06_storage.test.sql
+local-validation/                    # chỉ để kiểm thử trên PostgreSQL thuần (không dùng cho Supabase thật)
+├── stub_supabase.sql                # stub roles anon/authenticated/service_role, auth.*, storage.*
+└── run.sh                           # DB mới → stub → migrations → tests → tổng kết
+```
+
+## 1. Thứ tự file (phải áp dụng theo thứ tự timestamp)
+
+| # | File | Nội dung |
+|---|------|----------|
+| 01 | extensions_and_enums | `pgcrypto` (schema `extensions`), schema `private`, enum (`member_role`, `member_status`, `invitation_status`, `resource_type`, `memory_type`, `place_category`) |
+| 02 | tables | 14 bảng, CHECK, partial unique index, index theo ERD §4, FK **không** `ON DELETE CASCADE` |
+| 03 | triggers | `write_audit`, `updated_at`, đóng dấu `created_at` phía server, cột bất biến, guard moderation, kiểm tra IANA timezone, tạo profile khi đăng ký, audit vòng đời (xóa/khôi phục/archive), `audit_log` append-only |
+| 04 | helper_functions | `private.can_read_* / can_contribute_* / is_*_owner / memory_visible / can_read_profile` (SECURITY DEFINER, STABLE, `search_path=''`) |
+| 05 | rls_policies | Bật RLS mọi bảng; policy riêng cho SELECT/INSERT/UPDATE/DELETE |
+| 06 | projections | `journal_places_projection`, `journal_visits_projection` (D5), `my_visit_places` (D3) |
+| 07 | sharing_rpcs | `create/resolve/accept/decline/revoke/list_invitations`, `change_member_role`, `remove_member`, `leave_resource`, `unshare_resource`, `transfer_ownership`, `expire_pending_invitations` |
+| 08 | storage | bucket `memory-media` (private, 10 MB, jpeg/png/heic) + policy `storage.objects` |
+| 09 | grants_and_realtime | Thu hồi quyền mặc định của Supabase, cấp lại tối thiểu; thêm bảng vào publication `supabase_realtime` |
+| 10 | fk_covering_indexes | Index phủ 10 foreign key mà performance advisor của Supabase báo thiếu (thêm sau khi áp dụng lên project thật) |
+
+## 2. Cách chạy
+
+### Với Supabase CLI (khuyến nghị)
+```bash
+cd myplaces            # thư mục chứa supabase/
+supabase start
+supabase db reset      # áp dụng toàn bộ migrations (+ seed.sql rỗng)
+supabase test db       # chạy pgTAP trong supabase/tests/database
+```
+Yêu cầu PostgreSQL ≥ 15 (cú pháp `ON DELETE SET NULL (journal_visit_id)`); `config.toml` đặt `major_version = 17`.
+`00000_test_helpers.test.sql` tạo schema `tests` (không rollback) nên phải chạy trước các file còn lại
+(đặt tên theo thứ tự chữ cái để `pg_prove` chạy đúng thứ tự).
+
+### Kiểm thử trên PostgreSQL thuần (không cần Docker)
+```bash
+# cần một PostgreSQL >= 15 đang chạy + extension pgTAP; đặt PGHOST/PGPORT/PGUSER nếu khác mặc định
+cd local-validation && ./run.sh
+```
+Script tạo DB mới, nạp `stub_supabase.sql` (mô phỏng rất tối thiểu `auth.users`, `auth.uid()`, `storage.*`,
+các role Supabase và default privileges của Supabase để việc `REVOKE` được kiểm thật), áp dụng migrations rồi chạy
+từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub này vào project Supabase thật.**
+
+## 3. Kết quả đã kiểm chứng
+
+* PostgreSQL 17.11 + pgTAP 1.3.5 (cài cục bộ trên box, không có Docker / Supabase CLI): 9 migration áp dụng sạch,
+  **399 assertion / 7 file, 0 lỗi**.
+* Có chạy "mutation check": cố ý làm yếu policy (mở `places_select`, cho Viewer tạo Visit, bỏ kiểm tra hết hạn khi accept,
+  mở policy storage, cho Journal member đọc `places`, bỏ CHECK một-parent, cho mọi contributor sửa memory…) → test bắt được tất cả.
+* Chạy thử đồng thời 2 session `accept_invitation` cùng token: một session thành công, session còn lại nhận `INVITATION_USED`, chỉ có 1 membership.
+* **Chưa** chạy với Supabase CLI/Docker thật nên chưa kiểm: `config.toml`, thứ tự file của `supabase test db`,
+  `INSERT` tối thiểu vào `auth.users` trên GoTrue thật, quyền tạo trigger trên `auth.users`/policy trên `storage.objects` (đều là thao tác
+  Supabase cho phép với role `postgres`), và hành vi Realtime.
+
+### Đã áp dụng lên Supabase thật (15/11/2026)
+
+* Project `ektlcjoxnjlyiyzzzjob` (region `ap-southeast-2`, PostgreSQL 17.11), URL `https://ektlcjoxnjlyiyzzzjob.supabase.co`. Project trống trước khi áp dụng.
+* 10 migration (01–09 + `10_fk_covering_indexes`) áp dụng bằng Supabase MCP `apply_migration`, **không cần sửa file 01–09**: trigger trên `auth.users`,
+  policy trên `storage.objects`, insert bucket, publication `supabase_realtime` và `REVOKE` default privileges đều chạy được với role `postgres`.
+  Lưu ý: `apply_migration` ghi version = thời điểm áp dụng (`20261115063329`…), không phải timestamp trong tên file; nội dung giống hệt.
+* Chạy pgTAP trên DB thật (mỗi file trong một transaction rồi `ROLLBACK`, kèm helper + `create extension pgtap` trong transaction đó nên không lưu gì):
+  **399/399 pass**. Sau đó `auth.users`, `profiles`, `places`, `storage.objects` đều rỗng, không còn schema `tests` hay extension `pgtap`.
+* Hai chỗ test phải chỉnh cho Supabase thật (migration không đổi):
+  1. `01_schema_hardening`: bỏ `public.rls_auto_enable()` khỏi kiểm tra "mọi SECURITY DEFINER pin `search_path=''`" – hàm này do nền tảng Supabase tạo sẵn (event trigger, pin `pg_catalog`).
+  2. `06_storage`: Supabase có trigger `storage.protect_delete()` chặn `DELETE` trực tiếp trên `storage.objects`; test đặt
+     `set_config('storage.allow_delete_query','true',true)` (cờ mà Storage API tự đặt) để kiểm policy xoá.
+* Advisor **security**: 14 WARN `authenticated_security_definer_function_executable` – đều là RPC chia sẻ/projection **cố ý** để client gọi
+  (mỗi hàm tự kiểm `auth.uid()` + quyền; `anon`/`PUBLIC` không có EXECUTE; helper RLS nằm ở schema `private` không expose). Không có lỗi ERROR.
+  **Performance**: 10 INFO `unindexed_foreign_keys` → đã xử lý bằng migration 10; còn INFO `unused_index` (bình thường trên DB chưa có dữ liệu).
+* Chưa thử bằng client thật (PostgREST/GoTrue/Realtime end-to-end): pgTAP giả lập JWT bằng `request.jwt.claims`.
+
+## 4. Truy vết yêu cầu → test
+
+### ERD §6.3 (bắt buộc)
+| Case | Test |
+|------|------|
+| Anonymous reads private Place → denied | 02 (khối anonymous: lỗi `42501`, `anon` không có GRANT) |
+| Owner reads own Place/Visit/Journal | 02 "Owner reads own Places/Visits", 04 "Owner reads own Journal" |
+| Active Place Viewer reads Place, no Visit | 02 khối place VIEWER |
+| Place Viewer reads sibling Visit via REST → denied | 02 `[6.3][ERD-03]` (cả `select *` và theo id) |
+| Visit Viewer reads shared Visit; sibling denied | 02 khối visit VIEWER |
+| Journal Viewer reads linked Place only via projection | 04 (trường giới hạn, không có address/provider; `places`/`visits` trực tiếp rỗng) |
+| Participant not member reads Visit → denied | 02 khối participant (erin) |
+| Removed member reads resource after revocation → denied | 02, 03, 04, 05, 06 |
+| Editor updates another user's Memory → denied | 03 (0 row) |
+| Viewer inserts Memory → denied | 03 (`42501`) |
+| Client forges author_id/owner_id → denied | 02 (Place/Visit), 03 (Memory), 04 (Journal/journal_places), 05 (audit_log) |
+| User guesses Storage path → denied | 06 |
+
+### 5 quyết định
+* **D1** Editor của Place tạo Visit, `owner_id` = editor: 02 (`[D1]`, `[ERD-06]`).
+* **D2** `owner_id` là nguồn sự thật, membership chỉ EDITOR/VIEWER: 01 (CHECK), 04 (không có row owner), 05 (`transfer_ownership` xoá row của owner mới, không còn OWNER trong bảng member).
+* **D3** Visit owner luôn đọc được projection tối thiểu của Place (kể cả unshare/soft-delete) mà `places` RLS không mở rộng: 02 (`[D3]`), 05.
+* **D4** `memories` đúng một parent (CHECK) + `journal_visit_id` không phải parent, chỉ khi parent là Journal, cùng Journal (FK ghép): 03.
+* **D5** Journal member chỉ thấy Place/Visit qua projection live (không snapshot, không đọc bảng gốc): 04 (đổi tên/di chuyển → projection đổi ngay; soft-delete → biến mất).
+
+## 5. Thiết kế chính
+
+* **Deny by default 2 lớp**: `GRANT` (migration 09 thu hồi mặc định của Supabase, cấp lại tối thiểu: không `DELETE` trên places/visits/journals/memories,
+  bảng member/`audit_log` chỉ `SELECT`, `invitations` không cấp gì) + RLS từng thao tác (migration 05).
+* **Helper nằm ở schema `private`** (PostgREST không expose). Mỗi helper chỉ nhìn `auth.uid()` nên gọi bởi bất kỳ user nào cũng không lộ dữ liệu người khác.
+  `authenticated` được `USAGE` schema `private` và `EXECUTE` đúng các helper mà policy dùng (test 01 kiểm tra mọi helper `can_*/is_*`).
+* **Soft delete**: không có policy DELETE; xoá = `UPDATE deleted_at`. Owner vẫn thấy tombstone (để sync/khôi phục), người khác không thấy.
+  Place đã xoá không cho tạo Visit mới; Memory của parent bị xoá không cascade (chỉ owner/author thấy).
+* **Thời gian**: `timestamptz` (UTC) + `visits.timezone_id` được kiểm tra với `pg_timezone_names`. `created_at/updated_at` do server đóng dấu (giờ client nằm ở `visited_at`).
+* **Idempotent**: PK uuid do client sinh. Retry dùng `INSERT … ON CONFLICT (id) DO NOTHING` (PostgREST `Prefer: resolution=ignore-duplicates`); insert thường trùng id → `23505`.
+* **Invitation**: token 256-bit (`gen_random_bytes(32)` → 64 hex), chỉ lưu `sha256` hex; TTL ≤ 30 ngày; role EDITOR/VIEWER; ràng buộc tuỳ chọn theo `invitee_user_id` hoặc email (email phải đã xác thực);
+  mời lại cùng invitee = thay thế (revoke cái cũ). `accept_invitation` khoá hàng invitation (`FOR UPDATE`) nên 2 thiết bị cùng accept chỉ 1 thành công; REMOVED/LEFT được kích hoạt lại với role mới.
+* **Audit**: bảng `audit_log` append-only, chỉ ghi bởi RPC/trigger (SECURITY DEFINER). Ghi: tạo/accept/decline/revoke invitation, đổi role, remove/leave, unshare, transfer, moderation memory, xoá/khôi phục/archive.
+* **Mã lỗi RPC** (PostgREST map `PTxxx` → HTTP xxx, `message` là mã ổn định): `PT401 AUTH_REQUIRED`, `PT400 INVALID_ROLE/INVALID_EXPIRY/CANNOT_INVITE_SELF/INVALID_NEW_OWNER`,
+  `PT403 FORBIDDEN`, `PT404 INVITATION_NOT_FOUND/RESOURCE_NOT_FOUND/MEMBER_NOT_FOUND`, `PT409 INVITATION_USED/ALREADY_MEMBER/ALREADY_OWNER/OWNER_MUST_TRANSFER/OWNER_CANNOT_BE_REMOVED/NEW_OWNER_NOT_MEMBER/RESOURCE_UNAVAILABLE`,
+  `PT410 INVITATION_EXPIRED/REVOKED/DECLINED`.
+* **Cách app dùng**: CRUD Place/Visit/Memory/Journal qua bảng (RLS); mọi thao tác chia sẻ qua RPC; Journal đọc qua `rpc('journal_places_projection')`, `rpc('journal_visits_projection')`;
+  Visit owner lấy toạ độ Place qua `rpc('my_visit_places')`; danh sách lời mời của owner qua `rpc('list_invitations')` (không trả `token_hash`).
+* **Upload ảnh**: (1) tạo `memories` → (2) upload object `{uploader_id}/{memory_id}/{attachment_id}.{jpg|jpeg|png|heic}` → (3) insert `memory_attachments` (finalize).
+  Object chưa finalize thì chưa đọc được; không có policy UPDATE nên không ghi đè cùng path.
+
+## 6. Các điểm mơ hồ đã tự quyết (cần bạn xác nhận)
+
+1. **Chỉ chủ Place/Visit mới được link vào Journal** (Journal Owner/Editor + là owner của Place/Visit được link). Lý do: link = công khai projection cho cả nhóm. Owner của Place/Visit luôn xem/gỡ được link của mình kể cả sau khi bị remove khỏi Journal.
+2. **Visit projection trong Journal** chỉ gồm ngày giờ, timezone và Place (title/category/toạ độ) theo ERD §5.4; **không** có `note`, participants, địa chỉ. Place đã soft-delete thì Visit liên quan cũng biến khỏi projection.
+3. **Chỉ Visit owner** nhận projection Place (D3); Visit Viewer/Editor không thấy Place.
+4. **Dedup `provider_place_id` theo từng owner** (unique `(owner_id, provider, provider_place_id)` với row chưa xoá), không unique toàn cục.
+5. **Membership có enum `OWNER` nhưng CHECK cấm** (giữ từ vựng ERD, thực thi D2).
+6. **Transfer ownership**: owner mới phải là member ACTIVE; row member của owner mới bị xoá; owner cũ mặc định thành EDITOR (hoặc `NULL` = mất quyền); các invitation PENDING bị revoke.
+7. **Author có thể khôi phục (`deleted_at = NULL`) memory của mình sau khi owner moderate** – chưa chặn (chưa có cờ "bị moderate").
+8. **Decline một link không ràng buộc** làm chết link đó với mọi người (trạng thái DECLINED theo BRD).
+9. **Hết hạn invitation**: tính từ `expires_at` lúc gọi RPC; trạng thái `EXPIRED` được lưu bởi `expire_pending_invitations()` (cần lịch pg_cron hoặc Edge Function), vì RPC raise lỗi thì không thể ghi trạng thái.
+10. **Bảng `invitations` không cấp quyền cho client** (tránh lộ `token_hash`, tránh lỗi `select=*` do column-grant) → dùng `list_invitations`/`resolve_invitation`. Có policy SELECT cho owner phòng khi sau này cấp GRANT.
+11. **Profile**: đọc được khi cùng Place/Visit/Journal (owner/ACTIVE member), là tác giả memory đọc được, hoặc là participant có tài khoản của Visit đọc được. Không lưu email.
+12. **Memory type** dùng `NOTE`/`PHOTO` (ERD) thay cho `TEXT_NOTE` (BRD); body ≤ 2000 ký tự, NOTE bắt buộc có body. `Place.note`, favorite (v1.0) bị bỏ theo v1.1 (note → Memory; favorite là P1).
+13. **Journal** bỏ `visibility`/`status` của v1.0: luôn private, trạng thái = `archived_at`. Journal archived từ chối thêm Memory/link; vẫn đọc được.
+14. **Collections (P1)**, AI, GPS nền: chưa có bảng.
+15. **Visit tạo trên Place chỉ cho owner = chính người tạo** (không chọn owner khác lúc insert); muốn đổi dùng `transfer_ownership`.
+16. **Participant có tài khoản phải là người bạn đã nhìn thấy được** (cùng Place/Visit/Journal hoặc đã là participant): chặn việc thêm UUID bất kỳ để đọc profile / dò tài khoản. Chọn "bạn bè" bất kỳ chỉ làm được khi có friend graph (P1); hiện chỉ thêm được guest label cho người chưa chung tài nguyên.
+17. **Member cũ vẫn xoá được file do mình upload** (author), nhưng không đọc/upload thêm được; parent owner xoá được mọi file (moderation).
+
+## 7. Việc chưa làm / gợi ý tiếp theo
+
+* Bucket `avatars` và `journal-covers` (profiles.avatar_path, journals.cover_path hiện chỉ là text) – chưa tạo policy.
+* Rate limit cho `resolve/accept_invitation` (BRD yêu cầu) – cần làm ở Edge Function/API gateway; DB chỉ chống trùng và khoá hàng.
+* Workflow xoá tài khoản (`profiles.id` đang `ON DELETE RESTRICT`), retention/purge, dọn object Storage mồ côi, kiểm tra nội dung/EXIF phía server.
+* Kiểm tra hiệu năng policy trên dữ liệu lớn (nhiều helper là truy vấn theo từng row), và thử Realtime với RLS.
+

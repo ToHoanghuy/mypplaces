@@ -1,0 +1,25 @@
+# Minimal Supabase CLI config (generate a full one with `supabase init` if you prefer; keep project_id).
+# NOTE: this file was written by hand and NOT exercised with the real Supabase CLI.
+project_id = "myplaces"
+
+[api]
+enabled = true
+port = 54321
+# "private" (RLS helpers, trigger functions) is deliberately NOT exposed.
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+# The migrations need PostgreSQL >= 15 (ON DELETE SET NULL (column_list)).
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"

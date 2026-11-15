@@ -1,0 +1,1 @@
+-- No seed data: MyPlaces ships no fixtures in production. Test fixtures live in tests/database.
