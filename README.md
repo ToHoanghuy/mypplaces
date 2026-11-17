@@ -306,11 +306,11 @@ Tất cả tables phải enable RLS với policies:
 
 TBD
 
-# MyPlaces – Supabase migration package (v1.1)
+# MyPlaces – Supabase migration package (v1.2)
 
 Bộ migration SQL + pgTAP test cho backend Supabase của MyPlaces (iOS / SwiftUI / MapKit).
 Nguồn: BRD v1.1 (10/11/2026, v1.1 thắng v1.0 khi mâu thuẫn) và ERD & Permission Design v1.1,
-cùng 5 quyết định đã chốt (D1–D5, bên dưới).
+cùng 5 quyết định đã chốt (D1–D5, bên dưới). v1.2 (17/11/2026): thêm migration 11–14 cho 6 quyết định UI (xem mục 7).
 
 ```
 supabase/
@@ -325,7 +325,12 @@ supabase/
 │   ├── 20261115000006_projections.sql
 │   ├── 20261115000007_sharing_rpcs.sql
 │   ├── 20261115000008_storage.sql
-│   └── 20261115000009_grants_and_realtime.sql
+│   ├── 20261115000009_grants_and_realtime.sql
+│   ├── 20261115000010_fk_covering_indexes.sql
+│   ├── 20261117000001_map_places_view.sql
+│   ├── 20261117000002_timeline_and_companion_rpcs.sql
+│   ├── 20261117000003_invitation_ttl_options.sql
+│   └── 20261117000004_companion_suggestions_invoker.sql
 └── tests/database/                  # pgTAP (supabase test db)
     ├── 00000_test_helpers.test.sql  # schema `tests` + helper (PHẢI chạy đầu tiên)
     ├── 01_schema_hardening.test.sql
@@ -333,7 +338,8 @@ supabase/
     ├── 03_memories_rls.test.sql
     ├── 04_journals_projection.test.sql
     ├── 05_invitations_membership.test.sql
-    └── 06_storage.test.sql
+    ├── 06_storage.test.sql
+    └── 07_ui_v1_1_support.test.sql   # v1.2: map_places, my_timeline, companions, TTL (61 assertion)
 local-validation/                    # chỉ để kiểm thử trên PostgreSQL thuần (không dùng cho Supabase thật)
 ├── stub_supabase.sql                # stub roles anon/authenticated/service_role, auth.*, storage.*
 └── run.sh                           # DB mới → stub → migrations → tests → tổng kết
@@ -353,6 +359,10 @@ local-validation/                    # chỉ để kiểm thử trên PostgreSQL
 | 08 | storage | bucket `memory-media` (private, 10 MB, jpeg/png/heic) + policy `storage.objects` |
 | 09 | grants_and_realtime | Thu hồi quyền mặc định của Supabase, cấp lại tối thiểu; thêm bảng vào publication `supabase_realtime` |
 | 10 | fk_covering_indexes | Index phủ 10 foreign key mà performance advisor của Supabase báo thiếu (thêm sau khi áp dụng lên project thật) |
+| 11 | map_places_view (20261117000001) | View `map_places` (security_invoker): Place đọc được + `visit_count`, `last_visited_at`, `visit_status` (VISITED/WANT_TO_VISIT, suy ra, không có cột), ảnh bìa |
+| 12 | timeline_and_companion_rpcs (20261117000002) | RPC `my_timeline` (SECURITY DEFINER, `search_path=''`, trả `visited_local` theo `timezone_id`) và `list_companion_suggestions` |
+| 13 | invitation_ttl_options (20261117000003) | `create_invitation` chỉ nhận `p_ttl` = 1, 7 (mặc định) hoặc 30 ngày → khác thì `PT400 INVALID_EXPIRY` |
+| 14 | companion_suggestions_invoker (20261117000004) | Chuyển `list_companion_suggestions` sang SECURITY INVOKER (theo security advisor) |
 
 ## 2. Cách chạy
 
@@ -454,7 +464,7 @@ từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub nà
 
 1. **Chỉ chủ Place/Visit mới được link vào Journal** (Journal Owner/Editor + là owner của Place/Visit được link). Lý do: link = công khai projection cho cả nhóm. Owner của Place/Visit luôn xem/gỡ được link của mình kể cả sau khi bị remove khỏi Journal.
 2. **Visit projection trong Journal** chỉ gồm ngày giờ, timezone và Place (title/category/toạ độ) theo ERD §5.4; **không** có `note`, participants, địa chỉ. Place đã soft-delete thì Visit liên quan cũng biến khỏi projection.
-3. **Chỉ Visit owner** nhận projection Place (D3); Visit Viewer/Editor không thấy Place.
+3. **Chỉ Visit owner** nhận projection Place (D3); Visit Viewer/Editor không thấy Place. *v1.2: riêng `my_timeline` trả projection tối thiểu (title/category/toạ độ) cho Visit member khi Place còn hiệu lực; RLS `places` không đổi.*
 4. **Dedup `provider_place_id` theo từng owner** (unique `(owner_id, provider, provider_place_id)` với row chưa xoá), không unique toàn cục.
 5. **Membership có enum `OWNER` nhưng CHECK cấm** (giữ từ vựng ERD, thực thi D2).
 6. **Transfer ownership**: owner mới phải là member ACTIVE; row member của owner mới bị xoá; owner cũ mặc định thành EDITOR (hoặc `NULL` = mất quyền); các invitation PENDING bị revoke.
@@ -477,3 +487,12 @@ từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub nà
 * Workflow xoá tài khoản (`profiles.id` đang `ON DELETE RESTRICT`), retention/purge, dọn object Storage mồ côi, kiểm tra nội dung/EXIF phía server.
 * Kiểm tra hiệu năng policy trên dữ liệu lớn (nhiều helper là truy vấn theo từng row), và thử Realtime với RLS.
 
+## 7. Cập nhật v1.2 (17/11/2026)
+
+6 quyết định UI: điều hướng 5 tab; Muốn đến/Đã ghé suy ra (không có cột); chưa có Yêu thích; gợi ý người đi cùng = đồng thành viên + tên tự do; hạn lời mời 1/7/30 ngày (mặc định 7); Dòng thời gian theo `timezone_id` của từng Visit.
+
+* Local (PostgreSQL 17.11 + pgTAP): 14 migration áp dụng sạch, **460 assertion / 8 file, 0 lỗi** (399 cũ + 61 mới).
+* Supabase thật (`ektlcjoxnjlyiyzzzjob`): migration 11–14 áp dụng bằng `apply_migration` (version `20261117043509`, `20261117043518`, `20261117043519`, `20261117043706`).
+  Test 01–07 chạy trong transaction rồi rollback: 36 + 80 + 54 + 69 + 112 + 45 + 61 = **457/457 pass**; không để lại dữ liệu.
+* Advisor: security – chỉ thêm `authenticated_security_definer_function_executable` cho `my_timeline` (có chủ đích, như 14 RPC hiện có) và `auth_leaked_password_protection` (cài đặt Auth trên dashboard); performance – chỉ INFO `unused_index`.
+* App: bản đồ `from('map_places').select()`; Dòng thời gian `rpc('my_timeline', {p_from, p_to, p_category, p_visit_id, p_limit})`; chọn người đi cùng `rpc('list_companion_suggestions', {p_query, p_limit})` rồi insert `visit_participants`.
