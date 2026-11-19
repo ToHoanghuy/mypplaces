@@ -14,6 +14,15 @@ enum QAHooks {
         #endif
     }
 
+    /// `-QANoAutofill`: drop textContentType so iOS password autofill/strong-password UI does not swallow typed text in UI tests.
+    static var noAutofill: Bool {
+        #if DEBUG
+        return ProcessInfo.processInfo.arguments.contains("-QANoAutofill")
+        #else
+        return false
+        #endif
+    }
+
     static func prepare() {
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-QAResetLocal") {

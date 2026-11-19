@@ -216,7 +216,7 @@ struct InputField: View {
             .foregroundStyle(.white)
             .tint(Theme.accent)
             .keyboardType(keyboard)
-            .textContentType(contentType)
+            .textContentType(QAHooks.noAutofill ? nil : contentType)
             .textInputAutocapitalization(keyboard == .emailAddress || secure ? .never : .sentences)
             .autocorrectionDisabled(keyboard == .emailAddress || secure)
             .accessibilityIdentifier(identifier ?? placeholder)
