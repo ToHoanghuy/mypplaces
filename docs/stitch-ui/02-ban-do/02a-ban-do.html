@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>MyPlaces - Bản đồ Hà Nội</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter"],
+            display: ["Inter"],
+            body: ["Inter"],
+            label: ["Inter"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Disable bounce scroll for realistic native iOS canvas */
+    html, body {
+      overscroll-behavior: none;
+      background-color: #0E0E10;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#0E0E10] text-white flex justify-center items-center min-h-screen p-0 m-0">
+<!-- Mobile Screen Canvas (390 x 844) Full-bleed -->
+<main class="relative w-[390px] h-[844px] bg-[#0E0E10] overflow-hidden select-none shadow-2xl">
+<!-- 1. DARK MAP CANVAS (Full screen, Apple Maps / Mapbox Dark vector rendering) -->
+<div class="absolute inset-0 z-0 bg-[#0E0E10]">
+<svg class="w-full h-full" fill="none" viewbox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Hoan Kiem Lake water depth subtle gradient -->
+<lineargradient gradientunits="userSpaceOnUse" id="lakeWater" x1="160" x2="250" y1="360" y2="600">
+<stop offset="0%" stop-color="#0a1926"></stop>
+<stop offset="60%" stop-color="#081420"></stop>
+<stop offset="100%" stop-color="#050d15"></stop>
+</lineargradient>
+<filter height="140%" id="subtleGlow" width="140%" x="-20%" y="-20%">
+<fegaussianblur result="blur" stddeviation="3"></fegaussianblur>
+<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
+</filter>
+</defs>
+<!-- Base Landmass / Blocks -->
+<rect fill="#0E0E10" height="844" width="390"></rect>
+<!-- Urban Land Blocks / Quarter fills -->
+<polygon fill="#141417" opacity="0.6" points="10,80 180,75 170,220 20,210"></polygon>
+<polygon fill="#131316" opacity="0.6" points="190,80 375,90 365,240 185,225"></polygon>
+<polygon fill="#141417" opacity="0.5" points="15,230 160,240 150,390 20,400"></polygon>
+<polygon fill="#121215" opacity="0.6" points="270,250 375,260 360,450 260,430"></polygon>
+<polygon fill="#131316" opacity="0.7" points="20,430 140,420 130,620 15,610"></polygon>
+<polygon fill="#131316" opacity="0.5" points="270,460 380,470 375,690 265,660"></polygon>
+<polygon fill="#121215" opacity="0.6" points="40,650 170,640 180,820 30,830"></polygon>
+<polygon fill="#141417" opacity="0.6" points="230,690 370,700 360,830 220,820"></polygon>
+<!-- Secondary Streets (grid and historic alleys) -->
+<path d="M 0 140 L 390 148 M 0 210 L 390 220 M 0 285 L 180 290 M 270 300 L 390 310 M 0 370 L 150 375 M 280 380 L 390 395 M 0 490 L 130 495 M 270 510 L 390 520 M 0 580 L 140 585 M 265 600 L 390 610 M 0 710 L 390 715" stroke="#1A1A1E" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M 60 70 L 70 844 M 120 70 L 135 410 M 125 580 L 130 844 M 315 70 L 305 844 M 360 80 L 355 844 M 220 80 L 210 240 M 240 680 L 235 844" stroke="#1A1A1E" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- Diagonal Historic Old Quarter Streets -->
+<path d="M 40 80 L 185 225 L 160 380" stroke="#222228" stroke-linecap="round" stroke-width="3"></path>
+<path d="M 230 80 L 185 225 L 290 330" stroke="#222228" stroke-linecap="round" stroke-width="3"></path>
+<path d="M 30 330 L 145 375 L 80 520" stroke="#222228" stroke-linecap="round" stroke-width="3"></path>
+<!-- Primary Thoroughfares -->
+<!-- Pho Hang Ngang - Hang Dao -->
+<path d="M 205 70 L 205 245 L 195 290" stroke="#2A2A32" stroke-linecap="round" stroke-width="5"></path>
+<!-- Pho Hang Bac / Cau Go -->
+<path d="M 30 180 L 370 195" stroke="#2A2A32" stroke-linecap="round" stroke-width="5"></path>
+<!-- Pho Trang Tien -->
+<path d="M 220 540 L 390 550" stroke="#2E2E38" stroke-linecap="round" stroke-width="5.5"></path>
+<!-- Pho Nha Tho / Ly Quoc Su -->
+<path d="M 40 440 L 145 440 L 145 520 L 70 540" stroke="#282830" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.5"></path>
+<!-- Dinh Tien Hoang (East Bank Promenade) -->
+<path d="M 195 290 C 235 320, 260 380, 255 460 C 252 505, 235 530, 220 540 C 205 555, 190 600, 185 640" stroke="#2E2E38" stroke-linecap="round" stroke-width="5"></path>
+<!-- Le Thai To (West Bank Promenade) -->
+<path d="M 195 290 C 160 310, 140 370, 140 440 C 140 500, 160 580, 185 640" stroke="#2E2E38" stroke-linecap="round" stroke-width="5"></path>
+<!-- Hang Khay (South Promenade) -->
+<path d="M 165 540 L 220 540" stroke="#2E2E38" stroke-linecap="round" stroke-width="5.5"></path>
+<!-- HO HOAN KIEM (Dark emerald-blue organic water boundary) -->
+<path d="M 195 300 
+                 C 225 315, 246 360, 245 430 
+                 C 244 480, 225 528, 210 535 
+                 C 198 540, 175 540, 168 532 
+                 C 152 515, 148 450, 150 400 
+                 C 152 350, 170 310, 195 300 Z" fill="url(#lakeWater)" opacity="0.95" stroke="#0f293d" stroke-width="1.8"></path>
+<!-- Ngoc Son Temple Islet & The Huc Bridge -->
+<path d="M 238 360 C 243 365, 241 380, 233 382 C 226 384, 225 372, 230 365 Z" fill="#182823" stroke="#2a4539" stroke-width="1"></path>
+<!-- The Huc Bridge (Red curve) -->
+<path d="M 248 375 Q 242 371 236 373" stroke="#B83A32" stroke-linecap="round" stroke-width="2"></path>
+<!-- Turtle Tower Islet (Thap Rua) in the center of Hoan Kiem Lake -->
+<rect fill="#1b2521" height="10" rx="3" stroke="#2e4238" stroke-width="0.8" width="13" x="187" y="458"></rect>
+<rect fill="#718274" height="4" rx="1" width="5" x="191" y="461"></rect>
+<!-- Subtle Faint Street Labels (Vietnamese - low contrast map labels) -->
+<text fill="#4B4B52" font-size="8.5" font-weight="600" letter-spacing="0.4" x="210" y="165">HÀNG ĐÀO</text>
+<text fill="#4B4B52" font-size="8.5" font-weight="600" letter-spacing="0.4" x="75" y="174">HÀNG BẠC</text>
+<text fill="#43434A" font-size="8" font-weight="500" x="260" y="215">CẦU GỖ</text>
+<text fill="#3E454C" font-size="8" font-weight="600" letter-spacing="0.3" transform="rotate(78 258 415)" x="258" y="415">ĐINH TIÊN HOÀNG</text>
+<text fill="#3E454C" font-size="8" font-weight="600" letter-spacing="0.3" transform="rotate(-78 135 470)" x="135" y="470">LÊ THÁI TỔ</text>
+<text fill="#4B4B52" font-size="8" font-weight="500" x="50" y="432">NHÀ THỜ</text>
+<text fill="#50505A" font-size="9" font-weight="600" letter-spacing="0.5" x="265" y="546">TRÀNG TIỀN</text>
+<text fill="#43434A" font-size="8" font-weight="500" x="168" y="555">HÀNG KHAY</text>
+<text fill="#3D5666" font-size="7" font-weight="600" letter-spacing="0.3" x="184" y="482">THÁP RÙA</text>
+<text fill="#3D5666" font-size="7" font-weight="500" x="214" y="356">CẦU THÊ HÚC</text>
+<text fill="#43434A" font-size="7.5" font-weight="500" x="45" y="132">HÀNG BỒ</text>
+<text fill="#43434A" font-size="7.5" font-weight="500" x="40" y="278">HÀNG GAI</text>
+<text fill="#3F3F46" font-size="8" font-weight="500" x="300" y="650">BÀ TRIỆU</text>
+</svg>
+</div>
+<!-- 2. CURRENT USER LOCATION (Subtle blue pulse dot on East promenade) -->
+<div class="absolute left-[242px] top-[470px] z-10 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+<div class="w-8 h-8 rounded-full bg-blue-500/20 animate-ping absolute inset-0"></div>
+<div class="w-8 h-8 rounded-full bg-blue-500/15 absolute inset-0"></div>
+<div class="relative w-4 h-4 rounded-full bg-[#3B82F6] border-2 border-white shadow-[0_0_12px_rgba(59,130,246,0.8)] mx-auto mt-2"></div>
+</div>
+<!-- 3. PHOTO-CENTRIC LOCKET-STYLE MARKERS & CLUSTERS -->
+<!-- Marker 1: Cà phê trứng ngõ Hàng Chỉ (Category: Cà phê #B8825A) -->
+<div class="absolute left-[70px] top-[265px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_20px_rgba(0,0,0,0.8)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up of traditional Vietnamese egg coffee with dense golden yellow froth in a small glass cup set on a rustic dark wooden table inside an intimate vintage Hanoi cafe. High contrast, atmospheric warm natural lighting against moody dark background, perfectly aligned with minimal photo aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLu4NCBA0OgYFe8DLL7yhpTLaH1WAyYbHr6JVysX5HxfysstFh4GAjVx9JC6w54N_mQrR-G-45N2tWmPaiRdQdP8XI61iMhZ3r17IQjhcHknTSuBBWtNlTcmM6YU1pAKEJFYBvYH0amHJaBVHJoYhHywAoq3vxFUrOYxlildSaoJ3sqS7muoc-jdUyg8oK302hZWu3YHfwMHlPoJiQ3PAf50kuJhVlL1ZpGcYm-BqNDO1bxXpWYaBkwE41VjrcrggugMkZ3IOaqDVy"/>
+</div>
+<!-- Tiny Category Dot: Cà phê #B8825A -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#B8825A] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 2: Phở Bò Bát Đàn (Category: Ẩm thực #F26A3D) WITH SHARED BADGE -->
+<div class="absolute left-[45px] top-[148px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_20px_rgba(0,0,0,0.8)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Steaming authentic Hanoi beef noodle soup pho in a rustic ceramic bowl with clear rich broth, rare beef slices, fresh scallions, and herbs. Soft ambient moody lighting highlighting steam swirls in an authentic dark historic setting with deep rich tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7mSz0xKqUveJ1HyoASQoF32JHgc4gFYZ4L4OuqSxBvwM1uvXEfBERDu8O2o_G798lIiTSl-6Jt1d4nqiFk0Scvd6l8oca5nnfZn0vJeJR-edM4jSKmH2VCmFMChwCAraGgVu74I270JExOjHUbw_2WbjKPOkc1dMmOdegrqVo4C3AdBuH1ckzcwQvdYWyR5HfxW060pSMgF9kL0vjh0rtZaS45kH6TBvpb3R0imvLVs1jH74YHidBxVCrurTAUPk79ffvyKj5xDYn"/>
+</div>
+<!-- Shared Item Badge (Two-person outline icon) -->
+<span class="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-[#1A1A1D] ring-[1.5px] ring-white flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[10px]" data-icon="group">group</span>
+</span>
+<!-- Tiny Category Dot: Ẩm thực #F26A3D -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#F26A3D] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 3: Bún Chả Hàng Quạt (Category: Ẩm thực #F26A3D) -->
+<div class="absolute left-[135px] top-[220px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_20px_rgba(0,0,0,0.8)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Artisanal Hanoi grilled pork patties and dipping sauce with pickled green papaya in a bowl beside fresh rice noodles and aromatic Vietnamese herbs. Natural shallow depth of field, warm ambient backlight, rich shadows with high-end food editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtrWKtnThD-ra6jeBSrPhcxk1XxqELIzSgtmCQTqtDV0tKJhRt8YIKElNvw5EUyxIqnX7LhdAOYkB7ROLxMizWsb4S8cLX8GiUMameKMjQ5cWEa0mB5vYcqzse6Ni3nhL3YGemMllzhKpZb37H2XiMWL1jR-1nan8HUUpP7JxmmTWHeJRriM0GS5Q_vr7XNUrmxPnc0Q7SRWRvWPE1D4AnZmO7HnS2hTbLRjOzFAoYdKyC3R63TuLYwcelyeD564Us-KJiRYCnUP-f"/>
+</div>
+<!-- Tiny Category Dot: Ẩm thực #F26A3D -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#F26A3D] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 4: Tháp Rùa Hồ Gươm (Category: Du lịch #4DB6E6) -->
+<div class="absolute left-[175px] top-[415px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[54px] h-[54px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_24px_rgba(0,0,0,0.85)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Historic Turtle Tower Thap Rua standing majestically in Hoan Kiem lake surrounded by still dark teal waters at dusk. Mystical cinematic twilight lighting with deep architectural reflections, minimal dark aesthetic, fine travel photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV07ULJnJqCGeaVnt2-Kkzua4TDfbJg27xN4d01ssYzVZpndMVfH2MRUs8QTnjSDcoQsK_bePZq5lNSlYDY1WccVRlcHjJ1li1rtOK0FdpDWGNXFHY9lo6sZbAaRlr9d0z76zczzTDh__N534cOtrSR8X3GQEfXgk_2CBW5sNHuWSWZauBKc3ekmA0BFSSBfe0W7nXKmRApCKF4ASFIGei0RiE2XbqwmCLtt9ldFMwFSyj5wdWkPbiuBrjjr2k4RPBpWC4f2dMN98d"/>
+</div>
+<!-- Tiny Category Dot: Du lịch #4DB6E6 -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#4DB6E6] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 5: Nhà Thờ Lớn Hà Nội (Category: Du lịch #4DB6E6) -->
+<div class="absolute left-[65px] top-[470px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_20px_rgba(0,0,0,0.8)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Iconic neo-gothic facade of St. Joseph Cathedral Hanoi with weathered dark stone walls under an evening moody sky. Dramatic architectural shadows, textured patina, minimalist cinematic framing with dark urban atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoxc7L4-ZnaTpl488IMLyvhnuiYf95IokbPRR_ds_uqMQb4YtTbtZnaQchBQtgb6XyI7AcTpy6xWsz4rijAgKNCNASKWr6Q9sb3FHaRdlGG0ZMCPWyHVUy9j6RsKR_mw_0dPzmN5r14mF5AFSMSSD7EqfSRmjPzMIjxgnlm9S9uI_pckWmMAH0TfwKpAe3Us49lZtyR4bp6Wx9clNn_n__qN1SZEfPqD_drexgylL5-IOJlEXnerRYzC2CghRhKNsOoStVa8-VKLhA"/>
+</div>
+<!-- Tiny Category Dot: Du lịch #4DB6E6 -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#4DB6E6] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 6: Góc Phố Cổ Tạ Hiện (Category: Ẩm thực / Đêm #F26A3D) -->
+<div class="absolute left-[245px] top-[135px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white bg-[#1A1A1D] shadow-[0_8px_20px_rgba(0,0,0,0.8)] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Atmospheric night corner in Ta Hien historic beer street in Hanoi Old Quarter with glowing golden incandescent lanterns contrasting deep black shadows of ancient shophouses. Vivid mood, high micro-contrast, elegant travel candid." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc1STr7DMf7o9klXkt6zdxdneYdMAV_uPaIY-M-pRd2WHcC4C_RkQc-adP4hipg-NaJKgXQHJRoRLpc9uWes13RahMVKmxkBdwL1PH9EhFF17VcWq9_b12E_Wfo_1PvcNNeyxDdeDVY9gBG1KRTzgjSrZ51q8ZobXqM2g7K46Ovi4X5tQS1lKkvtF4JHLnDmiZsVcKxt9ww_uoR08mJzIGnNWjVLlEsrdebYknRTI_W16bHMKG23p598aM9DJVSicSfLDDDAdEbhOZ"/>
+</div>
+<!-- Tiny Category Dot: Ẩm thực #F26A3D -->
+<span class="absolute bottom-0 right-0 w-[10px] h-[10px] rounded-full bg-[#F26A3D] ring-2 ring-[#0E0E10] shadow-sm"></span>
+</div>
+<!-- Marker 7: Chưa có lần ghé (Unvisited place - Hotel category #9B87E8 - No photo, bed icon) -->
+<div class="absolute left-[135px] top-[600px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[34px] h-[34px] rounded-full bg-[#9B87E8] border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.7)] flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[17px] fill-icon" data-icon="bed">bed</span>
+</div>
+</div>
+<!-- Cluster 1: Khu vực Nhà hát Lớn / Tràng Tiền (+5 places) -->
+<div class="absolute left-[295px] top-[545px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[60px] h-[54px]">
+<!-- Under stack thumbnail -->
+<div class="absolute left-0 top-1 w-[44px] h-[44px] rounded-full border-2 border-white/70 bg-[#1A1A1D] overflow-hidden opacity-75 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Colonial architecture of Hanoi Opera house bathed in warm soft nighttime floodlights against deep black sky. Clean minimal focus with warm architectural glow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxYo57keurrZtAqltTO0DHpq_9TTbSfqX_IMjjEoSVhTp1eV1KSkyW3mRNXPWIDs-hwnhJjwJIiH3byXheUxXwBA1FU8bImAxIDtx1qGaZQ1gV6aA3vzog9W8o2_w8cXi3u-QGEOruzCQPJV8sD6woZBPqVAy4V8IDAcx88iLBDRzQDCwCfQ24hwS8eHHV8nxIW7CGUGTaLoj4fCmyyvYACJFoUbCh7NNBi1j-IozSU4Oh9U-95XzSt7xsk_gnXPSU1f4uLgCLExr9"/>
+</div>
+<!-- Over stack thumbnail -->
+<div class="absolute left-3 top-0 w-[48px] h-[48px] rounded-full border-[2.5px] border-white bg-[#1A1A1D] overflow-hidden shadow-xl">
+<img class="w-full h-full object-cover" data-alt="Handcrafted green bean and vanilla ice cream cone from Trang Tien street held against a soft blurry dark city street background. High resolution minimal street food aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVqKhOl7ZKBSmixby-3bg5qRkJtkYY9jFOo2st4AOZyjIBYDmxeOG1uZ6rBguNuoO8Ecxifly0bzxhOvvqOgBD5gETrKFP3nA4-B4Y1HnRMIX-PIwQbqIzspOn-ggEBkmhdEujm6wogfeCaVsjXN-7NskM7QFyz7W-EShu_Pl10dynidvDoxGXjR-9AzNmVxqMZFsV7tdwaqK4DME9tHY0iR-GRhchS2-8cDX1deuI08OGlKKvioQrZvgH2Q3nncZx6Ly69BIKXn4U"/>
+</div>
+<!-- Cluster counter bubble -->
+<div class="absolute -top-1.5 right-0 bg-white text-[#0E0E10] text-[11px] font-bold px-1.5 py-0.5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.6)] min-w-[20px] text-center border border-[#1A1A1D]/10">
+          +5
+        </div>
+<!-- Tiny Category indicator for cluster -->
+<span class="absolute bottom-1 right-2 w-[9px] h-[9px] rounded-full bg-[#F26A3D] ring-2 ring-[#0E0E10]"></span>
+</div>
+</div>
+<!-- Cluster 2: Khu vực Chợ Đồng Xuân (+3 places) -->
+<div class="absolute left-[125px] top-[95px] z-20 group cursor-pointer active:scale-95 transition-transform duration-150">
+<div class="relative w-[56px] h-[50px]">
+<!-- Under stack thumbnail -->
+<div class="absolute left-0 top-1 w-[40px] h-[40px] rounded-full border-2 border-white/70 bg-[#1A1A1D] overflow-hidden opacity-70 shadow-md">
+<img class="w-full h-full object-cover" data-alt="Vintage market stall filled with fragrant star anise, cinnamon rolls and traditional dried herbs under low-key moody lighting in Hanoi market." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWMUu5JyYsPop5iBSthwk8QM8zr1j-LQ90RthGi-PSYjnSTBpWYIAqn0f55AzNNnw_F1rp97l_QQCVmNoSwsS1CAz9slk_ARFZMUc8mEH-mxHIbQUv6YqXlLV2VwRe14N7jK_xCZEz5ytQaY-67dj3rJDzVre5uPkxym2-YlqKS4l5mLX5zWVrXlfvKx3tFUr6EoQTpjn6nCRbxNognVA2Jj4-VwphQSSneZrVCCAeYXIVnR99QH6XVMmfpDTZ7P1gvw1cP4RajzA4"/>
+</div>
+<!-- Over stack thumbnail -->
+<div class="absolute left-2.5 top-0 w-[44px] h-[44px] rounded-full border-[2.5px] border-white bg-[#1A1A1D] overflow-hidden shadow-xl">
+<img class="w-full h-full object-cover" data-alt="Traditional Hanoi steamed rice rolls banh cuon glistening with fried shallots served on a dark matte plate. Clean, dark minimalist culinary capture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMdlbtizrF0U9FKvN6AKb5GSE-OEOtV8rRRj-L_8x8HLXmRfCa53psv7o04xB-r3ymfOrJ18aCwGlMNudHgP_fpN9gQPbdesxJ5iTm7VePjHVBhwQgOypyYkWpG3yKkZy-oBjUt8WPZ9cP09yZpPgk7ADm_bx5fC9X6tW28s1QM2qxfDtB_l7iKawYzHIElS9IGoZZzpoNkMHAgXihwFfdL5H68OT4RhuMv48YQ2W8ctvB1uV6D0IJVeAiE8fvDmHi9ZjtxTZ5Tvfd"/>
+</div>
+<!-- Cluster counter bubble -->
+<div class="absolute -top-1 right-0 bg-white text-[#0E0E10] text-[10px] font-bold px-1.5 py-0.5 rounded-full shadow-md min-w-[19px] text-center">
+          +3
+        </div>
+</div>
+</div>
+<!-- 4. TOP APP BAR & STATUS BAR OVERLAYS -->
+<!-- iOS Status Bar (9:41, wifi, battery) -->
+<header class="absolute top-0 inset-x-0 z-40 h-11 px-7 flex items-center justify-between text-white text-[14px] font-semibold tracking-tight pointer-events-none">
+<span>9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px]">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px]">wifi</span>
+<!-- Native-like battery indicator -->
+<div class="w-5 h-2.5 rounded-[4px] border border-white/90 p-[1px] flex items-center ml-0.5">
+<div class="h-full w-full bg-white rounded-[2px]"></div>
+</div>
+</div>
+</header>
+<!-- Floating Search Pill (TopAppBar JSON blueprint & Minimal Locket aesthetic) -->
+<div class="absolute top-12 inset-x-0 z-40 px-4">
+<div class="backdrop-blur-md bg-[#1A1A1D]/80 border border-white/10 text-white rounded-full px-4 py-3 flex items-center gap-3 shadow-lg">
+<span class="material-symbols-outlined text-[#8E8E93] text-[20px]" data-icon="search">search</span>
+<input aria-label="Tìm kiếm địa điểm" class="w-full bg-transparent border-0 p-0 text-[15px] font-medium text-white placeholder-[#8E8E93] focus:outline-none focus:ring-0" placeholder="Tìm địa điểm" type="text"/>
+</div>
+</div>
+<!-- 5. FLOATING ACTION CONTROLS (Bottom Right) -->
+<div class="absolute bottom-24 right-4 z-40 flex flex-col items-center">
+<!-- Recenter / My Location Button -->
+<button aria-label="Định vị của tôi" class="w-11 h-11 rounded-full backdrop-blur-md bg-[#1A1A1D]/90 border border-white/10 text-white shadow-lg flex items-center justify-center mb-3 active:scale-90 transition-transform duration-150 focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[21px]" data-icon="my_location">my_location</span>
+</button>
+<!-- Primary Action FAB: Add Place ('+') - Coral #F26A3D -->
+<button aria-label="Thêm địa điểm" class="w-14 h-14 rounded-full bg-[#F26A3D] text-white shadow-[0_8px_25px_rgba(242,106,61,0.5)] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform duration-150 focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[30px] font-normal" data-icon="add">add</span>
+</button>
+</div>
+<!-- 6. BOTTOM NAVIGATION BAR (Shared Components JSON Anchor & Strict Locket Rule) -->
+<!-- Floating slim pill bar at bottom, icons only, 5 icons in fixed order: 1 Bản đồ, 2 Địa điểm, 3 Dòng thời gian, 4 Nhật ký, 5 Cá nhân -->
+<nav aria-label="Điều hướng chính" class="fixed bottom-6 inset-x-0 mx-auto w-fit z-50 flex items-center justify-center gap-7 px-6 py-3.5 rounded-full backdrop-blur-xl bg-[#1A1A1D]/90 border border-neutral-800/60 shadow-2xl shadow-black/80">
+<!-- 1. Bản đồ (Map) - ACTIVE: text-white with tiny coral #F26A3D dot underneath -->
+<button aria-label="Bản đồ" class="relative flex flex-col items-center justify-center text-white after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:absolute after:-bottom-1.5 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="map">map</span>
+</button>
+<!-- 2. Địa điểm (format_list_bulleted / Place list) - Inactive #8E8E93 -->
+<button aria-label="Địa điểm" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors duration-150 active:scale-90" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="format_list_bulleted">format_list_bulleted</span>
+</button>
+<!-- 3. Dòng thời gian (schedule / Timeline) - Inactive #8E8E93 -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors duration-150 active:scale-90" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="schedule">schedule</span>
+</button>
+<!-- 4. Nhật ký (menu_book / Journal) - Inactive #8E8E93 -->
+<button aria-label="Nhật ký" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors duration-150 active:scale-90" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="menu_book">menu_book</span>
+</button>
+<!-- 5. Cá nhân (person / Profile) - Inactive #8E8E93 -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors duration-150 active:scale-90" type="button">
+<span class="material-symbols-outlined text-[24px]" data-icon="person">person</span>
+</button>
+</nav>
+<!-- 7. iOS Home Indicator -->
+<div class="absolute bottom-1 inset-x-0 z-50 flex justify-center pointer-events-none">
+<div class="w-32 h-1 bg-white/25 rounded-full"></div>
+</div>
+</main>
+</body></html>

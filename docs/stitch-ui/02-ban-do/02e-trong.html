@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Bản đồ - MyPlaces</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with form plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      },
+    }
+  </script>
+<style>
+    /* Radar pulsing animation for user current location */
+    @keyframes radarPulse {
+      0% {
+        transform: scale(0.9);
+        opacity: 0.75;
+      }
+      50% {
+        transform: scale(2.4);
+        opacity: 0.2;
+      }
+      100% {
+        transform: scale(3.2);
+        opacity: 0;
+      }
+    }
+    .radar-wave {
+      animation: radarPulse 3s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+    }
+    .radar-wave-delayed {
+      animation: radarPulse 3s cubic-bezier(0.2, 0.8, 0.4, 1) infinite 1.2s;
+    }
+    /* Disable default tap highlights */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#0E0E10] text-white font-body antialiased overflow-hidden m-0 p-0 flex justify-center items-center min-h-screen">
+<!-- Mobile Viewport Canvas (iPhone 390x844 ratio) -->
+<main class="relative w-full max-w-[390px] h-screen max-h-[844px] bg-[#0E0E10] overflow-hidden flex flex-col justify-between shadow-2xl">
+<!-- MAP BACKGROUND: Stylized Dark Mode Map of Hanoi (Hoan Kiem Lake & Old Quarter) -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
+<svg class="w-full h-full object-cover opacity-60" fill="none" viewbox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#0E0E10" height="844" width="390"></rect>
+<!-- Urban Map Blocks & Secondary Areas -->
+<path d="M-10 120 L140 100 L160 210 L-20 230 Z" fill="#151518"></path>
+<path d="M190 80 L340 70 L350 170 L200 185 Z" fill="#16161A"></path>
+<path d="M-30 260 L130 245 L115 390 L-40 400 Z" fill="#141417"></path>
+<path d="M260 220 L410 210 L400 370 L250 360 Z" fill="#151518"></path>
+<path d="M-20 440 L120 425 L100 580 L-30 600 Z" fill="#16161A"></path>
+<path d="M250 410 L420 390 L410 610 L240 600 Z" fill="#151518"></path>
+<path d="M-10 640 L130 630 L110 790 L-20 810 Z" fill="#141417"></path>
+<path d="M230 640 L410 630 L400 830 L220 820 Z" fill="#16161A"></path>
+<!-- Red River segment top-right edge -->
+<path d="M320 -40 C 340 100, 370 200, 420 280 L440 -40 Z" fill="#0A1118" opacity="0.6"></path>
+<!-- Hoan Kiem Lake shape (Accurate organic teardrop in downtown Hanoi) -->
+<path d="M178 300 C 196 295, 215 310, 218 335 C 222 365, 216 410, 204 445 C 195 470, 178 480, 168 472 C 158 462, 160 430, 164 395 C 168 360, 162 310, 178 300 Z" fill="#0C1B26" stroke="#173447" stroke-width="1.5"></path>
+<!-- Turtle Tower small dot inside Hoan Kiem Lake -->
+<ellipse cx="188" cy="385" fill="#1C3848" rx="3.5" ry="2"></ellipse>
+<!-- Street Network (Old Quarter Grid & Boulevards) -->
+<!-- Main Boulevards -->
+<path d="M0 195 L390 190" stroke="#222227" stroke-width="2.5"></path>
+<path d="M0 320 L160 320" stroke="#1F1F24" stroke-width="2"></path>
+<path d="M225 320 L390 310" stroke="#1F1F24" stroke-width="2"></path>
+<path d="M0 460 L160 465" stroke="#222227" stroke-width="2.5"></path>
+<path d="M210 465 L390 460" stroke="#222227" stroke-width="2.5"></path>
+<path d="M0 620 L390 610" stroke="#222227" stroke-width="2"></path>
+<!-- Vertical Boulevards -->
+<path d="M150 0 L140 844" stroke="#222227" stroke-width="2.5"></path>
+<path d="M230 0 L235 844" stroke="#222227" stroke-width="2.5"></path>
+<path d="M70 0 L65 844" stroke="#1A1A1F" stroke-width="1.5"></path>
+<path d="M310 0 L315 844" stroke="#1A1A1F" stroke-width="1.5"></path>
+<!-- Dense Old Quarter Secondary Street Lines -->
+<path d="M150 80 L230 75" stroke="#1D1D22" stroke-width="1"></path>
+<path d="M150 115 L230 110" stroke="#1D1D22" stroke-width="1"></path>
+<path d="M150 150 L230 150" stroke="#1D1D22" stroke-width="1"></path>
+<path d="M190 0 L188 190" stroke="#1D1D22" stroke-width="1"></path>
+<path d="M210 0 L212 190" stroke="#1D1D22" stroke-width="1"></path>
+<path d="M170 0 L172 190" stroke="#1D1D22" stroke-width="1"></path>
+<!-- Lake perimeter roads (Dinh Tien Hoang, Le Thai To, Hang Khay) -->
+<path d="M150 300 C 154 285, 200 280, 225 295 C 235 340, 230 430, 215 480 C 190 495, 160 485, 150 465" stroke="#2A2A32" stroke-dasharray="3 3" stroke-width="1.75"></path>
+<!-- South Hanoi grid roads -->
+<path d="M70 530 L310 520" stroke="#1A1A1E" stroke-width="1"></path>
+<path d="M70 710 L310 705" stroke="#1A1A1E" stroke-width="1"></path>
+<path d="M185 490 L185 844" stroke="#1D1D22" stroke-width="1.2"></path>
+</svg>
+<!-- Soft vignette vignette effect on map corners -->
+<div class="absolute inset-0 bg-radial from-transparent via-[#0E0E10]/40 to-[#0E0E10]"></div>
+</div>
+<!-- CURRENT USER LOCATION: Vibrant Blue Dot with Radial Radar Pulses -->
+<div class="absolute top-[372px] left-[184px] z-10 pointer-events-none -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+<!-- Expanding outer radar rings -->
+<div class="absolute w-20 h-20 rounded-full bg-sky-500/25 radar-wave"></div>
+<div class="absolute w-20 h-20 rounded-full bg-sky-400/20 radar-wave-delayed"></div>
+<!-- Static halo -->
+<div class="w-8 h-8 rounded-full bg-sky-500/20 backdrop-blur-sm flex items-center justify-center border border-sky-400/30">
+<!-- Center Blue Bead with crisp white border -->
+<div class="w-3.5 h-3.5 rounded-full bg-[#007AFF] border-2 border-white shadow-lg shadow-[#007AFF]/60"></div>
+</div>
+</div>
+<!-- 1. TOP SAFE AREA & STATUS BAR (iOS Standard) -->
+<header class="relative z-30 pt-3 px-6 flex flex-col gap-2">
+<!-- iOS Status Bar -->
+<div class="flex items-center justify-between text-white text-[14px] font-semibold tracking-tight h-5">
+<span>9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[17px] leading-none text-white" style="font-variation-settings: 'FILL' 1;">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px] leading-none text-white" style="font-variation-settings: 'FILL' 1;">wifi</span>
+<span class="material-symbols-outlined text-[20px] leading-none text-white" style="font-variation-settings: 'FILL' 1;">battery_full</span>
+</div>
+</div>
+<!-- Top Search Pill (MyPlaces Floating Search Bar) -->
+<div class="mt-2 w-full">
+<div class="w-full h-12 bg-[#1A1A1D]/80 backdrop-blur-md rounded-full border border-neutral-800/60 shadow-lg flex items-center px-4 gap-3 active:scale-[0.99] transition-transform">
+<span class="material-symbols-outlined text-neutral-400 text-[20px] select-none" data-icon="search">search</span>
+<input class="bg-transparent border-none p-0 text-white placeholder-neutral-500 text-sm focus:ring-0 focus:outline-none w-full font-body cursor-pointer selection:bg-transparent" placeholder="Tìm địa điểm" readonly="" type="text"/>
+</div>
+</div>
+</header>
+<!-- 2. LOWER-MIDDLE EMPTY STATE CONTAINER (Locket-inspired compact card) -->
+<section class="relative z-20 px-4 w-full flex flex-col items-center mb-24">
+<!-- Re-center Location Button: Floats directly above card at right edge -->
+<div class="w-full flex justify-end pr-1 mb-3">
+<button aria-label="Vị trí hiện tại" class="w-10 h-10 rounded-full bg-[#1A1A1D]/85 backdrop-blur-md border border-neutral-800/80 shadow-xl flex items-center justify-center text-neutral-300 hover:text-white active:scale-90 transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-[20px] text-white" data-icon="my_location">my_location</span>
+</button>
+</div>
+<!-- Empty State Bento Pill Card -->
+<div class="w-full max-w-[358px] bg-[#1A1A1D]/90 backdrop-blur-xl border border-neutral-800/70 rounded-3xl p-6 flex flex-col items-center text-center shadow-2xl">
+<!-- Subtle Map Pin Outline Icon -->
+<div class="w-12 h-12 rounded-full bg-neutral-800/40 border border-neutral-700/30 flex items-center justify-center mb-3 text-neutral-300">
+<span class="material-symbols-outlined text-2xl text-neutral-300" data-icon="location_on">location_on</span>
+</div>
+<!-- Headline: Bold Vietnamese String -->
+<h1 class="text-white font-headline font-bold text-xl tracking-tight mb-1">
+          Chưa có nơi nào
+        </h1>
+<!-- Secondary Description: Short, minimal, muted gray -->
+<p class="text-[#8E8E93] font-body text-xs leading-relaxed max-w-[240px] mb-5">
+          Lưu nơi đầu tiên để thấy nó trên bản đồ
+        </p>
+<!-- Primary Pill Action Button: Coral #F26A3D -->
+<button class="w-full h-12 bg-[#F26A3D] text-white font-headline font-semibold text-sm rounded-full flex items-center justify-center gap-2 active:scale-95 transition-transform duration-150 shadow-lg shadow-[#F26A3D]/25" type="button">
+<span class="material-symbols-outlined text-[19px] leading-none" data-icon="add">add</span>
+<span>Thêm địa điểm</span>
+</button>
+</div>
+</section>
+<!-- 3. BOTTOM FLOATING NAVIGATION BAR (Shared Component Blueprint) -->
+<!-- 5 minimal outline icons: map (active), format_list_bulleted, schedule, menu_book, person -->
+<nav aria-label="Điều hướng chính" class="fixed bottom-6 inset-x-0 mx-auto w-fit z-50 flex items-center justify-center gap-7 px-6 py-3.5 bg-neutral-900/90 rounded-full backdrop-blur-xl border border-neutral-800/60 shadow-2xl shadow-black/80">
+<!-- 1. Bản đồ (Active: text-white + coral tiny dot underneath) -->
+<button aria-label="Bản đồ" class="relative flex flex-col items-center justify-center text-white after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:absolute after:-bottom-1.5 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[23px] leading-none" data-icon="map">map</span>
+</button>
+<!-- 2. Địa điểm (Inactive: neutral gray #8E8E93) -->
+<button aria-label="Địa điểm" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[23px] leading-none" data-icon="format_list_bulleted">format_list_bulleted</span>
+</button>
+<!-- 3. Dòng thời gian (Inactive: neutral gray #8E8E93) -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[23px] leading-none" data-icon="schedule">schedule</span>
+</button>
+<!-- 4. Nhật ký (Inactive: neutral gray #8E8E93) -->
+<button aria-label="Nhật ký" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[23px] leading-none" data-icon="menu_book">menu_book</span>
+</button>
+<!-- 5. Cá nhân (Inactive: neutral gray #8E8E93) -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[23px] leading-none" data-icon="person">person</span>
+</button>
+</nav>
+<!-- 4. iOS Home Indicator Bar -->
+<div class="relative z-30 pb-2 flex justify-center w-full pointer-events-none">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</main>
+</body></html>

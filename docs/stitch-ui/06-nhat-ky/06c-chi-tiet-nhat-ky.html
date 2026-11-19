@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chi tiết Nhật ký - MyPlaces</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            app: {
+              bg: '#0E0E10',
+              surface: '#1A1A1D',
+              secondary: '#8E8E93',
+              coral: '#F26A3D',
+              coffee: '#B8825A',
+              travel: '#4DB6E6',
+              food: '#F26A3D'
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Hide scrollbars for clean minimal display */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white font-body min-h-screen flex items-center justify-center p-0 md:p-6 select-none antialiased">
+<!-- Mobile Frame (390 x 844 iPhone Canvas) -->
+<main class="w-full max-w-[390px] h-[844px] bg-[#0E0E10] text-white flex flex-col relative overflow-hidden shadow-2xl rounded-[44px] ring-1 ring-white/10">
+<!-- iOS Status Bar (390px Mobile Native) -->
+<header class="w-full px-7 pt-3.5 pb-2 flex justify-between items-center text-xs font-semibold tracking-tight z-30 select-none text-white pointer-events-none">
+<span class="text-[15px] font-semibold tracking-normal">9:41</span>
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[17px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[17px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">battery_full</span>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto no-scrollbar pb-24 relative px-4 pt-1">
+<!-- Hero Header Image Card with 32px rounded corners -->
+<section class="relative w-full h-[330px] rounded-[32px] overflow-hidden group shadow-lg">
+<!-- Cover Photo (Cầu Thê Húc Mùa Thu) -->
+<img alt="Cầu Thê Húc mùa thu Hà Nội" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrCmNobuB6fI5k3bVnV6asxKhSsri1BnJzKv18ehrEsl05QsLPcw7OLsNCQn9ihyhq9KuL7-vE3h-cXwP1utaGoPsWP_9nCdqzesoIieraXhclVsLSumG_tFkUWG8-wDwWKmIuYSW4W_nGIImxcJcSIxdBvoDhORsJQnBAhV5htS4JmFZeuxXeySu13MuWudDWdb5nNiW-KwKT2-MqU8ISS5PB7D5TNzc9-UNaWYFYQjjvlT9haFxFVs_sY"/>
+<!-- Subtle Top & Bottom Gradient Overlays -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#0E0E10]"></div>
+<!-- Floating Action Icons (Back & More) -->
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
+<button aria-label="Quay lại" class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform border border-white/10" type="button">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<button aria-label="Tùy chọn khác" class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white active:scale-95 transition-transform border border-white/10" type="button">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<!-- Journal Meta Info Anchored to Bottom of Hero -->
+<div class="absolute bottom-4 left-5 right-5 flex flex-col gap-1.5 z-10">
+<div class="flex items-center gap-2">
+<span class="text-[13px] text-[#8E8E93] font-medium tracking-wide">01 – 15 thg 10, 2026</span>
+<span class="w-1 h-1 rounded-full bg-[#8E8E93]/40"></span>
+<span class="material-symbols-outlined text-[#8E8E93] text-[15px]" title="Chia sẻ cùng nhóm">group</span>
+</div>
+<h1 class="text-[28px] font-bold text-white tracking-tight leading-tight">
+            Hà Nội mùa thu
+          </h1>
+<!-- Member Stack & Invite Action Button -->
+<div class="flex items-center gap-2 pt-1.5">
+<div class="flex -space-x-2 overflow-hidden items-center">
+<div class="w-7 h-7 rounded-full bg-[#2C2C2E] border-2 border-[#0E0E10] flex items-center justify-center text-[11px] font-semibold text-white shadow">
+                L
+              </div>
+<div class="w-7 h-7 rounded-full bg-[#3A3A3C] border-2 border-[#0E0E10] flex items-center justify-center text-[11px] font-semibold text-white shadow">
+                M
+              </div>
+<div class="w-7 h-7 rounded-full bg-[#48484A] border-2 border-[#0E0E10] flex items-center justify-center text-[11px] font-semibold text-white shadow">
+                H
+              </div>
+</div>
+<!-- Add Member Pill Icon Button -->
+<button aria-label="Thêm thành viên" class="w-7 h-7 rounded-full bg-[#1A1A1D] hover:bg-[#2C2C2E] text-white flex items-center justify-center border border-white/10 active:scale-90 transition-transform" type="button">
+<span class="material-symbols-outlined text-[15px]">add</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Segmented Control Pill Bar -->
+<section class="mt-4 px-1">
+<div class="w-full bg-[#1A1A1D] p-1 rounded-full flex items-center relative">
+<button class="flex-1 py-2 text-center text-[13px] font-semibold text-white bg-white/10 rounded-full transition-all shadow-sm" type="button">
+            Dòng thời gian
+          </button>
+<button class="flex-1 py-2 text-center text-[13px] font-medium text-[#8E8E93] hover:text-white rounded-full transition-colors" type="button">
+            Bản đồ
+          </button>
+</div>
+</section>
+<!-- Timeline Entries Container -->
+<div class="mt-6 flex flex-col space-y-6">
+<!-- Date Block: Thứ Bảy, 12 thg 10 -->
+<section class="space-y-3">
+<h2 class="text-xs font-semibold text-[#8E8E93] uppercase tracking-wider px-2">
+            Thứ Bảy, 12 thg 10
+          </h2>
+<div class="space-y-2.5">
+<!-- Place Card 1: Cà phê Giảng -->
+<article class="bg-[#1A1A1D] rounded-[24px] p-3 flex items-center gap-3.5 hover:bg-[#222226] transition-colors">
+<div class="w-16 h-16 rounded-[16px] overflow-hidden flex-shrink-0 bg-neutral-900">
+<img alt="Cà phê trứng tại Giảng Cafe Hà Nội" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrAKp61MGcgrZIdx9ZmGYn3kuu2pS4bypSQ_MDSDDW5XDOEJIiW_zkP0MPgra2MLF7v5f9-OimDrifH9x91d_srKdxmnWQahDag4njkTsdx9uBYk-3rpS9DPCrIJqZ2kpbKFoPILjqlnxcJ7iOstZQhTmzruQUCBhrUXIbmr-ldvMO3z-5HSBsqGoNZ0m27xbQzgRDS6DXFjnrDnEuj_-I9xTyOHIE9_BaWUyXx8wFChjSvGbApIi55b_DQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#B8825A] flex-shrink-0" title="Cà phê"></span>
+<h3 class="text-[15px] font-semibold text-white truncate">Cà phê Giảng</h3>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs text-[#8E8E93]">15:30</span>
+<span class="text-[#8E8E93] text-[10px]">•</span>
+<div class="flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-[#2C2C2E] flex items-center justify-center text-[9px] font-medium text-white">L</span>
+<span class="text-xs text-[#8E8E93]">Linh</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Place Card 2: Phở Bát Đàn -->
+<article class="bg-[#1A1A1D] rounded-[24px] p-3 flex items-center gap-3.5 hover:bg-[#222226] transition-colors">
+<div class="w-16 h-16 rounded-[16px] overflow-hidden flex-shrink-0 bg-neutral-900">
+<img alt="Tô phở bò tại Phở Gia Truyền Bát Đàn" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrALCZ5H-FvO6NSKm55ptxw3PuiC3NSGY00-_vPwaUL3lZ8TAkRVXWrmX7xrYTtVJDur7TBEwuNZsINeSDaRyJxx24KTqISdNT7Oghc99fe2vDmuNq_3b9I1FM7sMbN2dAPwc4T8ezKUsT3TjzSg-n9loHIH-Has4vqh17lWuZic7GZ0fY_G6x2xZSBwOK2JVEYRlFbVaqQd2opTcd7g0RGJduXVW2AhkW2NTq_IaLx9zPSGqaQlwhlhrDs"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#F26A3D] flex-shrink-0" title="Ẩm thực"></span>
+<h3 class="text-[15px] font-semibold text-white truncate">Phở Bát Đàn</h3>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs text-[#8E8E93]">18:45</span>
+<span class="text-[#8E8E93] text-[10px]">•</span>
+<div class="flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-[#3A3A3C] flex items-center justify-center text-[9px] font-medium text-white">M</span>
+<span class="text-xs text-[#8E8E93]">Minh Anh</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Date Block: Ngày thêm 14 thg 10 -->
+<section class="space-y-3">
+<h2 class="text-xs font-semibold text-[#8E8E93] uppercase tracking-wider px-2">
+            Ngày thêm 14 thg 10
+          </h2>
+<!-- Place Card 3: Hồ Gươm -->
+<article class="bg-[#1A1A1D] rounded-[24px] p-3 flex items-center gap-3.5 hover:bg-[#222226] transition-colors">
+<div class="w-16 h-16 rounded-[16px] overflow-hidden flex-shrink-0 bg-neutral-900">
+<img alt="Tháp Rùa mờ sương Hồ Gươm" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBEidMWYzG1vM2q1N5mPMbZc_xttEGZntQl5la9hOcGYMpvuIuvSmOzoNWyV15dlu-qrXP92DZy3VZwU0DnXScu-szqh6DbEJQRKNUoVihUS1KIwvV_qlo-MgAHFuU445IQ6sgIoOGG3JVkGiYFZJ1yMQzg0JwQgqmpgzlpcV8mvD9NZNPJkzJlEeD3G6ZggX6VypBwPrbSO9Lz0mC6lPm3AsYv0QggBvdCrZ0GHx5Gtavecb5UAbE6hoIbuNC73WzUdDn9bdACWg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6] flex-shrink-0" title="Du lịch"></span>
+<h3 class="text-[15px] font-semibold text-white truncate">Hồ Gươm</h3>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-xs text-[#8E8E93]">Chưa xếp giờ</span>
+<span class="text-[#8E8E93] text-[10px]">•</span>
+<div class="flex items-center gap-1">
+<span class="w-4 h-4 rounded-full bg-[#48484A] flex items-center justify-center text-[9px] font-medium text-white">H</span>
+<span class="text-xs text-[#8E8E93]">Huy</span>
+</div>
+</div>
+</div>
+</article>
+</section>
+<!-- Section: Kỷ niệm & ghi chú -->
+<section class="space-y-3 pb-2">
+<h2 class="text-xs font-semibold text-[#8E8E93] uppercase tracking-wider px-2">
+            Kỷ niệm &amp; ghi chú
+          </h2>
+<!-- Note Memory Card -->
+<article class="bg-[#1A1A1D] rounded-[24px] p-4 flex flex-col gap-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-[#3A3A3C] flex items-center justify-center text-[10px] font-semibold text-white">
+                  M
+                </div>
+<span class="text-xs font-medium text-white">Minh Anh</span>
+</div>
+<span class="text-[11px] text-[#8E8E93]">1 ngày trước</span>
+</div>
+<p class="text-[14px] text-white/90 leading-relaxed font-normal">
+              Chuyến đi tuyệt nhất năm
+            </p>
+</article>
+</section>
+</div>
+</div>
+<!-- Floating Action Button (FAB) Coral '+' Button -->
+<button aria-label="Thêm mới địa điểm hoặc ghi chú" class="absolute bottom-8 right-6 w-14 h-14 rounded-full bg-[#F26A3D] text-white shadow-xl shadow-[#F26A3D]/25 flex items-center justify-center active:scale-90 transition-transform duration-150 z-40 hover:brightness-105" type="button">
+<span class="material-symbols-outlined text-[28px] font-light">add</span>
+</button>
+<!-- iOS Home Indicator Pill at bottom -->
+<footer class="w-full pb-2 pt-1 flex justify-center items-center pointer-events-none z-30">
+<div class="w-32 h-1 bg-white/30 rounded-full"></div>
+</footer>
+</main>
+</body></html>

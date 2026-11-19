@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html class="dark h-full" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Thêm địa điểm - MyPlaces</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: "#F26A3D",
+            surface: "#1A1A1D",
+            subtle: "#8E8E93",
+            cardbg: "#26262A",
+            darkbg: "#0E0E10"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .material-symbols-outlined.fill-icon {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    /* Hide scrollbar for category row */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-black text-white font-body antialiased h-full flex items-center justify-center m-0 p-0 select-none overflow-hidden">
+<!-- Mobile Frame Container (iOS 390x844 ratio canvas) -->
+<main class="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0E0E10] flex flex-col justify-between overflow-hidden shadow-2xl md:rounded-[44px]">
+<!-- ================= MAP SECTION (TOP 46%) ================= -->
+<div class="relative w-full h-[47%] bg-[#0B0C0E] overflow-hidden flex-shrink-0">
+<!-- Vector Map Graphics (Hanoi Street Simulation) -->
+<svg class="absolute inset-0 w-full h-full opacity-65" preserveaspectratio="xMidYMid slice" viewbox="0 0 390 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialgradient cx="50%" cy="50%" id="mapGlow" r="50%">
+<stop offset="0%" stop-color="#1A1C23" stop-opacity="0.8"></stop>
+<stop offset="100%" stop-color="#0E0E10" stop-opacity="1"></stop>
+</radialgradient>
+</defs>
+<rect fill="url(#mapGlow)" height="400" width="390"></rect>
+<!-- Water / Hoan Kiem Lake shape indication -->
+<path d="M 320 -10 C 290 40, 310 120, 360 160 C 400 200, 390 280, 420 320 L 420 -10 Z" fill="#13161C"></path>
+<!-- Major roads -->
+<path d="M -20 90 L 410 70" stroke="#22252B" stroke-linecap="round" stroke-width="14"></path>
+<path d="M -20 220 L 410 180" stroke="#242831" stroke-linecap="round" stroke-width="20"></path>
+<path d="M 80 -20 L 130 420" stroke="#282D37" stroke-linecap="round" stroke-width="16"></path>
+<path d="M 230 -20 L 260 420" stroke="#242933" stroke-linecap="round" stroke-width="12"></path>
+<path d="M -10 320 L 410 270" stroke="#1E2129" stroke-linecap="round" stroke-width="10"></path>
+<!-- Minor alleys & streets -->
+<path d="M 20 20 L 210 170" stroke="#1C1F26" stroke-width="5"></path>
+<path d="M 120 180 L 300 360" stroke="#1C1F26" stroke-width="6"></path>
+<path d="M 190 -10 L 110 130" stroke="#1A1D24" stroke-width="4"></path>
+<path d="M 250 140 L 380 90" stroke="#1A1D24" stroke-width="5"></path>
+<path d="M 70 290 L 230 380" stroke="#1A1D24" stroke-width="4"></path>
+<path d="M 240 260 L 390 220" stroke="#1A1D24" stroke-width="4"></path>
+<!-- Subtle street labels (Hanoi Old Quarter context) -->
+<text fill="#4B4E58" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.5" x="145" y="86">HÀNG BÈ</text>
+<text fill="#5A5E6B" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" letter-spacing="0.5" x="148" y="215">NGUYỄN HỮU HUÂN</text>
+<text fill="#4B4E58" font-family="Inter, sans-serif" font-size="8.5" font-weight="500" letter-spacing="0.5" x="272" y="160">LÝ THÁI TỔ</text>
+<text fill="#40434C" font-family="Inter, sans-serif" font-size="8" font-weight="500" letter-spacing="0.5" x="24" y="260">HÀNG VÔI</text>
+</svg>
+<!-- Vignette and Top Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 pointer-events-none"></div>
+<!-- iOS Status Bar (9:41, icons) -->
+<header class="relative z-20 pt-3 px-7 flex justify-between items-center text-white text-[14.5px] font-semibold tracking-tight">
+<span>9:41</span>
+<div class="flex items-center space-x-1.5 text-white">
+<span class="material-symbols-outlined fill-icon text-[16px]">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined fill-icon text-[16px]">wifi</span>
+<!-- iOS Battery representation -->
+<div class="w-5 h-2.5 border border-white/80 rounded-sm p-[1px] flex items-center ml-0.5">
+<div class="h-full w-3.5 bg-white rounded-2xs"></div>
+</div>
+</div>
+</header>
+<!-- Navigation & Quick Search Bar -->
+<div class="relative z-20 mt-2 px-5 flex items-center justify-between gap-3">
+<!-- Close/Hủy Button -->
+<button aria-label="Hủy thêm địa điểm" class="text-white text-[16px] font-medium active:opacity-60 transition-opacity tracking-tight shrink-0" type="button">
+          Hủy
+        </button>
+<!-- Search Pill -->
+<div class="flex-1 max-w-[260px] bg-[#1A1A1D]/80 backdrop-blur-md rounded-full px-3.5 py-1.5 flex items-center gap-2 border border-white/5 shadow-lg">
+<span class="material-symbols-outlined text-[#8E8E93] text-[17px]">search</span>
+<span class="text-[#8E8E93] text-[13px] font-normal truncate">Tìm hoặc chạm giữ bản đồ</span>
+</div>
+</div>
+<!-- Centered Anchor Marker (Coral Pin with clean glow) -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none pb-4">
+<div class="relative flex flex-col items-center animate-bounce duration-1000">
+<!-- Pin Head -->
+<div class="w-11 h-11 rounded-full bg-[#F26A3D] shadow-[0_8px_24px_rgba(242,106,61,0.55)] flex items-center justify-center border-2 border-white/20">
+<div class="w-3.5 h-3.5 rounded-full bg-white shadow-sm"></div>
+</div>
+<!-- Pin Stem / Triangle tip -->
+<div class="w-0 h-0 border-l-[7px] border-l-transparent border-r-[7px] border-r-transparent border-t-[9px] border-t-[#F26A3D] -mt-[1px]"></div>
+<!-- Pulse shadow beneath -->
+<div class="w-4 h-1.5 bg-black/70 rounded-full blur-[2px] mt-1"></div>
+</div>
+</div>
+</div>
+<!-- ================= BOTTOM SHEET (BOTTOM 53%) ================= -->
+<section class="relative z-30 flex-1 bg-[#1A1A1D] rounded-t-[32px] px-6 pt-3 pb-8 flex flex-col justify-between shadow-2xl -mt-5">
+<!-- Top content area -->
+<div class="w-full flex flex-col">
+<!-- Drag Handle Indicator -->
+<div class="w-9 h-1 bg-[#3A3A3C] rounded-full mx-auto mb-6"></div>
+<!-- Place Name Input (Pre-filled, minimal large title) -->
+<div class="w-full mb-6">
+<label class="sr-only" for="place-name">Tên địa điểm</label>
+<input aria-label="Tên địa điểm" class="w-full bg-transparent p-0 border-none text-white text-[28px] leading-tight font-bold font-headline tracking-tight focus:ring-0 focus:outline-none placeholder-[#8E8E93]" id="place-name" placeholder="Tên địa điểm" type="text" value="Cà phê Giảng"/>
+</div>
+<!-- Categories Horizontal Scroll Row -->
+<div class="w-full mb-7">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 -mx-6 px-6">
+<!-- Ẩm thực -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F26A3D] shrink-0"></span>
+<span>Ẩm thực</span>
+</button>
+<!-- Cà phê (SELECTED STATE: White pill, black text, brown dot) -->
+<button class="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black text-[13px] font-semibold shadow-md active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#B8825A] shrink-0"></span>
+<span>Cà phê</span>
+</button>
+<!-- Du lịch -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6] shrink-0"></span>
+<span>Du lịch</span>
+</button>
+<!-- Khách sạn -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#9B87E8] shrink-0"></span>
+<span>Khách sạn</span>
+</button>
+<!-- Mua sắm -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F06FA3] shrink-0"></span>
+<span>Mua sắm</span>
+</button>
+<!-- Giải trí -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F5C04A] shrink-0"></span>
+<span>Giải trí</span>
+</button>
+<!-- Khác -->
+<button class="shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#26262A] text-[#8E8E93] text-[13px] font-medium active:scale-95 transition-all" type="button">
+<span class="w-2 h-2 rounded-full bg-[#8E98A3] shrink-0"></span>
+<span>Khác</span>
+</button>
+</div>
+</div>
+<!-- Address Bar Row -->
+<div class="flex items-center justify-between py-1 border-none">
+<div class="flex items-center gap-2.5 overflow-hidden pr-3">
+<span class="material-symbols-outlined text-[#8E8E93] text-[20px] shrink-0">pin_drop</span>
+<span class="text-white text-[15px] font-normal truncate tracking-tight">39 Nguyễn Hữu Huân, Hoàn Kiếm</span>
+</div>
+<button class="text-[#F26A3D] text-[14px] font-medium shrink-0 active:opacity-70 transition-opacity" type="button">
+            Sửa
+          </button>
+</div>
+</div>
+<!-- Bottom action area -->
+<div class="w-full flex flex-col items-center gap-5 mt-auto pt-4">
+<!-- Primary Action Pill Button: Save Place -->
+<button class="w-full h-14 bg-[#F26A3D] text-white rounded-full font-headline font-semibold text-[17px] tracking-tight flex items-center justify-center shadow-[0_10px_28px_rgba(242,106,61,0.32)] active:scale-[0.98] transition-transform duration-150" type="button">
+          Lưu địa điểm
+        </button>
+<!-- Standard iOS Home Indicator -->
+<div class="w-36 h-1 bg-white/30 rounded-full mt-1 mb-1"></div>
+</div>
+</section>
+</main>
+</body></html>

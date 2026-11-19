@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Đăng nhập — MyPlaces</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: "#0E0E10",
+              surface: "#1A1A1D",
+              accent: "#F26A3D",
+              secondary: "#8E8E93"
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #050506;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      line-height: 1;
+    }
+    input::placeholder {
+      color: #8E8E93;
+      opacity: 1;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #FFFFFF;
+      -webkit-box-shadow: 0 0 0px 1000px #1A1A1D inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 sm:p-4 text-white">
+<!-- iPhone Frame Mockup (390 x 844 px) -->
+<main class="w-[390px] h-[844px] bg-[#0E0E10] relative flex flex-col justify-between overflow-hidden shadow-2xl rounded-[48px] border border-neutral-900/60 selection:bg-[#F26A3D]/30">
+<!-- Top Area: Status Bar & Header -->
+<div class="w-full flex-shrink-0 pt-3 px-6 z-20">
+<!-- iOS Status Bar -->
+<div class="flex justify-between items-center h-11 text-white text-[15px] font-semibold tracking-tight">
+<span class="pl-2.5">9:41</span>
+<div class="flex items-center space-x-2 pr-1.5 text-white">
+<!-- Cellular Icon -->
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.23C2.88 16.48 2 14.34 2 12 2 6.48 6.48 2 12 2s10 4.48 10 10c0 2.34-.88 4.48-2.35 6.23l-.62-.62C20.26 16.07 21 14.12 21 12c0-4.97-4.03-9-9-9zM12 6c-3.31 0-6 2.69-6 6 0 1.45.52 2.78 1.38 3.83l.71-.71C7.41 14.28 7 13.19 7 12c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.19-.41 2.28-1.09 3.12l.71.71C17.48 14.78 18 13.45 18 12c0-3.31-2.69-6-6-6zM12 9c-1.66 0-3 1.34-3 3 0 .78.3 1.49.79 2.02l.71-.71C10.19 12.98 10 12.51 10 12c0-1.1.9-2 2-2s2 .9 2 2c0 .51-.19.98-.5 1.31l.71.71c.49-.53.79-1.24.79-2.02 0-1.66-1.34-3-3-3zm0 5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"></path>
+</svg>
+<!-- Wifi Icon -->
+<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24">
+<path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98C20.93 5.9 16.69 4 12 4zm0 3.32c3.78 0 7.23 1.49 9.8 3.93L12 19.08 2.2 11.25C4.77 8.81 8.22 7.32 12 7.32z"></path>
+</svg>
+<!-- Battery Icon -->
+<div class="flex items-center">
+<div class="w-[22px] h-[11.5px] border border-white/80 rounded-[3.5px] p-[1.5px] flex items-center">
+<div class="h-full w-full bg-white rounded-[1.5px]"></div>
+</div>
+<div class="w-[1.5px] h-[4.5px] bg-white/80 rounded-r-[1px] -ml-[0.5px]"></div>
+</div>
+</div>
+</div>
+<!-- Action Navigation Header -->
+<div class="flex items-center justify-between pt-2 pb-1">
+<!-- Circular Back Button -->
+<button aria-label="Quay lại" class="w-10 h-10 rounded-full bg-[#1A1A1D] flex items-center justify-center text-white active:scale-95 transition-transform duration-150 focus:outline-none" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Brand Wordmark Subtle -->
+</div>
+<!-- Title Headline -->
+<div class="mt-3">
+<h1 class="font-headline text-[32px] font-bold text-white tracking-tight leading-tight">Đăng nhập</h1>
+</div>
+</div>
+<!-- Center Atmospheric Imagery (Locket Style Focus) -->
+<div class="px-6 my-auto pt-2 pb-3">
+<div class="relative w-full aspect-[4/3] rounded-[28px] overflow-hidden bg-[#1A1A1D] shadow-lg group">
+<img class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" data-alt="A warm, atmospheric night photograph of an old Hanoi street corner with vibrant glowing yellow and red paper lanterns hung over traditional outdoor Bia Hoi eatery tables filled with cheerful locals, framed in deep moody near-black shadows with crisp authentic detail and a cozy intimate filmic vibe." src="https://lh3.googleusercontent.com/aida/ALJJyrBZ6qlj2MApZZXGv1cH7E9tlYgsB6Noza5S9yhqYODeXt7hnANfC_7FtMPYPin_AT84Lz8N6JOOZsGsdet0TBfiKo6z7yn_jKHtIlfoeHXTENaoyAY7IvaWloJZ_ph_QzQSos3tR3lUHQcfWZpv1ERhO2uzplbJD0xEH7ffhXuUgq8I08Dzqxck6R6cuGVPFzceBiIGOUKpQ_JaLgGKgYX8q3tCuHnEOCFBRlMcfrSeVhLoUCIAGwPS8SI1"/>
+<!-- Subtle Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#0E0E10]/70 via-transparent to-transparent pointer-events-none"></div>
+<!-- Subtle Location & Identity Tag -->
+<div class="absolute bottom-3 left-4 flex items-center space-x-1.5 text-xs font-medium text-white/90 drop-shadow-md">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F26A3D]"></span>
+<span class="tracking-wide">Phố cổ Hà Nội</span>
+</div>
+</div>
+</div>
+<!-- Input Form Section & Bottom Anchor -->
+<div class="px-6 flex-shrink-0 pb-3 z-10">
+<form class="space-y-3.5" onsubmit="event.preventDefault();">
+<!-- Email Input (Pill Style) -->
+<div class="relative">
+<input class="w-full h-[54px] px-6 rounded-full bg-[#1A1A1D] text-white text-[15px] placeholder-[#8E8E93] border-0 focus:ring-1 focus:ring-[#F26A3D] transition-all outline-none" placeholder="Email của bạn" required="" type="email"/>
+</div>
+<!-- Password Input (Pill Style) -->
+<div class="relative">
+<input class="w-full h-[54px] pl-6 pr-12 rounded-full bg-[#1A1A1D] text-white text-[15px] placeholder-[#8E8E93] border-0 focus:ring-1 focus:ring-[#F26A3D] transition-all outline-none" id="password-field" placeholder="Mật khẩu" required="" type="password"/>
+<button aria-label="Hiển thị hoặc ẩn mật khẩu" class="absolute right-4 top-1/2 -translate-y-1/2 text-[#8E8E93] hover:text-white transition-colors focus:outline-none p-1 flex items-center justify-center" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eye-icon">visibility</span>
+</button>
+</div>
+<!-- Forgot Password Link -->
+<div class="flex justify-end pt-0.5 pb-1">
+<a class="text-[13px] text-[#8E8E93] hover:text-[#F26A3D] transition-colors font-medium" href="#">
+            Quên mật khẩu?
+          </a>
+</div>
+<!-- Single Primary CTA Button -->
+<button class="w-full h-[54px] rounded-full bg-[#F26A3D] text-white font-semibold text-[16px] tracking-wide flex items-center justify-center shadow-lg shadow-[#F26A3D]/20 active:scale-[0.98] transition-transform duration-150" type="submit">
+          Đăng nhập
+        </button>
+</form>
+<!-- Bottom Account Switch Line -->
+<div class="text-center pt-5 pb-3">
+<p class="text-[14px] text-[#8E8E93]">
+          Chưa có tài khoản? 
+          <a class="text-[#F26A3D] font-semibold hover:underline ml-1" href="#">Đăng ký</a>
+</p>
+</div>
+</div>
+<!-- Home Indicator (Standard iOS) -->
+<div class="w-full flex justify-center pb-2.5 pt-1 z-20">
+<div class="w-36 h-1 bg-white/30 rounded-full"></div>
+</div>
+</main>
+<!-- Lightweight Inline Logic for Password Toggle -->
+<script>
+    const toggleBtn = document.getElementById('toggle-password');
+    const pwdInput = document.getElementById('password-field');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    if (toggleBtn && pwdInput && eyeIcon) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.type === 'password';
+        pwdInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+        eyeIcon.setAttribute('data-icon', isPassword ? 'visibility_off' : 'visibility');
+      });
+    }
+  </script>
+</body></html>

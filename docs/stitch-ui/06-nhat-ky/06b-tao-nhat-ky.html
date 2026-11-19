@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Tạo nhật ký</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0E0E10;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex justify-center items-center min-h-screen bg-[#050506] p-0 sm:p-4">
+<!-- iOS Screen Container (390x844 ratio canvas, full bleed mobile) -->
+<main class="relative w-full max-w-[390px] h-[844px] bg-[#0E0E10] text-white flex flex-col justify-between overflow-hidden sm:rounded-[48px] sm:shadow-2xl sm:shadow-black">
+<!-- iOS Status Bar (9:41) -->
+<header class="w-full pt-3 px-7 flex items-center justify-between text-white shrink-0 z-20 select-none">
+<span class="text-[15px] font-semibold tracking-tight text-white">9:41</span>
+<div class="flex items-center space-x-2 text-white">
+<!-- Cellular -->
+<span class="material-symbols-outlined text-[17px] leading-none" style="font-variation-settings: 'FILL' 1;">signal_cellular_alt</span>
+<!-- Wi-Fi -->
+<span class="material-symbols-outlined text-[17px] leading-none" style="font-variation-settings: 'FILL' 1;">wifi</span>
+<!-- Battery -->
+<div class="w-6 h-3 rounded-[4px] border border-white/70 p-[1.5px] flex items-center">
+<div class="h-full w-full bg-white rounded-[1.5px]"></div>
+</div>
+</div>
+</header>
+<!-- Top Navigation Bar -->
+<nav class="w-full px-6 pt-3 pb-2 flex items-center justify-between shrink-0 z-20">
+<button class="text-[16px] text-[#8E8E93] hover:text-white transition-colors duration-150 active:scale-95 py-1 pr-3 focus:outline-none" type="button">
+        Hủy
+      </button>
+<div class="flex-1"></div>
+<button class="bg-[#F26A3D] text-white text-[15px] font-semibold px-5 py-2 rounded-full transition-transform duration-150 active:scale-95 shadow-sm hover:opacity-95 focus:outline-none" type="button">
+        Tạo
+      </button>
+</nav>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto no-scrollbar px-6 pt-3 pb-4 space-y-6">
+<!-- Cover Photo Block -->
+<section>
+<button class="w-full h-48 bg-[#1A1A1D] rounded-[28px] border-2 border-dashed border-white/15 flex flex-col items-center justify-center space-y-2 hover:border-white/30 transition-all duration-200 active:scale-[0.99] group focus:outline-none" type="button">
+<div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-[#8E8E93] group-hover:text-white transition-colors">
+<span class="material-symbols-outlined text-2xl">add_photo_alternate</span>
+</div>
+<span class="text-[#8E8E93] text-sm font-medium group-hover:text-white/90 transition-colors">Thêm ảnh bìa</span>
+</button>
+</section>
+<!-- Title & Description Form -->
+<section class="space-y-3 pt-1">
+<div>
+<input class="w-full bg-transparent border-0 p-0 text-white font-headline text-3xl font-bold tracking-tight placeholder-[#8E8E93] focus:ring-0 focus:outline-none" placeholder="Tiêu đề nhật ký" type="text" value="Hà Nội mùa thu"/>
+</div>
+<div>
+<input class="w-full bg-transparent border-0 p-0 text-[#8E8E93] text-base placeholder-[#8E8E93]/70 focus:ring-0 focus:outline-none font-normal" placeholder="Mô tả (tùy chọn)" type="text"/>
+</div>
+</section>
+<!-- Date Range (2 Columns) -->
+<section class="grid grid-cols-2 gap-3">
+<!-- Start Date -->
+<button class="bg-[#1A1A1D] rounded-2xl px-4 py-3.5 flex items-center space-x-2.5 text-left border border-white/[0.04] active:scale-[0.98] transition-transform focus:outline-none" type="button">
+<span class="material-symbols-outlined text-base text-[#8E8E93]">calendar_today</span>
+<span class="text-xs sm:text-[13px] font-medium text-white/90 truncate">Từ 01/10/2026</span>
+</button>
+<!-- End Date -->
+<button class="bg-[#1A1A1D] rounded-2xl px-4 py-3.5 flex items-center space-x-2.5 text-left border border-white/[0.04] active:scale-[0.98] transition-transform focus:outline-none" type="button">
+<span class="material-symbols-outlined text-base text-[#8E8E93]">event</span>
+<span class="text-xs sm:text-[13px] font-medium text-white/90 truncate">Đến 15/10/2026</span>
+</button>
+</section>
+<!-- Categories Selector (Horizontal scrollable chips with tiny colored dots) -->
+<!-- Privacy Notice -->
+<section class="pt-2">
+<div class="flex items-center space-x-2 text-[#8E8E93] text-xs px-1">
+<span class="material-symbols-outlined text-[16px] text-[#8E8E93]" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span>Riêng tư – chỉ bạn xem được cho đến khi mời</span>
+</div>
+</section>
+</div>
+<!-- iOS Home Indicator -->
+<footer class="w-full pb-2.5 pt-1 flex justify-center items-center shrink-0">
+<div class="w-32 h-1 bg-white/30 rounded-full"></div>
+</footer>
+</main>
+</body></html>

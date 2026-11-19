@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Thêm vào Hà Nội mùa thu</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: "#0E0E10",
+              surface: "#1A1A1D",
+              surfaceAlt: "#252529",
+              activeSegment: "#2C2C30",
+              coral: "#F26A3D",
+              secondary: "#8E8E93"
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    body {
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white font-body selection:bg-[#F26A3D]/30 min-h-screen w-full flex flex-col justify-between overflow-x-hidden antialiased">
+<!-- iOS Safe Area Top Wrapper -->
+<div class="w-full flex flex-col flex-shrink-0 pt-safe select-none">
+<!-- iOS Status Bar (390px spec) -->
+<header class="w-full px-7 pt-3.5 pb-2 flex items-center justify-between text-white text-[15px] font-semibold tracking-tight">
+<span>9:41</span>
+<div class="flex items-center space-x-1.5 text-white">
+<!-- Cellular Signal -->
+<svg class="w-4 h-3.5 fill-current" viewbox="0 0 17 12">
+<rect height="4" rx="0.5" width="3" x="0" y="8"></rect>
+<rect height="6.5" rx="0.5" width="3" x="4.5" y="5.5"></rect>
+<rect height="9" rx="0.5" width="3" x="9" y="3"></rect>
+<rect height="11.5" rx="0.5" width="3" x="13.5" y="0.5"></rect>
+</svg>
+<!-- Wifi -->
+<svg class="w-4 h-3.5 fill-current" viewbox="0 0 16 12">
+<path d="M8 2.8c2.4 0 4.6.9 6.2 2.5.3.3.3.8 0 1.1l-5.6 5.6c-.3.3-.8.3-1.1 0L1.8 6.4c-.3-.3-.3-.8 0-1.1C3.4 3.7 5.6 2.8 8 2.8zm0-2.8C4.5 0 1.4 1.4-.7 3.7c-.3.3-.3.8 0 1.1l1.1 1.1c.3.3.8.3 1.1 0C3 4.4 5.3 3.3 8 3.3s5 .9 6.6 2.6c.3.3.8.3 1.1 0l1.1-1.1c.3-.3.3-.8 0-1.1C14.6 1.4 11.5 0 8 0z"></path>
+</svg>
+<!-- Battery Pill -->
+<div class="relative w-6 h-[11.5px] border border-white/80 rounded-[3px] p-[1.5px] flex items-center">
+<div class="h-full w-full bg-white rounded-[1.5px]"></div>
+<div class="absolute -right-[3.5px] top-1/2 -translate-y-1/2 w-[2px] h-[4px] bg-white/80 rounded-r-sm"></div>
+</div>
+</div>
+</header>
+<!-- Modal Header Navigation Bar -->
+<nav class="relative flex items-center justify-between px-5 py-3">
+<button class="text-[17px] font-normal text-[#8E8E93] hover:text-white transition-colors py-1 pr-2 active:opacity-60" type="button">
+        Hủy
+      </button>
+<h1 class="absolute left-1/2 -translate-x-1/2 text-[17px] font-semibold text-white tracking-tight truncate max-w-[220px] text-center">
+        Thêm vào Hà Nội mùa thu
+      </h1>
+<div aria-hidden="true" class="w-9"></div>
+</nav>
+<!-- Segmented Control (Pill) -->
+<div class="px-5 pt-1 pb-3">
+<div class="w-full bg-[#1A1A1D] p-1 rounded-full flex items-center justify-between border border-white/5">
+<button class="flex-1 py-1.5 rounded-full bg-[#2C2C30] text-white text-[13px] font-medium tracking-tight shadow-sm transition-all duration-150" type="button">
+          Địa điểm
+        </button>
+<button class="flex-1 py-1.5 rounded-full bg-transparent text-[#8E8E93] hover:text-white text-[13px] font-medium tracking-tight transition-all duration-150 active:opacity-70" type="button">
+          Lần ghé
+        </button>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="px-5 pb-3">
+<div class="flex items-center w-full bg-[#1A1A1D] rounded-full px-3.5 py-2.5 border border-white/5 focus-within:border-white/20 transition-all">
+<span class="material-symbols-outlined text-[#8E8E93] text-[20px] mr-2" data-icon="search">search</span>
+<input class="bg-transparent border-0 p-0 text-[14px] text-white placeholder-[#8E8E93] focus:ring-0 focus:outline-none w-full" placeholder="Tìm kiếm địa điểm..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Main Places List -->
+<main class="flex-1 overflow-y-auto no-scrollbar px-5 pb-32">
+<!-- Action: Tạo địa điểm mới -->
+<div class="flex items-center justify-between py-3.5 border-b border-white/[0.04] active:opacity-70 cursor-pointer transition-opacity">
+<div class="flex items-center space-x-3.5">
+<div class="w-12 h-12 rounded-full bg-[#1A1A1D] flex items-center justify-center border border-white/10 text-white flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]" data-icon="add">add</span>
+</div>
+<span class="text-[16px] font-medium text-white tracking-tight">Tạo địa điểm mới</span>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93] text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+<!-- Location Items -->
+<div class="divide-y divide-white/[0.04] text-left">
+<!-- Hàng 1: Bún chả Hương Liên (Selected) -->
+<div class="flex items-center justify-between py-3 cursor-pointer group active:opacity-75 transition-opacity">
+<div class="flex items-center space-x-3.5 min-w-0 pr-3">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#1A1A1D] ring-1 ring-white/10">
+<img alt="Bún chả Hương Liên" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrACYH4RfDQw-l1xjYp9zyg2A3NiJsefvgRGpZsbIkrIXDpRei6GUY6iUb-98U1npHeyxehg2fg2eB1YzqR8TNwMcvZMzw8KfOs4YGc77agNCxsdGa3z6y827tGtMIFsAPckvqtGZZlrHr39mav3GzXbCPs0uBziR8RxN5C2MDkZc2acITcuhYlbrc9HI0di8NEtqzkuSQbQGby29FsLLebeEPlLCdsOngTARXRxaLcUa4AeDL8Xq6FAPg"/>
+</div>
+<div class="flex flex-col truncate">
+<div class="flex items-center space-x-2">
+<span class="text-[16px] font-medium text-white tracking-tight truncate">Bún chả Hương Liên</span>
+<span class="w-2 h-2 rounded-full bg-[#F26A3D] flex-shrink-0" title="Ẩm thực"></span>
+</div>
+</div>
+</div>
+<!-- Active Checkbox Pill Button -->
+<button aria-label="Đã chọn Bún chả Hương Liên" class="w-7 h-7 rounded-full bg-[#F26A3D] flex items-center justify-center flex-shrink-0 transition-transform active:scale-90 shadow-sm shadow-[#F26A3D]/30" type="button">
+<span class="material-symbols-outlined text-white text-[18px] font-semibold" data-icon="check">check</span>
+</button>
+</div>
+<!-- Hàng 2: Hồ Tây (Selected) -->
+<div class="flex items-center justify-between py-3 cursor-pointer group active:opacity-75 transition-opacity">
+<div class="flex items-center space-x-3.5 min-w-0 pr-3">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#1A1A1D] ring-1 ring-white/10">
+<img alt="Hồ Tây" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrDF5O6QJGL-0jl4BBQRJtDpEK-TCB5ieEPoHC-7VEqUUrWydbaU6G0P3QNWgl_G05d-Ww_xDioa8UNi7oI5j4APizRc_OPQ32Gj-leSg9i5RHK-X3lV3I6lO214oISoisk9kAHhiR5eprdB_LBUBVn7ScrQMoe1IghhVH77ZcgQp4cHprQnd0sRZpYeI76CtAilYHk6BV9bSpuoteu-w69Sf9uJIg-_XZtWPubhYbhd7_wIwJ9OEWsbQ3U"/>
+</div>
+<div class="flex flex-col truncate">
+<div class="flex items-center space-x-2">
+<span class="text-[16px] font-medium text-white tracking-tight truncate">Hồ Tây</span>
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6] flex-shrink-0" title="Du lịch"></span>
+</div>
+</div>
+</div>
+<!-- Active Checkbox Pill Button -->
+<button aria-label="Đã chọn Hồ Tây" class="w-7 h-7 rounded-full bg-[#F26A3D] flex items-center justify-center flex-shrink-0 transition-transform active:scale-90 shadow-sm shadow-[#F26A3D]/30" type="button">
+<span class="material-symbols-outlined text-white text-[18px] font-semibold" data-icon="check">check</span>
+</button>
+</div>
+<!-- Hàng 3: Cà phê Giảng (Disabled) -->
+<div class="flex items-center justify-between py-3 opacity-45 cursor-not-allowed">
+<div class="flex items-center space-x-3.5 min-w-0 pr-3">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#1A1A1D] grayscale">
+<img alt="Cà phê Giảng" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrAKp61MGcgrZIdx9ZmGYn3kuu2pS4bypSQ_MDSDDW5XDOEJIiW_zkP0MPgra2MLF7v5f9-OimDrifH9x91d_srKdxmnWQahDag4njkTsdx9uBYk-3rpS9DPCrIJqZ2kpbKFoPILjqlnxcJ7iOstZQhTmzruQUCBhrUXIbmr-ldvMO3z-5HSBsqGoNZ0m27xbQzgRDS6DXFjnrDnEuj_-I9xTyOHIE9_BaWUyXx8wFChjSvGbApIi55b_DQ"/>
+</div>
+<div class="flex flex-col truncate">
+<div class="flex items-center space-x-2">
+<span class="text-[16px] font-medium text-white tracking-tight truncate">Cà phê Giảng</span>
+<span class="w-2 h-2 rounded-full bg-[#B8825A] flex-shrink-0" title="Cà phê"></span>
+</div>
+<span class="text-[13px] text-[#8E8E93] tracking-tight mt-0.5">Đã có trong nhật ký</span>
+</div>
+</div>
+<!-- Disabled Checkbox Indicator -->
+<div class="w-7 h-7 rounded-full border border-white/20 bg-transparent flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white/30 text-[16px]" data-icon="check">check</span>
+</div>
+</div>
+<!-- Hàng 4: Phở Bát Đàn (Disabled) -->
+<div class="flex items-center justify-between py-3 opacity-45 cursor-not-allowed">
+<div class="flex items-center space-x-3.5 min-w-0 pr-3">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#1A1A1D] grayscale">
+<img alt="Phở Bát Đàn" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrALCZ5H-FvO6NSKm55ptxw3PuiC3NSGY00-_vPwaUL3lZ8TAkRVXWrmX7xrYTtVJDur7TBEwuNZsINeSDaRyJxx24KTqISdNT7Oghc99fe2vDmuNq_3b9I1FM7sMbN2dAPwc4T8ezKUsT3TjzSg-n9loHIH-Has4vqh17lWuZic7GZ0fY_G6x2xZSBwOK2JVEYRlFbVaqQd2opTcd7g0RGJduXVW2AhkW2NTq_IaLx9zPSGqaQlwhlhrDs"/>
+</div>
+<div class="flex flex-col truncate">
+<div class="flex items-center space-x-2">
+<span class="text-[16px] font-medium text-white tracking-tight truncate">Phở Bát Đàn</span>
+<span class="w-2 h-2 rounded-full bg-[#F26A3D] flex-shrink-0" title="Ẩm thực"></span>
+</div>
+<span class="text-[13px] text-[#8E8E93] tracking-tight mt-0.5">Đã có trong nhật ký</span>
+</div>
+</div>
+<!-- Disabled Checkbox Indicator -->
+<div class="w-7 h-7 rounded-full border border-white/20 bg-transparent flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white/30 text-[16px]" data-icon="check">check</span>
+</div>
+</div>
+<!-- Hàng 5: Hồ Gươm (Unchecked) -->
+<div class="flex items-center justify-between py-3 cursor-pointer group active:opacity-75 transition-opacity">
+<div class="flex items-center space-x-3.5 min-w-0 pr-3">
+<div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#1A1A1D] ring-1 ring-white/10">
+<img alt="Hồ Gươm" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBEidMWYzG1vM2q1N5mPMbZc_xttEGZntQl5la9hOcGYMpvuIuvSmOzoNWyV15dlu-qrXP92DZy3VZwU0DnXScu-szqh6DbEJQRKNUoVihUS1KIwvV_qlo-MgAHFuU445IQ6sgIoOGG3JVkGiYFZJ1yMQzg0JwQgqmpgzlpcV8mvD9NZNPJkzJlEeD3G6ZggX6VypBwPrbSO9Lz0mC6lPm3AsYv0QggBvdCrZ0GHx5Gtavecb5UAbE6hoIbuNC73WzUdDn9bdACWg"/>
+</div>
+<div class="flex flex-col truncate">
+<div class="flex items-center space-x-2">
+<span class="text-[16px] font-medium text-white tracking-tight truncate">Hồ Gươm</span>
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6] flex-shrink-0" title="Du lịch"></span>
+</div>
+</div>
+</div>
+<!-- Unchecked Circle -->
+<button aria-label="Chọn Hồ Gươm" class="w-7 h-7 rounded-full border border-white/30 bg-transparent flex-shrink-0 group-hover:border-white/60 transition-colors active:scale-90" type="button">
+</button>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Confirmation Area -->
+<footer class="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/95 to-transparent pt-6 pb-2 px-6 flex flex-col items-center">
+<!-- Primary CTA Pill Button -->
+<button class="w-full max-w-sm py-4 bg-[#F26A3D] hover:bg-[#F26A3D]/90 text-white text-[16px] font-medium tracking-tight rounded-full transition-all duration-150 active:scale-[0.98] shadow-lg shadow-[#F26A3D]/25 flex items-center justify-center" type="button">
+      Thêm 2 mục
+    </button>
+<!-- iOS Home Indicator -->
+<div class="w-full flex justify-center pt-5 pb-1">
+<div class="w-36 h-[5px] bg-white/30 rounded-full"></div>
+</div>
+</footer>
+</body></html>

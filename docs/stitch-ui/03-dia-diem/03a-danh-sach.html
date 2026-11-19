@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Địa điểm - MyPlaces</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+      font-size: 24px;
+      line-height: 1;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white font-body antialiased min-h-screen flex justify-center selection:bg-[#F26A3D]/30 selection:text-white">
+<!-- Mobile Viewport Wrapper (iOS 390x844 scale, full bleed, seamless dark mode) -->
+<main class="w-full max-w-[390px] min-h-screen bg-[#0E0E10] relative flex flex-col overflow-x-hidden">
+<!-- iOS Status Bar (390 width reference) -->
+<header class="w-full h-11 pt-3 px-7 flex justify-between items-center text-xs font-semibold tracking-tight text-white select-none z-40 bg-transparent">
+<span>9:41</span>
+<div class="flex items-center space-x-2 text-[14px]">
+<span class="material-symbols-outlined text-[17px] leading-none">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[17px] leading-none">wifi</span>
+<span class="material-symbols-outlined text-[20px] leading-none">battery_full</span>
+</div>
+</header>
+<!-- Top Bar Component (Executed directly from Shared Components JSON + Specs) -->
+<section class="flex justify-between items-center w-full px-6 pt-2 pb-3">
+<h1 class="text-2xl font-bold font-headline text-white tracking-tight">Địa điểm</h1>
+<button aria-label="Thêm địa điểm" class="w-9 h-9 rounded-full bg-[#1A1A1D] border border-white/10 flex items-center justify-center text-[#F26A3D] hover:opacity-80 active:scale-95 transition-all duration-150">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</section>
+<!-- Search Input (Pill Bo Tròn Hoàn Toàn) -->
+<section class="px-6 pb-3">
+<div class="relative flex items-center w-full">
+<span class="material-symbols-outlined absolute left-4 text-[#8E8E93] text-[20px] pointer-events-none">search</span>
+<input class="w-full h-11 bg-[#1A1A1D] border border-white/5 rounded-full pl-11 pr-4 text-[14px] text-white placeholder-[#8E8E93] focus:outline-none focus:border-white/20 transition-all font-body" placeholder="Tìm trong địa điểm của bạn" type="text"/>
+</div>
+</section>
+<!-- Category Chips (Horizontal Scroll, Zero Scrollbar, Distinct Accent Dots) -->
+<nav aria-label="Danh mục địa điểm" class="w-full overflow-x-auto no-scrollbar flex items-center gap-2 px-6 py-2">
+<!-- Active Chip: Tất cả -->
+<button class="shrink-0 h-8 px-4 rounded-full bg-white text-[#0E0E10] font-semibold text-[13px] flex items-center justify-center active:scale-95 transition-transform">
+        Tất cả
+      </button>
+<!-- Category Chip: Ẩm thực -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F26A3D]"></span>
+<span>Ẩm thực</span>
+</button>
+<!-- Category Chip: Cà phê -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#B8825A]"></span>
+<span>Cà phê</span>
+</button>
+<!-- Category Chip: Du lịch -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#4DB6E6]"></span>
+<span>Du lịch</span>
+</button>
+<!-- Category Chip: Khách sạn -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#9B87E8]"></span>
+<span>Khách sạn</span>
+</button>
+<!-- Category Chip: Mua sắm -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F06FA3]"></span>
+<span>Mua sắm</span>
+</button>
+<!-- Category Chip: Giải trí -->
+<button class="shrink-0 h-8 px-3.5 rounded-full bg-[#1A1A1D] border border-white/5 text-white text-[13px] font-medium flex items-center space-x-1.5 active:scale-95 transition-transform hover:border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F5C04A]"></span>
+<span>Giải trí</span>
+</button>
+</nav>
+<!-- Places Content List (6 Airy Items, 56x56 Photo Thumbnails, Minimalist Metadata) -->
+<section class="flex flex-col space-y-3.5 px-6 pt-3 pb-32">
+<!-- Hàng 1: Hồ Tây -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="relative w-14 h-14 shrink-0 rounded-[16px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A tranquil, misty morning view over West Lake Hanoi with soft pastel violet and deep slate water reflections. Gentle ripples on the lake shore under calm ambient dusk light, rendered in a modern dark cinematic photography aesthetic with high contrast and minimalist composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCas7Q8lEJQFZRVojoAbhpr6gAveqPF1bcxM1bylKyej749XDqbmH6pnpcJ2-yTnolmAadcZF7WfEJsbQZsYXNQy1Qcw74mzKdR4qT__iLjoIMN71xjPZSjtaLnuPrdw3oW5jEkqw7eGD0L_gYkhlykpO2zodOdZSF7oXuzTur7okULIBUdsD5dl9M_Buzz99tzT_X2RrfhMlbP-s5Dm-QH1dEPhjTxVnTmcAA_QlN5E93Yk--1I9G-uoyP1IpTxGFW6x26lZLjZ8E"/>
+<!-- Tiny shared indicator on photo corner -->
+<div class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[#0E0E10]/80 backdrop-blur flex items-center justify-center text-white" title="Được chia sẻ">
+<span class="material-symbols-outlined text-[10px]">group</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Hồ Tây</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#4DB6E6] shrink-0" title="Du lịch"></span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">Quận Tây Hồ, Hà Nội</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">3 lần ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+<!-- Hàng 2: Bánh mì 25 -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="relative w-14 h-14 shrink-0 rounded-[16px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Authentic traditional Vietnamese street food storefront in Old Quarter Hanoi with rustic dark wooden counters and warm incandescent ambient lighting. Golden crispy artisanal banh mi sandwiches arranged neatly in a moody minimalist gourmet food photography composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBGk34xX_wqQkYJzC5GuZF6CfOjHq6_I0BPQjufw1P_FK75EeOPKpZYNL5s4SQA7I-KPtFa5iCUBSYebIBEFi-M0udyp-YJdBNz54gS3lv8zcCAPSfxKPSjUuYYF1BhovMWZuOm6ObkowGL1OPJxQ0J3UclFQgff9Hr8RlVkX9rTjAHBTHPhyTuuJk0FFCZittqJRh4Yc2XaL01SG7mqmm3jOqhTfLCUqrQUXzkDkHJ56pa7uYTAfGhFpPplrvvOr4DUFWEAR-aU8"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Bánh mì 25</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#F26A3D] shrink-0" title="Ẩm thực"></span>
+<span class="text-[10px] text-[#8E8E93] border border-white/10 px-1.5 py-0.2 rounded-full shrink-0 font-normal">Chưa đồng bộ</span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">25 Hàng Cá, Hoàn Kiếm</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">1 lần ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+<!-- Hàng 3: Cà phê Giảng -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="relative w-14 h-14 shrink-0 rounded-[16px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A rich creamy cup of traditional Hanoi egg coffee resting on a dark slate textured table inside a cozy vintage cafe. Dramatic soft directional lighting illuminates the thick golden foam and deep roasted dark coffee tones in a minimalist, contemplative style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM_9BmGm4Fp9oZyNxa11-KWeog9jPTpuse2WrmSeLPbD_3-SRiwoHnIChNdUY2PCjLMe1p03Rx7EuzhsrJ6zCrqAj3iipzJcVlgy0Sw0yJZFAt8k4kp5ZuTfGyq-wxxMtPe7DF-X2p6MM7-Jfalac0Ndx0dsGdRaixWfjr9roL21tAy-NGUdWqnwF3fx3lsOJN9MPxpt0PglvDQbwXRA9UbZkwRZ6BIB3fePOuVi8DpVNFl93nMA_nSsgapDuc8EmS6vBViBopM1Y"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Cà phê Giảng</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#B8825A] shrink-0" title="Cà phê"></span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">39 Nguyễn Hữu Huân, Hoàn Kiếm</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">5 lần ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+<!-- Hàng 4: Khách sạn Metropole (Icon-based surface as specified) -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="w-14 h-14 shrink-0 rounded-[16px] bg-[#9B87E8]/15 border border-[#9B87E8]/20 flex items-center justify-center text-[#9B87E8]">
+<span class="material-symbols-outlined text-[24px]">bed</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Khách sạn Metropole</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#9B87E8] shrink-0" title="Khách sạn"></span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">15 Ngô Quyền, Hoàn Kiếm</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">Chưa ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+<!-- Hàng 5: Phở Gia Truyền Bát Đàn -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="relative w-14 h-14 shrink-0 rounded-[16px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Steaming hot authentic Hanoi beef noodle soup served in an artisanal ceramic bowl on dark wood background. Fresh herbs, tender sliced beef, clear aromatic broth under soft diffused cinematic studio lighting adhering to an ultra-clean minimalist food presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-c5OXf89YnP5Stm1Sij8XlyDem6w_qBT6hLPz8i9ublF0kG5EosJzD2v8WuFQmCcDDRP-p0RoNIZcjfrRKl4NpYwvF7reyslvrWByN9b5Q_Z2koK-CaOkiBwShQaFashjTFX0ihCj6ExYRyuZA5GAYDHhuEFcXHe-9mkO-2LuySnqhRjy9ti8QMLFcI2FUAnR5XKSoCs5pXo_DKEeNc8Pq0sMvAsSgtWYypfy7kcEKwXVcQrhr_XmK5H-8q8CHCISpiFv0IyPNbM"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Phở Gia Truyền</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#F26A3D] shrink-0" title="Ẩm thực"></span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">49 Bát Đàn, Hoàn Kiếm</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">4 lần ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+<!-- Hàng 6: Nhà thờ Lớn Hà Nội -->
+<article class="group flex items-center space-x-3.5 p-2 rounded-[20px] bg-[#1A1A1D]/40 border border-white/[0.04] active:scale-[0.98] transition-all cursor-pointer">
+<div class="relative w-14 h-14 shrink-0 rounded-[16px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Neo-Gothic historic facade of St. Joseph Cathedral in Hanoi captured at twilight. Weathered stone texture, gothic arches silhouetted against a deep indigo evening sky with ambient golden city lights creating a serene, minimalist travel capture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCQlduZNmbTfRVjAUg0pMjnilKDAfcLl5bIelguOT-QYLdlRd0bMa9jN0OKd7wE9sPNijX8Gbipdu37akGrN9iu17uW0vsD7OHL_ulr-Y_VTX6nbtAH5DdvbVYdstoO9huCAfX2tUwYqTIUcYDxH8qwKoxRCKYQxsZZusJrM31ey8TMF4Icq8vTtMMW6Xa2Cmk4u6mOGvzyXcEy3Q44R-NmckDKcKk1xqOAZCJLG3ocZ_bhn0a3dPsyzH2cX8sR3k8Xp7FN2AZsrc"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center space-x-1.5">
+<h2 class="text-[15px] font-bold text-white truncate">Nhà thờ Lớn</h2>
+<span class="w-1.5 h-1.5 rounded-full bg-[#4DB6E6] shrink-0" title="Du lịch"></span>
+</div>
+<p class="text-[13px] text-[#8E8E93] truncate mt-0.5">40 Nhà Chung, Hoàn Kiếm</p>
+<p class="text-[11px] text-[#8E8E93]/70 font-medium mt-0.5">2 lần ghé</p>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93]/40 text-[18px] pr-1">chevron_right</span>
+</article>
+</section>
+<!-- BottomNavBar Component (Executing Exact JSON Styles & Semantic Destination Mapping) -->
+<!-- Active Destination: "pin_drop" (Địa điểm) - 2nd icon -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex flex-col justify-center items-center pointer-events-none pb-2">
+<!-- Floating Pill Island -->
+<div class="pointer-events-auto bg-[#1A1A1D]/90 backdrop-blur-md rounded-full mb-3 px-6 py-3 w-fit shadow-2xl border border-white/10 flex items-center space-x-7">
+<!-- Tab 1: Bản đồ (map) -->
+<button aria-label="Bản đồ" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined text-[23px]">map</span>
+</button>
+<!-- Tab 2: Địa điểm (pin_drop) - Active Item with Coral Dot -->
+<button aria-label="Địa điểm" class="relative flex flex-col items-center justify-center text-white after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:absolute after:-bottom-1.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]">format_list_bulleted</span>
+</button>
+<!-- Tab 3: Dòng thời gian (schedule) -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined text-[23px]">schedule</span>
+</button>
+<!-- Tab 4: Nhật ký (menu_book) -->
+<button aria-label="Nhật ký" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined text-[23px]">menu_book</span>
+</button>
+<!-- Tab 5: Cá nhân (person) -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 duration-150">
+<span class="material-symbols-outlined text-[23px]">person</span>
+</button>
+</div>
+<!-- iOS Home Indicator -->
+<div class="w-32 h-1 bg-white/20 rounded-full mb-1 pointer-events-none"></div>
+</nav>
+</main>
+</body></html>

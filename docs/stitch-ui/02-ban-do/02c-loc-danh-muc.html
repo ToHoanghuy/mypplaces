@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Bản đồ - MyPlaces</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: "#F26A3D",
+            surface: "#1A1A1D",
+            background: "#0E0E10",
+            subtext: "#8E8E93"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    /* Prevent default scroll bounce & text selection on mobile */
+    body {
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background-color: #0E0E10;
+    }
+    
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+
+    /* Hide scrollbar for category pills */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Pulse animation for user GPS dot */
+    @keyframes ping-subtle {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+      70% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
+    }
+    .animate-radar {
+      animation: ping-subtle 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#0E0E10] text-white font-body m-0 p-0 flex justify-center items-center min-h-screen overflow-hidden">
+<!-- Main Mobile Frame 390x844 (iOS standard) -->
+<div class="relative w-[390px] h-[844px] bg-[#0E0E10] overflow-hidden flex flex-col justify-between shadow-2xl">
+<!-- ================= MAP CANVAS (DARK VECTOR STYLE) ================= -->
+<div class="absolute inset-0 z-0 bg-[#0E0E10] overflow-hidden pointer-events-auto" data-location="Hanoi, Vietnam" style="">
+<!-- Dark stylized vector map of central Hanoi (Hoan Kiem / West Lake / Old Quarter) -->
+<svg class="w-full h-full object-cover" fill="none" viewbox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialgradient cx="50%" cy="50%" id="waterGlow" r="50%">
+<stop offset="0%" stop-color="#142634"></stop>
+<stop offset="100%" stop-color="#0b1722"></stop>
+</radialgradient>
+</defs>
+<!-- Base Background Landmass -->
+<rect fill="#0E0E10" height="844" width="390"></rect>
+<!-- Minor Street Grid / Secondary Alleyways -->
+<g opacity="0.8" stroke="#18181D" stroke-linecap="round" stroke-width="1.2">
+<path d="M-20 180 L410 210"></path>
+<path d="M-20 270 L410 260"></path>
+<path d="M-20 340 L410 380"></path>
+<path d="M-20 460 L410 440"></path>
+<path d="M-20 540 L410 570"></path>
+<path d="M-20 630 L410 610"></path>
+<path d="M-20 720 L410 750"></path>
+<path d="M45 -10 L60 860"></path>
+<path d="M110 -10 L130 860"></path>
+<path d="M190 -10 L180 860"></path>
+<path d="M260 -10 L280 860"></path>
+<path d="M330 -10 L320 860"></path>
+<!-- Angled residential alleys -->
+<path d="M70 200 L160 310"></path>
+<path d="M220 190 L340 330"></path>
+<path d="M120 420 L240 540"></path>
+<path d="M30 520 L130 640"></path>
+<path d="M270 420 L380 520"></path>
+</g>
+<!-- Lakes / Water bodies (Hồ Gươm & Hồ Trúc Bạch / Hồ Tây edge) -->
+<!-- Ho Guom (Sword Lake) Center Right -->
+<path d="M 225 350 C 245 355, 260 385, 255 425 C 250 460, 240 480, 230 495 C 220 510, 205 500, 212 460 C 218 425, 208 395, 215 365 Z" fill="url(#waterGlow)" stroke="#1a354b" stroke-width="1.5"></path>
+<!-- Ho Thien Quang (South) -->
+<path d="M 160 630 C 185 625, 205 640, 200 665 C 195 685, 175 690, 155 680 C 140 670, 145 640, 160 630 Z" fill="url(#waterGlow)" stroke="#1a354b" stroke-width="1.5"></path>
+<!-- Ho Tay edge (Top Left) -->
+<path d="M -30 20 C 30 15, 85 45, 95 100 C 102 140, 70 175, 40 190 C 10 205, -30 195, -30 195 Z" fill="url(#waterGlow)" stroke="#1a354b" stroke-width="1.5"></path>
+<!-- Red River (Sông Hồng) edge Top Right -->
+<path d="M 330 -20 Q 355 120 385 240 Q 405 320 410 460" fill="none" opacity="0.6" stroke="#142634" stroke-width="26"></path>
+<!-- Primary Arterial Avenues (Phố Đinh Tiên Hoàng, Tràng Tiền, Phố Huế, Điện Biên Phủ) -->
+<g stroke="#26262B" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+<!-- Tran Hung Dao -->
+<path d="M -10 520 L 400 500"></path>
+<!-- Hang Bai / Pho Hue -->
+<path d="M 235 240 L 220 430 L 210 560 L 205 780"></path>
+<!-- Trang Tien / Hang Khay -->
+<path d="M 120 440 L 225 435 L 390 430"></path>
+<!-- Dinh Tien Hoang -->
+<path d="M 235 345 L 255 425 L 225 440"></path>
+<!-- Phan Dinh Phung / Quan Thanh -->
+<path d="M 10 230 L 320 220"></path>
+<!-- Ly Thuong Kiet -->
+<path d="M 30 490 L 390 470"></path>
+<!-- Le Duan railway parallel -->
+<path d="M 125 150 L 110 480 L 100 820"></path>
+</g>
+<!-- Subtle Street Typography (Vietnamese street names, muted contrast) -->
+<g fill="#43434A" font-family="Inter, sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.4">
+<text transform="rotate(78 238 380)" x="238" y="380">ĐINH TIÊN HOÀNG</text>
+<text x="250" y="445">TRÀNG TIỀN</text>
+<text x="120" y="225">PHAN ĐÌNH PHÙNG</text>
+<text x="70" y="500">LÝ THƯỜNG KIỆT</text>
+<text x="125" y="435">TRÀNG THI</text>
+<text transform="rotate(86 225 580)" x="225" y="580">PHỐ HUẾ</text>
+<text x="135" y="335">HÀNG BÔNG</text>
+<text x="260" y="325">HÀNG BẠC</text>
+<text opacity="0.6" x="135" y="660">HỒ THIỀN QUANG</text>
+<text fill="#254359" opacity="0.9" x="228" y="465">HỒ HOÀN KIẾM</text>
+</g>
+</svg>
+</div>
+<!-- ================= FLOATING MAP MARKERS ================= -->
+<div class="absolute inset-0 z-10 pointer-events-none">
+<!-- 1. USER CURRENT LOCATION (Near Ba Trieu / Hang Bai) -->
+<div class="absolute top-[490px] left-[175px] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-auto">
+<div class="absolute w-12 h-12 rounded-full bg-blue-500/25 animate-radar"></div>
+<div class="w-4 h-4 rounded-full bg-[#4DB6E6] border-[2.5px] border-white shadow-lg shadow-blue-500/50"></div>
+</div>
+<!-- 2. MARKER: Phở Gia Truyền Bát Đàn (Shared Place with 2-people badge) -->
+<div class="absolute top-[285px] left-[145px] -translate-x-1/2 -translate-y-1/2 pointer-events-auto flex flex-col items-center group cursor-pointer transition-transform active:scale-90">
+<div class="relative">
+<!-- Food Image -->
+<div class="w-[52px] h-[52px] rounded-full border-[3px] border-white shadow-xl shadow-black/80 overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="A steaming traditional bowl of authentic Hanoi beef pho with clear aromatic broth, tender rare beef slices, fresh scallions, herbs, and flat rice noodles, shot from above under warm moody ambient light in high contrast minimal aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5ALlvhR2pTqaKJJtkbMSxkMR2bkTuv4DNY-9FsD9yT7UxVIlE8NAldoqG5xAffAzWfyiOqoSyPb2a4txFVuUTBL0f0Rveev2EL_htTdiklfim33pHk5Q68S8S3I8Ia-OBcoJmIZmEPB7UrWzutzpY_Q0iL8ues-XQlJQoMUNdpp2iY5bQv5PbR_mfDGhEHQOnRwOL83rPyZrjLUcrj9dYEe6XQ7SbD5obnhfsWwciDvzIMGA31RNWzwjr2nJPpV06TBvsxS6JO1mw"/>
+</div>
+<!-- Category Dot (Ẩm thực: Coral #F26A3D) -->
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#F26A3D] border-2 border-[#0E0E10]"></span>
+<!-- Shared Indicator Badge (Icon 2 người) -->
+<span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#1A1A1D] border border-neutral-700/80 flex items-center justify-center text-white shadow-md">
+<span class="material-symbols-outlined text-[11px] leading-none text-white">group</span>
+</span>
+</div>
+</div>
+<!-- 3. MARKER: Bún Chả Hàng Quạt -->
+<div class="absolute top-[325px] left-[200px] -translate-x-1/2 -translate-y-1/2 pointer-events-auto flex flex-col items-center group cursor-pointer transition-transform active:scale-90">
+<div class="relative">
+<div class="w-[52px] h-[52px] rounded-full border-[3px] border-white shadow-xl shadow-black/80 overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="A delicious bowl of Hanoi charcoal-grilled pork patties bun cha soaking in amber fish sauce broth, paired with pristine white rice vermicelli noodles and fresh herbs, styled in elegant dark-toned culinary lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuACZyRSE7lpJhnVPmwNYKIO_jsuXkeR60mQbsVSX_p9bl3DgHh6aQFBYp5enQ22GwMMNyhCyJIxFbxaeSC_0yyGbOnyNm8gAQT6YIcnWnv3I4Sf59pvP0w4_-cUdM9_Y-drYmI_2enCSemHvs_acG3G-QpaAV9YkM_78KcSLJtnFd9KkyWPMyEf7C763NzKLVDay5gRG5tS57anZ20QGAwZAdhA30_w5vspnlpZ5UbhYcAI6dt4vd6tkD3yEQ8ddx0O9-IpImWrL_OI"/>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#F26A3D] border-2 border-[#0E0E10]"></span>
+</div>
+</div>
+<!-- 4. CLUSTER MARKER: Chả Cá Lã Vọng & Nộm (+3 venues nearby) -->
+<div class="absolute top-[250px] left-[275px] -translate-x-1/2 -translate-y-1/2 pointer-events-auto group cursor-pointer transition-transform active:scale-90">
+<div class="relative flex items-center">
+<!-- Back thumbnail -->
+<div class="w-[46px] h-[46px] rounded-full border-[2.5px] border-neutral-300 shadow-md overflow-hidden bg-[#1A1A1D] -mr-4 z-0 brightness-90">
+<img class="w-full h-full object-cover" data-alt="Hanoi style turmeric grilled fish Cha Ca sizzled with mountain dill and fresh scallions in a black skillet, dark rustic backdrop with dramatic gourmet accent lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiCgf2Xdq4qIrUadDqFRSXI1N8Yhm5ktRg7nOvCaGSr5ci7sD67q7IqHTCS1-2B54aamqOLGKkC-f2CiT74DOWTLyFf53a9vtenRXzZqI7KaXrP075AfQo5whzeOwgMcyl-HwowBxaH9L7mxXiFibYS8z4R7aKj__BWoJfALzq3lLTHUTtT9sAFV0ie7Brx_qZ6aSpxQGSvfWFovrn8NynuWjesmYBQwuwFhyjvQDaj2wVsA32a-L2uduCwJX8TIr7wH9OFzWLywy9"/>
+</div>
+<!-- Front thumbnail -->
+<div class="relative w-[52px] h-[52px] rounded-full border-[3px] border-white shadow-xl shadow-black/90 overflow-hidden bg-[#1A1A1D] z-10">
+<img class="w-full h-full object-cover" data-alt="Crispy Vietnamese Hanoi street food beef jerky salad nom bo kho with julienned green papaya, roasted peanuts, and vibrant mint leaves under focused cinematic spotlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDwDY_IYntbHvZhxxJ5rjkgQz-HKnZwYFiqeYhy34i0HayseQpUrmmH1vt3lT-nlXVey5RXkPK0wu9ITbnAyBU5oipZCE4HgnAFWiXmG1Fxx68NO_05yzzae5LjpJDyORZdFFC4EEG0-y7aZxX9PJcG4vSbIeKk6rP3pDiL8DBQjD4Tb6caSf29bAKEB2pQzlY_BimlShwmenvhMaW-rxJzWYrbUr0yHxHk3DwBc-wVoEIugAB7ZHoZRnsjqdYIA6R6psKofWqoRAo"/>
+</div>
+<!-- Category dot for cluster -->
+<span class="absolute bottom-0 right-3.5 z-20 w-3.5 h-3.5 rounded-full bg-[#F26A3D] border-2 border-[#0E0E10]"></span>
+<!-- Cluster Count Badge (+3) -->
+<div class="absolute -top-1.5 -right-1 z-30 bg-white text-black text-[11px] font-bold px-1.5 py-0.5 rounded-full shadow-lg border border-neutral-900/10 flex items-center justify-center leading-tight">
+            +3
+          </div>
+</div>
+</div>
+<!-- 5. MARKER: Bánh Mì Phố Cổ -->
+<div class="absolute top-[415px] left-[110px] -translate-x-1/2 -translate-y-1/2 pointer-events-auto flex flex-col items-center group cursor-pointer transition-transform active:scale-90">
+<div class="relative">
+<div class="w-[52px] h-[52px] rounded-full border-[3px] border-white shadow-xl shadow-black/80 overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="Crispy Vietnamese crusty baguette banh mi stuffed with savory pate, pork cold cuts, cilantro, and spicy chili sauce sliced in half against a dark moody minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCefeKH88Jaec0DsXnU06sGM1nKbprxxqVqm2hO_4U8oGvzMTA4EbE1XgyNRkJs_9YiY_AhA4OZ1oLFUM52H0qLEEmt8jcT63cYILuRB8VqE0IV_mF00o4V7ygTw4ncsDlbdw13dShu5wIHXLRuufqVrMqGCGLKsi_oqgGUFjmVm-u4lyqAfG1e-1qtWrLhgiSeGpg7qrmQshTKac-cnsAAsiiBD30RlCEW-gHSq7OiNH3O0qfS8ELfMRw9Wv0-yPkAWwckQCchcRY0"/>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#F26A3D] border-2 border-[#0E0E10]"></span>
+</div>
+</div>
+<!-- 6. MARKER: Phở Thìn Lò Đúc -->
+<div class="absolute top-[550px] left-[265px] -translate-x-1/2 -translate-y-1/2 pointer-events-auto flex flex-col items-center group cursor-pointer transition-transform active:scale-90">
+<div class="relative">
+<div class="w-[52px] h-[52px] rounded-full border-[3px] border-white shadow-xl shadow-black/80 overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="Rich stir-fried beef pho noodle soup Pho Thin Lo Duc with green spring onions covering the aromatic golden broth, shot in a sleek dark atmospheric tabletop setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSfyHhtUroXpM70SEemOfBXNveDuqqvsnXgx-qfkxvGl2ZtM13zeCPuyYRNLI1SwmYLWnXjdQdn9Kk5I4Hlupm_BoJuDZjA4Nksq1R76McE0auzvkQCwAVWeX4e-ABwFOXUt5oeEkWUPTnnASSwlr112Lv_YSB53o3ZpgTyovRaSTYwE_7aA5uK-OlUUqKDD15cahtDP2tGKpjA1JA8KA26fhVgrw5jne5jWXWDESQa-K0eydnArEeDKpUxYNpYn3IKj469LFc4Zs9"/>
+</div>
+<span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#F26A3D] border-2 border-[#0E0E10]"></span>
+</div>
+</div>
+</div>
+<!-- ================= TOP LAYER: STATUS BAR & SEARCH & CATEGORIES ================= -->
+<header class="relative z-40 w-full pt-3 px-4 flex flex-col gap-2.5 pointer-events-auto">
+<!-- iOS Status Bar (9:41) -->
+<div class="w-full h-6 flex justify-between items-center text-white font-semibold text-[14px] px-2.5 tracking-tight">
+<span>9:41</span>
+<div class="flex items-center space-x-1.5">
+<!-- Cellular Signal -->
+<svg class="w-4 h-3 fill-current text-white" viewbox="0 0 17 12">
+<rect height="4" rx="0.5" width="3" x="0" y="8"></rect>
+<rect height="6.5" rx="0.5" width="3" x="4.5" y="5.5"></rect>
+<rect height="9" rx="0.5" width="3" x="9" y="3"></rect>
+<rect height="12" rx="0.5" width="3" x="13.5" y="0"></rect>
+</svg>
+<!-- Wifi -->
+<svg class="w-4 h-3.5 fill-current text-white" viewbox="0 0 16 12">
+<path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.24-2.83a6 6 0 0 1 8.48 0 .75.75 0 0 0 1.06-1.06 7.5 7.5 0 0 0-10.6 0 .75.75 0 0 0 1.06 1.06zm-2.83-2.83a10 10 0 0 1 14.14 0 .75.75 0 0 0 1.06-1.06 11.5 11.5 0 0 0-16.26 0 .75.75 0 0 0 1.06 1.06z"></path>
+</svg>
+<!-- Battery -->
+<div class="w-5 h-2.5 border border-white rounded-[4px] p-0.5 flex items-center">
+<div class="h-full w-full bg-white rounded-[2px]"></div>
+</div>
+</div>
+</div>
+<!-- Slim Floating Search Pill Bar -->
+<div class="w-full">
+<div class="w-full h-12 rounded-full bg-[#1A1A1D]/85 backdrop-blur-xl border border-neutral-800/80 shadow-2xl flex items-center px-4 gap-3 text-[#8E8E93]">
+<span class="material-symbols-outlined text-[20px] text-[#8E8E93]">search</span>
+<input class="bg-transparent border-0 p-0 text-white placeholder-[#8E8E93] text-[15px] font-normal w-full focus:ring-0 focus:outline-none cursor-pointer" placeholder="Tìm địa điểm" readonly="" type="text"/>
+</div>
+</div>
+<!-- Horizontal Category Chips Carousel -->
+<div class="w-full overflow-x-auto no-scrollbar py-0.5 -mx-4 px-4 flex items-center gap-2">
+<!-- Chip: Tất cả -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-neutral-800/60 text-[#8E98A3] text-[13px] font-medium transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#8E98A3]"></span>
+<span>Tất cả</span>
+</button>
+<!-- Chip: Ẩm thực (ACTIVE STATE) -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-white text-black text-[13px] font-bold shadow-lg shadow-white/10 transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#F26A3D]"></span>
+<span>Ẩm thực</span>
+</button>
+<!-- Chip: Cà phê -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-neutral-800/60 text-neutral-300 text-[13px] font-medium transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#B8825A]"></span>
+<span>Cà phê</span>
+</button>
+<!-- Chip: Du lịch -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-neutral-800/60 text-neutral-300 text-[13px] font-medium transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6]"></span>
+<span>Du lịch</span>
+</button>
+<!-- Chip: Khách sạn -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-neutral-800/60 text-neutral-300 text-[13px] font-medium transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#9B87E8]"></span>
+<span>Khách sạn</span>
+</button>
+<!-- Chip: Mua sắm (Partially truncated on edge to suggest horizontal scroll) -->
+<button class="shrink-0 flex items-center gap-1.5 h-8 px-3.5 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-neutral-800/60 text-neutral-300 text-[13px] font-medium transition active:scale-95">
+<span class="w-2 h-2 rounded-full bg-[#F06FA3]"></span>
+<span>Mua sắm</span>
+</button>
+</div>
+</header>
+<!-- ================= FLOATING ACTION BUTTONS (BOTTOM RIGHT) ================= -->
+<aside class="relative z-30 self-end mr-4 mb-2 flex flex-col items-center gap-3 pointer-events-auto">
+<!-- Re-center GPS Location Button -->
+<button aria-label="Định vị" class="w-11 h-11 rounded-full bg-[#1A1A1D]/90 backdrop-blur-lg border border-neutral-800/80 shadow-xl flex items-center justify-center text-white active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[21px]">my_location</span>
+</button>
+<!-- Primary Action (+) Button: Coral #F26A3D -->
+<button aria-label="Thêm địa điểm mới" class="w-14 h-14 rounded-full bg-[#F26A3D] shadow-2xl shadow-[#F26A3D]/40 flex items-center justify-center text-white active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[30px] font-medium">add</span>
+</button>
+</aside>
+<!-- ================= BOTTOM NAVIGATION & HOME INDICATOR ================= -->
+<footer class="relative z-40 w-full flex flex-col items-center pb-2 pointer-events-auto">
+<!-- Floating Dock BottomNavBar (Executing Shared Components JSON specs) -->
+<nav class="rounded-full backdrop-blur-xl border border-neutral-800/60 shadow-2xl shadow-black/80 bg-neutral-900/90 w-fit flex items-center justify-center gap-7 px-6 py-3.5">
+<!-- Tab 1: Bản đồ (ACTIVE: Map view) -->
+<button aria-label="Bản đồ" class="relative flex flex-col items-center justify-center text-white after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:absolute after:-bottom-1.5 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]">map</span>
+</button>
+<!-- Tab 2: Danh sách địa điểm (Inactive) -->
+<button aria-label="Địa điểm" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90">
+<span class="material-symbols-outlined text-[24px]">format_list_bulleted</span>
+</button>
+<!-- Tab 3: Dòng thời gian / Lịch sử (Inactive) -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90">
+<span class="material-symbols-outlined text-[24px]">schedule</span>
+</button>
+<!-- Tab 4: Nhật ký (Inactive) -->
+<button aria-label="Nhật ký" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</button>
+<!-- Tab 5: Cá nhân (Inactive) -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-neutral-400 hover:text-white transition-colors duration-150 active:scale-90">
+<span class="material-symbols-outlined text-[24px]">person</span>
+</button>
+</nav>
+<!-- iOS Home Indicator -->
+<div class="w-full flex justify-center pt-2 pb-1">
+<div class="w-32 h-1 bg-white/40 rounded-full"></div>
+</div>
+</footer>
+</div>
+</body></html>

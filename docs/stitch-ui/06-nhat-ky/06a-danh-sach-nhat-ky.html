@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Nhật ký - MyPlaces Minimal</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0E0E10;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+    /* Hide scrollbars cleanly */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white flex justify-center min-h-screen antialiased selection:bg-[#F26A3D]/30">
+<!-- Mobile Canvas Frame 390 x 844 viewport simulation wrapper -->
+<div class="relative w-full max-w-[390px] min-h-screen bg-[#0E0E10] flex flex-col justify-between overflow-x-hidden pb-10">
+<!-- 1. iOS Status Bar -->
+<header class="w-full pt-3 px-7 flex items-center justify-between z-40 select-none text-white font-medium">
+<span class="text-[15px] font-semibold tracking-tight text-white/95">9:41</span>
+<div class="flex items-center gap-1.5 text-white/90">
+<!-- Cellular Signal Icon -->
+<span class="material-symbols-outlined text-[17px] leading-none" data-icon="signal_cellular_alt">signal_cellular_alt</span>
+<!-- Wifi Icon -->
+<span class="material-symbols-outlined text-[17px] leading-none" data-icon="wifi">wifi</span>
+<!-- Battery Icon -->
+<div class="flex items-center ml-0.5">
+<div class="w-5 h-2.5 rounded-[3px] border border-white/80 p-0.5 flex items-center">
+<div class="h-full w-full bg-white rounded-[1.5px]"></div>
+</div>
+<div class="w-0.5 h-1 bg-white/80 rounded-r-sm -ml-[0.5px]"></div>
+</div>
+</div>
+</header>
+<!-- 2. TopAppBar Component -->
+<section class="flex justify-between items-center w-full px-6 pt-4 pb-2">
+<h1 class="font-headline text-3xl font-bold tracking-tight text-white select-none">Nhật ký</h1>
+<button aria-label="Tạo nhật ký mới" class="w-10 h-10 rounded-full flex items-center justify-center bg-[#1A1A1D] border border-white/10 text-white hover:opacity-80 active:scale-95 transition-all duration-150 shadow-sm cursor-pointer">
+<span class="material-symbols-outlined text-[22px]" data-icon="add">add</span>
+</button>
+</section>
+<!-- 3. Danh sách các thẻ ảnh bìa lớn xếp dọc (Bento Photo Focus) -->
+<main class="flex-1 space-y-4 px-5 pt-2 pb-28">
+<!-- Thẻ 1: Hà Nội mùa thu -->
+<article class="relative h-[200px] rounded-[28px] overflow-hidden bg-[#1A1A1D] border border-white/5 shadow-lg group active:scale-[0.99] transition-transform duration-200 cursor-pointer">
+<!-- Background Image with Ambient Fall Prompt -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Cinematic atmospheric shot of autumnal Hanoi around Hoan Kiem Lake during golden misty morning. Golden yellow leaves drape over historic textured French-colonial and Vietnamese architecture, soft natural light diffusing through gentle haze. Dark muted earthy tones, deep blacks and delicate amber touches. Minimalist, uncluttered composition focusing on quiet serenity and timeless romantic memories." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCw-ZxzsKHV-0iilP1n8bQ8NGd1CnU3DOthc9v2My8MK2WpY7XqIlYhuf3eU7HywcblS4wd82MoSdfdb6vMVSFZGyetoZLj5tf0ChOffJAhfCc4DJ8ZeiOfB5hZ6J0Kwp2K9-cvh0OnUMUfnalMlpPJKgIr5l8BeJBTX6m6UQLVcbk-56pNvg8IiDZMNsnrET6Zf2rDT6pR-f8oHzddXsQfXASCn5vNv3S6YA-D4SXwWBKM6bC2tPXD_qoKQOU-NWDfYGXe35jQg3w')"></div>
+<!-- Gradient Overlay for Contrast -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10"></div>
+<!-- Top Right Glass Pill: Riêng tư -->
+<div class="absolute top-3.5 right-3.5 z-10">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-medium text-white/90">
+<span class="material-symbols-outlined text-[13px] text-white/80" data-icon="lock">lock</span>
+            Riêng tư
+          </span>
+</div>
+<!-- Bottom Content -->
+<div class="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col justify-end">
+<h2 class="font-headline text-xl font-bold text-white tracking-tight mb-1">Hà Nội mùa thu</h2>
+<p class="font-body text-xs text-[#8E8E93] tracking-normal">01 – 15 thg 10, 2026</p>
+</div>
+</article>
+<!-- Thẻ 2: Đà Lạt cùng nhóm -->
+<article class="relative h-[200px] rounded-[28px] overflow-hidden bg-[#1A1A1D] border border-white/5 shadow-lg group active:scale-[0.99] transition-transform duration-200 cursor-pointer">
+<!-- Background Image with Dalat Pine Forest Prompt -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Moody cinematic panoramic view of Da Lat pine hills blanketed in ethereal early morning mist and clouds. Deep emerald green and near-black silhouettes of tall coniferous trees contrasting softly with silver-blue fog. Dark atmospheric aesthetic, peaceful Scandinavian-inspired landscape lighting, quiet contemplative mood tailored for modern dark mode interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBgLPCOG-8CvfMC4UEptUuBkm5kErRgCGNt1A8JdgYqPouHtadg0piFTuu43myncRaSLWbCfq-K3OShCuqhMwAjLgJ0QFskBp-Va8SfhK0rxJ5RI3FBZgU95IllzSBxT4fBCJX7tiy-u0ORNSGVo8ytPUz3nDVIALe4kuumW1XOY5JKD-59RxbhLZIMbW4aNqBsQCmhP4tyHFjmMXuWpLQF4KLg68Kvy1d-MwrOlapRaEXNcfnOuweK0ktWWHb34rWwowMOGx1m-mc')"></div>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10"></div>
+<!-- Top Right Glass Pill: Được chia sẻ -->
+<div class="absolute top-3.5 right-3.5 z-10">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-medium text-white/90">
+<span class="material-symbols-outlined text-[14px] text-white/80" data-icon="group">group</span>
+            Được chia sẻ · Biên tập
+          </span>
+</div>
+<!-- Bottom Content with Stacked Member Avatars -->
+<div class="absolute bottom-0 left-0 right-0 p-5 z-10 flex items-end justify-between">
+<div>
+<h2 class="font-headline text-xl font-bold text-white tracking-tight mb-1">Đà Lạt cùng nhóm</h2>
+<p class="font-body text-xs text-[#8E8E93] tracking-normal">20 – 24 thg 11, 2026</p>
+</div>
+<!-- Stacked Minimal Avatars -->
+<div class="flex items-center -space-x-2 pl-2">
+<div class="w-6 h-6 rounded-full border-2 border-[#1A1A1D] bg-[#2A2A2E] overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a young Vietnamese woman with minimal natural makeup, gentle smile in soft morning ambient backlight, high-contrast dark tones, artistic modern editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZK12tGyCHubO5QlRyVEj927neRF1tWQ-fiDtACVJxufxnrV3hy1BVKzN6wcTtWTE3RU_fgfShuW1LMDQRwTUWKLOpE76P2tSEQ8IvGzcJcGkJ7AifEqb9eNCxRxBoEEFJPy_FBsWTMBPOCWiLArOClPg2wRzB34oDDfVmg2pt8lL4nDv5_P4-5yYkVCNZl-OlwUyXK8Gy4dDf9424bjLaJEgF6Nbw0NtmDCNn_9rm535jbnVor2p7Rf8S0Bg6sJLrEvkLCTkX6mw"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-[#1A1A1D] bg-[#323238] overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Profile portrait of an East Asian man wearing a minimalist charcoal knit sweater, softly shadowed moody studio lighting, clean elegant composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCytItz77hRj6glfN-tqz5rNo3PrfRtE7nMcW-IIWDU-Cw9-f8TG6Bvs8uwXdzToOt7_rZUUcEEj6rlrCb-Gt8F2Eiv7Bap94eiBZiyJNMoSTS5PU4l5ltKLa9Bif7RdOwIhtxq46kY4ZVWBASISeWMqQ8CUOqG_ymvZ8jrOlh76y9fju6Re1SAGj5GRB2sZuIq540NnLDKwBIY-jht2HwzbsMuGk9SUD3hNue2NQgkylBqKq6j5OrUzsfxCI4nwdoauFnQb5r9ul4"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-[#1A1A1D] bg-[#3E3E46] overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Natural candid shot of a young adult laughing warmly, dark cinematic background with subtle amber bokeh highlights, minimal modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmG1PCLtTSM5AO_Wm1_2iYjHmm8Z8HclFyBttd4ShVAACNcZqE-jzmWo89Ii3s6WmjPYD5oy4xWJ3rZP9PcCGRT7lmghD-BpCwkbm47VYh4k8p1rT8m1mTFaR3YLlYmmXILVO-4LRaMbw76FaGDNB92LEeGbZoawC5DYqi0PZw8aoPOp5uXvjvT1cL0zzSbAeEXKg3zcyk8MZlXWlbC7NPupb7LhUGmswunQdKSvqT82Py0uUFii3tgK5UhVjcXoptWnGENptujxI"/>
+</div>
+</div>
+</div>
+</article>
+<!-- Thẻ 3: Tết 2026 -->
+<article class="relative h-[200px] rounded-[28px] overflow-hidden bg-[#1A1A1D] border border-white/5 shadow-lg group active:scale-[0.99] transition-transform duration-200 cursor-pointer">
+<!-- Background Image with Tet Vibe Prompt -->
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Intimate night scene of Lunar New Year Vietnamese Tet celebrations with glowing paper lanterns and delicate pink peach blossoms branches. Deep midnight black ambient lighting accentuated by warm golden candlelight and subtle festive crimson touches. Highly artistic, minimal noise, atmospheric moody feeling evoking nostalgia and closeness." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6wWdK_NqrXrtrBN475g9aPhaaYYynRosNIhyickBa6lBgpHWuPxmEF8N7jWVtKxxqntWKeItIdie6AQEWxTjCzebPek1Rcy5vlLS_dahOf6WxOyun3EGzxx0G8rjLpYM1L-W7_b6jp8i9Jpz5ndeoMXZ26ZsicuaXqInNtIt7yW3s90AIEE4jOLXjKZnBUJF4GFssmLTZW6c5nuCwJ2mPzx47Q4CyjbrhqDJuyYDX78zIak3agAn02kiEOJrK6nZMxx0S-1PCb-k')"></div>
+<!-- Gradient Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10"></div>
+<!-- Top Right Glass Pill: Quyền hạn & Thành viên -->
+<div class="absolute top-3.5 right-3.5 z-10">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs font-medium text-white/90">
+            Chủ sở hữu · 4 người
+          </span>
+</div>
+<!-- Bottom Content -->
+<div class="absolute bottom-0 left-0 right-0 p-5 z-10 flex flex-col justify-end">
+<h2 class="font-headline text-xl font-bold text-white tracking-tight mb-1">Tết 2026</h2>
+<p class="font-body text-xs text-[#8E8E93] tracking-normal">15 – 22 thg 02, 2026</p>
+</div>
+</article>
+<!-- 4. Cuối danh sách: Đã lưu trữ -->
+<div class="pt-2">
+<button class="w-full py-4 px-3 flex items-center justify-between text-[#8E8E93] hover:text-white rounded-2xl active:bg-[#1A1A1D]/60 transition-all duration-150 group cursor-pointer">
+<span class="text-sm font-medium tracking-tight">Đã lưu trữ (2)</span>
+<span class="material-symbols-outlined text-lg text-[#8E8E93] group-hover:text-white transition-colors" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- 6. BottomNavBar (Semantic Shell from Shared Components JSON) -->
+<!-- Destination 4 (menu_book - Nhật ký) is ACTIVE with White icon and tiny Coral #F26A3D dot underneath -->
+<nav class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-around w-[90%] max-w-sm px-4 py-3 rounded-full bg-[#1A1A1D]/90 backdrop-blur-md border border-white/5 shadow-2xl shadow-black/50 select-none">
+<!-- 1. Bản đồ (map) -->
+<button aria-label="Bản đồ" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]" data-icon="map">map</span>
+</button>
+<!-- 2. Địa điểm (pin_drop) -->
+<button aria-label="Địa điểm" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]" data-icon="format_list_bulleted">format_list_bulleted</span>
+</button>
+<!-- 3. Dòng thời gian (schedule) -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]" data-icon="schedule">schedule</span>
+</button>
+<!-- 4. Nhật ký (menu_book) - ACTIVE DESTINATION -->
+<button aria-label="Nhật ký" class="relative flex flex-col items-center justify-center text-white after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:mt-1 active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]" data-icon="menu_book">menu_book</span>
+</button>
+<!-- 5. Cá nhân (person) -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-[#8E8E93] hover:text-white transition-colors active:scale-90 transition-transform duration-150">
+<span class="material-symbols-outlined text-[23px]" data-icon="person">person</span>
+</button>
+</nav>
+<!-- 7. iOS Home Indicator -->
+<div class="fixed bottom-1 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+<div class="w-32 h-1 bg-white/20 rounded-full"></div>
+</div>
+</div>
+</body></html>

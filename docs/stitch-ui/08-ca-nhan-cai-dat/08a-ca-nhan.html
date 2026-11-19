@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Cá nhân - MyPlaces</title>
+<!-- Fonts & Material Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #000000;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* iOS safe-area simulation */
+    .screen-container {
+      width: 390px;
+      height: 844px;
+      background-color: #0E0E10;
+    }
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 sm:p-4 bg-black text-white antialiased">
+<!-- Mobile Canvas Frame: 390 x 844 full bleed iOS viewport -->
+<div class="screen-container relative flex flex-col justify-between overflow-hidden shadow-2xl sm:rounded-[48px]">
+<!-- iOS Status Bar (390 width) -->
+<header class="w-full pt-3 px-8 flex justify-between items-center text-white z-40 select-none">
+<span class="text-[15px] font-semibold tracking-tight">9:41</span>
+<div class="flex items-center space-x-2 text-[14px]">
+<span class="material-symbols-outlined text-[17px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[17px]">wifi</span>
+<span class="material-symbols-outlined text-[20px]">battery_full</span>
+</div>
+</header>
+<!-- TopAppBar Component (from JSON specification) -->
+<nav class="flex justify-between items-center w-full px-5 py-3 bg-transparent z-30"><div class="w-10 h-10"></div><h1 class="font-headline text-lg font-bold text-white tracking-tight">Cá nhân</h1><button aria-label="Cài đặt" class="p-2 text-white active:scale-95 active:opacity-70 transition-transform duration-150 flex items-center justify-center" type="button"><span class="material-symbols-outlined text-2xl">settings</span></button></nav>
+<!-- Main Content Canvas (Focused, Locket-style Minimal Profile) -->
+<main class="flex-1 w-full px-5 flex flex-col justify-start pt-2 overflow-y-auto">
+<!-- Profile Header Module -->
+<section class="flex flex-col items-center justify-center mt-2 mb-8">
+<!-- Big Rounded Photo (96x96) -->
+<div class="relative w-24 h-24 rounded-full p-[2px] bg-gradient-to-b from-white/20 to-white/5 shadow-xl">
+<img alt="Ảnh đại diện Tô Huy" class="w-full h-full rounded-full object-cover border-2 border-[#1A1A1D]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrOB-mvlTv1tyt_RAWBgBk6LaFifZH_3dyLMOcL5XOV5LoyvqURNdH7iNdpRumrSVcKFEn7P2b5LnCtwGpSeimaFz_2RLotvMD0pMwkf5SoAhZCZyBMrLsepAQbYDceYQtvZT1TU3x0iTuEEeJbr6Q55A3nGPMzQj-edQIELEL3VrOj-xPfYrFU2SSPyh_ybvuXWOZPKT5y5l_dh3uwKT-JnUwEr-p0FFeT476HSfVHCn4nq22_Tm776iDI-SRMLB5Ft3cbQSHZl6g"/>
+</div>
+<!-- Name & Identifier -->
+<h2 class="text-2xl font-bold text-white mt-3 text-center tracking-tight font-headline">Tô Huy</h2>
+<p class="text-sm text-[#8E8E93] mt-1 text-center font-normal">huy@gmail.com</p>
+<!-- Edit Profile Pill Button -->
+<button class="rounded-full border border-white/20 px-4 py-1.5 text-xs text-white mt-3.5 inline-flex items-center justify-center font-medium active:bg-white/10 active:scale-95 transition-all" type="button">
+          Sửa hồ sơ
+        </button>
+</section>
+<!-- Settings Groups (No stats, no badges, strict minimal) -->
+<div class="space-y-4 w-full">
+<!-- Group 1: Preferences & Sync -->
+<div class="rounded-[24px] bg-[#1A1A1D] divide-y divide-white/5 overflow-hidden">
+<!-- Item 1: Location & Camera -->
+<div class="flex items-center justify-between px-5 py-4 cursor-pointer active:bg-white/5 transition-colors">
+<div class="flex items-center space-x-3.5">
+<span class="material-symbols-outlined text-[#8E8E93] text-xl">location_on</span>
+<span class="text-white text-[15px] font-medium tracking-tight">Quyền vị trí &amp; ảnh</span>
+</div>
+<span class="material-symbols-outlined text-[#8E8E93] text-lg">chevron_right</span>
+</div>
+<!-- Item 2: Sync Status -->
+<div class="flex items-center justify-between px-5 py-4">
+<div class="flex items-center space-x-3.5">
+<span class="material-symbols-outlined text-[#8E8E93] text-xl">sync</span>
+<span class="text-white text-[15px] font-medium tracking-tight">Đồng bộ</span>
+</div>
+<div class="flex items-center space-x-1.5">
+<span class="text-[#8E8E93] text-sm">Đã đồng bộ</span>
+<span class="material-symbols-outlined text-xs text-[#8E8E93]">check</span>
+</div>
+</div>
+</div>
+<!-- Group 2: Destructive Action Group -->
+<div class="rounded-[24px] bg-[#1A1A1D] overflow-hidden">
+<button class="w-full text-center py-3.5 text-red-400 font-medium text-[15px] active:bg-red-500/10 active:scale-[0.99] transition-all" type="button">
+            Đăng xuất
+          </button>
+</div>
+</div>
+</main>
+<!-- Navigation & Bottom Shelf Container -->
+<div class="relative w-full pb-2 z-40 select-none">
+<!-- BottomNavBar Component (Shared Blueprint: floating rounded-full mx-auto mb-6 w-max) -->
+<div class="w-full flex justify-center items-center pb-4 pt-1 pointer-events-none">
+<nav aria-label="Thanh điều hướng chính" class="bg-[#1A1A1D]/90 backdrop-blur-md border border-white/5 rounded-full px-4 py-1.5 flex items-center justify-center space-x-4 shadow-2xl shadow-black/80 pointer-events-auto">
+<!-- Tab 1: Bản đồ -->
+<button aria-label="Bản đồ" class="flex flex-col items-center justify-center text-[#8E8E93] p-3 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-2xl">map</span>
+</button>
+<!-- Tab 2: Địa điểm -->
+<button aria-label="Danh sách" class="flex flex-col items-center justify-center text-[#8E8E93] p-3 active:scale-90 transition-transform duration-150" type="button"><span class="material-symbols-outlined text-2xl">format_list_bulleted</span></button>
+<!-- Tab 3: Dòng thời gian -->
+<button aria-label="Dòng thời gian" class="flex flex-col items-center justify-center text-[#8E8E93] p-3 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-2xl">schedule</span>
+</button>
+<!-- Tab 4: Nhật ký -->
+<button aria-label="Nhật ký" class="flex flex-col items-center justify-center text-[#8E8E93] p-3 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-2xl">menu_book</span>
+</button>
+<!-- Tab 5: Cá nhân (ACTIVE) -->
+<button aria-label="Cá nhân" class="flex flex-col items-center justify-center text-white relative after:content-[''] after:w-1 after:h-1 after:bg-[#F26A3D] after:rounded-full after:absolute after:bottom-1.5 p-3 active:scale-90 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-2xl">person</span>
+</button>
+</nav>
+</div>
+<!-- iOS Home Indicator -->
+<div class="flex justify-center items-center pb-2">
+<div class="w-36 h-1 bg-white/20 rounded-full"></div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Chi tiết địa điểm - Cà phê Giảng</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            app: {
+              bg: '#0E0E10',
+              surface: '#1A1A1D',
+              secondary: '#8E8E93',
+              accent: '#F26A3D',
+              coffee: '#B8825A',
+            }
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0E0E10;
+      color: #FFFFFF;
+      font-family: 'Inter', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Hide scrollbar */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white antialiased min-h-screen flex justify-center selection:bg-[#F26A3D]/30">
+<!-- Mobile Container (390px max-width feel, fluid on small devices) -->
+<main class="w-full max-w-[414px] min-h-screen flex flex-col relative pb-32">
+<!-- iOS Status Bar Placeholder -->
+<header class="w-full pt-3 px-7 pb-2 flex justify-between items-center text-white text-[14px] font-semibold tracking-tight z-30 select-none">
+<span>9:41</span>
+<div class="flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-[17px] leading-none">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px] leading-none">wifi</span>
+<span class="material-symbols-outlined text-[20px] leading-none">battery_full</span>
+</div>
+</header>
+<!-- Content Wrapper with safe horizontal padding -->
+<div class="px-4 pt-1 flex flex-col gap-6">
+<!-- Hero Visual Card with Overlaid Navigation Controls -->
+<section class="relative w-full aspect-[4/3.8] rounded-[32px] overflow-hidden bg-[#1A1A1D]">
+<img class="w-full h-full object-cover select-none pointer-events-none" data-alt="An authentic, moody view inside an old Hanoi heritage cafe with rustic golden-toned walls, warm atmospheric lighting, and a steaming cup of traditional Vietnamese egg coffee on a low wooden table. High aesthetic minimalism with natural deep shadows and textured surfaces reflecting a peaceful morning in the historic French quarter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC25XwFdSZHvk1byJwfOjmaUhSc_gGaPAHDGHlXjDdd8MAzE8SjZIF74eM5xM-N9S86iCRMpWiaoPySfg5wDAcdiOirr27EEZtvR5gWZ00BwY47CLSzKfzUwEGioHV1Kl0twV7eE8_UAtUTrl2LUlFu5EcAT58BrslafbzONruH2IcomPy8HtyL6gT1Q0HBb_HQpScSNvMt81ap3JdbTaGn0XYoZ2PnQVSH1HyHEHo9a8JZd_zHjcSlGufR7QwnmIwng0buzZ51QFs"/>
+<!-- Subtle Top & Bottom Gradient Overlay for contrast -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/30 pointer-events-none"></div>
+<!-- Floating Top Bar Buttons inside the hero card -->
+<div class="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
+<!-- Back button -->
+<button aria-label="Quay lại" class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white active:scale-90 transition-transform duration-150 border border-white/10" type="button">
+<span class="material-symbols-outlined text-[22px]">chevron_left</span>
+</button>
+<!-- Action buttons group -->
+<div class="flex items-center space-x-2.5">
+<button aria-label="Chia sẻ" class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white active:scale-90 transition-transform duration-150 border border-white/10" type="button">
+<span class="material-symbols-outlined text-[20px]">ios_share</span>
+</button>
+<button aria-label="Tùy chọn khác" class="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white active:scale-90 transition-transform duration-150 border border-white/10" type="button">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Place Info Section -->
+<section class="flex flex-col px-2">
+<!-- Category Pill/Dot Tag -->
+<div class="flex items-center space-x-1.5 mb-1.5">
+<span class="w-2 h-2 rounded-full bg-[#B8825A] inline-block"></span>
+<span class="text-xs font-medium text-[#8E8E93] tracking-wide">Cà phê</span>
+</div>
+<!-- Main Place Title -->
+<h1 class="text-[32px] leading-tight font-bold text-white tracking-tight mb-2.5">
+          Cà phê Giảng
+        </h1>
+<!-- Address & Owner Badge -->
+<div class="flex flex-wrap items-center gap-2 text-sm text-[#8E8E93]">
+<div class="flex items-center space-x-1">
+<span class="material-symbols-outlined text-[16px] text-[#8E8E93]">pin_drop</span>
+<span class="text-[#8E8E93]">39 Nguyễn Hữu Huân, Hoàn Kiếm</span>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-[#1A1A1D] text-[#8E8E93] border border-white/5">
+            Chủ sở hữu
+          </span>
+</div>
+</section>
+<!-- Section: Lần ghé (Visits Timeline) -->
+<section class="flex flex-col mt-2 px-2">
+<div class="flex items-center justify-between mb-3.5">
+<h2 class="text-base font-semibold text-white">Lần ghé</h2>
+<span class="text-xs font-medium text-[#8E8E93] px-2 py-0.5 rounded-full bg-[#1A1A1D]">4</span>
+</div>
+<!-- Timeline Items List -->
+<div class="flex flex-col space-y-3">
+<!-- Item 1 -->
+<div class="flex items-center space-x-3.5 p-3 rounded-[20px] bg-[#1A1A1D]/80 border border-white/[0.04]">
+<div class="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-[#0E0E10]">
+<img class="w-full h-full object-cover" data-alt="A macro close-up view of a ceramic bowl containing a warm cup of Vietnamese egg coffee with smooth golden-yellow foam on top. Dark cafe ambiance with dramatic low sidelighting and clean rustic minimalism matching the refined dark-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKOIZwriRM6HiilnygNHEiTJu4_tOwskmwoGDigx3C5sYf9_U5IlA9Rrxti4XH1e0ZID4D5ChijyWExsR-K-K_u93BDUi8l7Wlrukoz-tXUsElLZ4WAzEPOhqa8OZWmbqsCbaEEiQNO73Qot9Rc0md6ucZlgOhTTD8nE-EZv1Wyqm3QgW_5TNXVBIRFABrVcRJQUrm2MAtOeuFQPBeC2Du0XSK5XYrc97hgkAHu0c1l9rRUNh8bZ_NAYgg0mdyA5OlEuB0-7g_7Ag"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-white truncate">Thứ Bảy, 12 thg 10</p>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-[#8E8E93] truncate">Trời se lạnh, uống với Linh</span>
+<div class="w-5 h-5 rounded-full overflow-hidden shrink-0 ml-2 border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A portrait shot of a young Vietnamese woman smiling warmly in soft natural diffused lighting against a minimal dark background, framed into a circular profile icon aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZhK1O-5AGSi2EjN9CW2usw5vguuVvUTyLNJnw3S7KuPfA0Ux6bfdu1qJQe1gHj9fVbXgwj8uz81JcyaU9mt5acjmtqOU5d7SgRDxhUI821p-yLHGEKVVoQuJSXFYyc2d0cCqadOXe_hPLuN3A8B4VCHN6CVXypKELMK5Zkfmxa6EMNxjqJktCL9jgXtKxNTMNjFh9-xtdhdakAzO01FFMCFfopWy_Z75Xglkru1ABDJj86b08pvlfveL8ACF67TqmKQwZOBRt6gs"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center space-x-3.5 p-3 rounded-[20px] bg-[#1A1A1D]/80 border border-white/[0.04]">
+<div class="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-[#0E0E10]">
+<img class="w-full h-full object-cover" data-alt="A vintage wooden corridor and narrow stairway inside an old Hanoi shophouse cafe with dim warm yellow light bulbs, deep shadows, and retro tiled floors in a minimalist, peaceful composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt5PUJj9n7g-id8NaTPcv-eIwfXZfbWmxNAlZRJYCGbnKNKGLoXhpnw45VPttO5X5TV6zuSiXvY0WJcg6UtsBc1gdxgto8w8Lv8b8u63s5U8NV2JP8j0vHBlZRKRlzAf-BaUgkRVLyIjfC67E86RuACSCGCEnWgGfUwGMtdRVWpYb0erKS3KpVH8SWGZ6wO_u_wYzZF3kjGnqGgbrAdKSMOkSbWdtuxberc7f_FokD34H22p5kcts8O7pBstD23_czwo5mFTpwqzU"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-white truncate">Chủ Nhật, 22 thg 9</p>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-[#8E8E93] truncate">Ngồi góc gác hai đọc sách</span>
+<span class="w-2 h-2 rounded-full bg-white/20 mr-1.5 shrink-0"></span>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center space-x-3.5 p-3 rounded-[20px] bg-[#1A1A1D]/80 border border-white/[0.04]">
+<div class="w-14 h-14 rounded-xl overflow-hidden shrink-0 bg-[#0E0E10]">
+<img class="w-full h-full object-cover" data-alt="Two small glasses of iced coffee on an aged dark timber table next to an old Hanoi window overlooking green trees in quiet afternoon light, minimal dark aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4c10nyKaS5DGRglJOaG4-29NviRfJDkqVxpFXI1eaLq7HBi1iBoffxst-KskXp_pVtwSQykIO0TymS9l7U86mzWIqN66QjfmH7R1t9iLu0mDT-AvC4na-O7IbJo27FdImwMh8yQqbeYySHm2OfHSr4LBL1kgCMAlWQFQwx6HlRhZi_hdmCXkrGg1dIzEP6140XNgNUvNEbdsVS7MuGms7OT7bwpCreNnzJHd3f75MPsmkaa6GFFa0fR9FRJoDMKQgxpUTsdg8i4o"/>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold text-white truncate">Thứ Sáu, 16 thg 8</p>
+<div class="flex items-center justify-between mt-1">
+<span class="text-xs text-[#8E8E93] truncate">Buổi chiều mưa ngắm phố</span>
+<div class="w-5 h-5 rounded-full overflow-hidden shrink-0 ml-2 border border-white/10">
+<img class="w-full h-full object-cover" data-alt="A minimalist portrait photograph of a young companion looking pensively out of a rain-streaked cafe window with soft reflections and ambient moody lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN0y4qbxGng8Azx5oHf7ZV0TQEKkOVcZyermxSr5MPEG3Tmie2sV_0G3J_-DrBKsii6o50rYiyI6p6LhfFJVV9WsSkIE3_kVkK8HxWWnq3Geg5fBvLBfS_SzmJj7lwNSrzM0vBEmI3ukNsliF-_no10iseE1QG5lF8ccAC1hls3vrtdOQ7Pq0cmi49CSahodHKehQ6wvKdTwu1ZZegeuzHucU5U0t9nGBVoE0_afgE7kThseaxULgE5e4iuXDxKOMpyxPUzOtobXM"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Nhật ký (Associated Journal) -->
+<section class="flex flex-col mt-2 px-2">
+<div class="flex items-center justify-between mb-3.5">
+<h2 class="text-base font-semibold text-white">Kỷ niệm</h2>
+<span class="text-xs font-medium text-[#8E8E93] px-2 py-0.5 rounded-full bg-[#1A1A1D]">3</span>
+</div>
+<div class="flex items-center gap-3 overflow-x-auto pb-1">
+<div class="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-[#1A1A1D] border border-white/[0.05]">
+<img class="w-full h-full object-cover" data-alt="Tách cà phê trứng béo ngậy trên đĩa gốm mộc mạc" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKOIZwriRM6HiilnygNHEiTJu4_tOwskmwoGDigx3C5sYf9_U5IlA9Rrxti4XH1e0ZID4D5ChijyWExsR-K-K_u93BDUi8l7Wlrukoz-tXUsElLZ4WAzEPOhqa8OZWmbqsCbaEEiQNO73Qot9Rc0md6ucZlgOhTTD8nE-EZv1Wyqm3QgW_5TNXVBIRFABrVcRJQUrm2MAtOeuFQPBeC2Du0XSK5XYrc97hgkAHu0c1l9rRUNh8bZ_NAYgg0mdyA5OlEuB0-7g_7Ag"/>
+<div class="absolute bottom-1.5 left-1.5 w-5 h-5 rounded-full overflow-hidden border-2 border-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="Avatar Linh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZhK1O-5AGSi2EjN9CW2usw5vguuVvUTyLNJnw3S7KuPfA0Ux6bfdu1qJQe1gHj9fVbXgwj8uz81JcyaU9mt5acjmtqOU5d7SgRDxhUI821p-yLHGEKVVoQuJSXFYyc2d0cCqadOXe_hPLuN3A8B4VCHN6CVXypKELMK5Zkfmxa6EMNxjqJktCL9jgXtKxNTMNjFh9-xtdhdakAzO01FFMCFfopWy_Z75Xglkru1ABDJj86b08pvlfveL8ACF67TqmKQwZOBRt6gs"/>
+</div>
+</div>
+<div class="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-[#1A1A1D] border border-white/[0.05]">
+<img class="w-full h-full object-cover" data-alt="Góc cầu thang gỗ cổ kính" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt5PUJj9n7g-id8NaTPcv-eIwfXZfbWmxNAlZRJYCGbnKNKGLoXhpnw45VPttO5X5TV6zuSiXvY0WJcg6UtsBc1gdxgto8w8Lv8b8u63s5U8NV2JP8j0vHBlZRKRlzAf-BaUgkRVLyIjfC67E86RuACSCGCEnWgGfUwGMtdRVWpYb0erKS3KpVH8SWGZ6wO_u_wYzZF3kjGnqGgbrAdKSMOkSbWdtuxberc7f_FokD34H22p5kcts8O7pBstD23_czwo5mFTpwqzU"/>
+<div class="absolute bottom-1.5 left-1.5 w-5 h-5 rounded-full bg-white/20 border-2 border-[#1A1A1D] flex items-center justify-center">
+<span class="material-symbols-outlined text-[11px] text-white">person</span>
+</div>
+</div>
+<div class="relative w-20 h-20 rounded-2xl overflow-hidden shrink-0 bg-[#1A1A1D] border border-white/[0.05]">
+<img class="w-full h-full object-cover" data-alt="Cuốn sách bên khung cửa sổ ngày mưa" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4c10nyKaS5DGRglJOaG4-29NviRfJDkqVxpFXI1eaLq7HBi1iBoffxst-KskXp_pVtwSQykIO0TymS9l7U86mzWIqN66QjfmH7R1t9iLu0mDT-AvC4na-O7IbJo27FdImwMh8yQqbeYySHm2OfHSr4LBL1kgCMAlWQFQwx6HlRhZi_hdmCXkrGg1dIzEP6140XNgNUvNEbdsVS7MuGms7OT7bwpCreNnzJHd3f75MPsmkaa6GFFa0fR9FRJoDMKQgxpUTsdg8i4o"/>
+<div class="absolute bottom-1.5 left-1.5 w-5 h-5 rounded-full overflow-hidden border-2 border-[#1A1A1D]">
+<img class="w-full h-full object-cover" data-alt="Avatar bạn đồng hành" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN0y4qbxGng8Azx5oHf7ZV0TQEKkOVcZyermxSr5MPEG3Tmie2sV_0G3J_-DrBKsii6o50rYiyI6p6LhfFJVV9WsSkIE3_kVkK8HxWWnq3Geg5fBvLBfS_SzmJj7lwNSrzM0vBEmI3ukNsliF-_no10iseE1QG5lF8ccAC1hls3vrtdOQ7Pq0cmi49CSahodHKehQ6wvKdTwu1ZZegeuzHucU5U0t9nGBVoE0_afgE7kThseaxULgE5e4iuXDxKOMpyxPUzOtobXM"/>
+</div>
+</div>
+<button aria-label="Thêm kỷ niệm mới" class="w-20 h-20 rounded-2xl border border-dashed border-white/20 bg-white/5 flex items-center justify-center text-[#8E8E93] hover:text-white shrink-0 active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</button>
+</div>
+</section><section class="flex flex-col mt-2 px-2">
+<h2 class="text-base font-semibold text-white mb-3">Nhật ký</h2>
+<div class="inline-flex items-center self-start space-x-3 p-2 pr-4 rounded-full bg-[#1A1A1D] border border-white/[0.05] active:scale-95 transition-transform duration-150">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-[#0E0E10]">
+<img class="w-full h-full object-cover" data-alt="A scenic autumn street scene in Hanoi with fallen yellow leaves on wet dark asphalt pavement and vintage bicycle parked by a colonial tree trunk in gentle morning fog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1aC86QdGBmfmRw13lAeKSZzrfDRp6yIl79H5XzQU2CCO0zrrK-f8i6AtXj7lw-OXEwGsteUQaAqXEbT3LpusGMsbjiydJOJzM22DbD-eSUI43HG0luwGSuPWWKanR6vlyQPxdBcGhugSiZoAi5ZswjFY9mUC0vqFi-wYrO3JMC-IqFVoAOc2fAVVxY1Ob1yn4GcCMdTGc3TwsFvbWaTxNba4HEbUhYYU2_GBmMkPbWZuhL6cAaTVh4g3P6Aqz0bnZS3K6iXNxPVg"/>
+</div>
+<span class="text-xs font-medium text-white tracking-tight">Hà Nội mùa thu</span>
+<span class="material-symbols-outlined text-[16px] text-[#8E8E93]">chevron_right</span>
+</div>
+</section>
+</div>
+<!-- Fixed Bottom Action Pill Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-40 flex flex-col items-center pointer-events-none px-6 pb-2 pt-6 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/90 to-transparent">
+<!-- Primary Action Pill Button -->
+<button class="w-full max-w-[358px] pointer-events-auto h-[54px] rounded-full bg-[#F26A3D] text-white font-semibold text-[15px] flex items-center justify-center space-x-2 shadow-lg shadow-[#F26A3D]/20 active:scale-[0.98] transition-all duration-150" type="button">
+<span class="material-symbols-outlined text-[20px]">photo_camera</span>
+<span>Ghi lần ghé</span>
+</button>
+<!-- iOS Home Indicator -->
+<div class="w-32 h-1 bg-white/20 rounded-full mt-4 mb-1 shrink-0"></div>
+</div>
+</main>
+</body></html>

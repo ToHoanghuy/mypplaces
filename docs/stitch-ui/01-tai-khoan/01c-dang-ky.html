@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Đăng ký - MyPlaces</title>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brandBg: "#0E0E10",
+            brandSurface: "#1A1A1D",
+            brandText: "#FFFFFF",
+            brandMuted: "#8E8E93",
+            brandCoral: "#F26A3D",
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          }
+        },
+      }
+    }
+  </script>
+<style>
+    /* Prevent default tap highlight and bounce scrolling for app feel */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input {
+      user-select: text;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-[#FFFFFF] font-body flex justify-center items-center min-h-screen p-0 m-0 antialiased overflow-x-hidden selection:bg-[#F26A3D] selection:text-white">
+<!-- Mobile Container: iOS 390 x 844 exact viewport simulation, full-bleed borderless -->
+<main class="w-full max-w-[390px] h-screen max-h-[844px] bg-[#0E0E10] flex flex-col justify-between relative overflow-hidden px-6 pt-0 pb-3">
+<!-- Top Area: iOS Status Bar + Navigation Header -->
+<header class="w-full shrink-0 z-20">
+<!-- iOS Status Bar -->
+<div class="h-11 w-full flex justify-between items-center text-white px-3 pt-2 text-[14px] font-semibold tracking-tight">
+<span class="tracking-tight text-white font-medium pl-1">9:41</span>
+<div class="flex items-center space-x-2 text-white pr-1">
+<span class="material-symbols-outlined text-[17px] leading-none" data-icon="signal_cellular_4_bar">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px] leading-none" data-icon="wifi">wifi</span>
+<span class="material-symbols-outlined text-[19px] leading-none rotate-90" data-icon="battery_full">battery_full</span>
+</div>
+</div>
+<!-- Shared TopAppBar Execution (with Back and Skip) -->
+<div class="flex justify-between items-center w-full pt-2 pb-1">
+<button aria-label="Quay lại" class="w-10 h-10 rounded-full bg-[#1A1A1D] flex items-center justify-center text-white hover:opacity-80 active:scale-95 transition-all duration-150 border border-white/5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_back_ios_new">arrow_back_ios_new</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas (Scrollable if constrained, designed snug for 844px) -->
+<section class="flex-1 flex flex-col justify-between py-2 z-10 space-y-4">
+<!-- Headline & Photo Card Section -->
+<div class="space-y-3 shrink-0">
+<div class="space-y-1">
+<h1 class="text-[30px] font-extrabold tracking-tight text-white leading-tight font-headline">
+            Tạo tài khoản
+          </h1>
+<p class="text-xs text-[#8E8E93] font-normal leading-relaxed">
+            Lưu giữ khoảnh khắc và địa điểm thân quen của bạn
+          </p>
+</div>
+<!-- Atmospheric Photo Card: Pho Co Ha Noi with category pill -->
+<div class="relative w-full h-44 rounded-[28px] overflow-hidden bg-[#1A1A1D] border border-white/5 shadow-2xl group">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" data-alt="A warm, nostalgic night view of Hanoi Old Quarter featuring charming vintage French-colonial balconies, glowing yellow and red silk lanterns hanging over a bustling street corner shop, wet asphalt reflecting gentle city lights, ambient deep shadows and rich amber tones under a dark starry sky, authentic Vietnamese atmosphere, cinematic photography with high detail and soft contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqxm9G_mlqhuyENBp7XuTdgQjwHF_tQZc1Hz5kod-atZ1x8AKav_OliL-yjM5V7hgTNNHFwDuEhm8IDVBWa_eJav6v3LCJHaetzbdfAz5YXtFTa5CodcFpXEmUpAEUB4kJnFtCNrII0GwH9hX1NyAN9gSxEnX6J0cKt2ZH0maWh0jKeu_IJwLdtKmbW5iBlln55H26wueTxTVHSExvcl8vMUP1v_ILff_WK4UzEX3eLQESOeOdUDAGjW07HOlo4CEx1ht0PAOnvw7u"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+<!-- Category Pill with Coral Dot -->
+<div class="absolute bottom-3 left-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0E0E10]/75 backdrop-blur-md border border-white/10 text-xs font-medium text-white shadow-lg">
+<span class="w-1.5 h-1.5 rounded-full bg-[#F26A3D] animate-pulse"></span>
+<span>Phố cổ Hà Nội</span>
+</div>
+</div>
+</div>
+<!-- Form Inputs Group -->
+<form class="space-y-2.5 w-full shrink-0" onsubmit="event.preventDefault();">
+<!-- Input 1: Tên hiển thị -->
+<div class="relative flex items-center">
+<input autocomplete="name" class="w-full h-13 px-5 py-3.5 rounded-full bg-[#1A1A1D] text-white placeholder-[#8E8E93] text-[15px] border border-white/[0.06] focus:border-[#F26A3D]/80 focus:outline-none focus:ring-1 focus:ring-[#F26A3D]/50 transition-all duration-200" placeholder="Tên hiển thị" type="text"/>
+</div>
+<!-- Input 2: Email -->
+<div class="relative flex items-center">
+<input autocomplete="email" class="w-full h-13 px-5 py-3.5 rounded-full bg-[#1A1A1D] text-white placeholder-[#8E8E93] text-[15px] border border-white/[0.06] focus:border-[#F26A3D]/80 focus:outline-none focus:ring-1 focus:ring-[#F26A3D]/50 transition-all duration-200" placeholder="Email" type="email"/>
+</div>
+<!-- Input 3: Mật khẩu -->
+<div class="space-y-1.5">
+<div class="relative flex items-center">
+<input autocomplete="new-password" class="w-full h-13 pl-5 pr-12 py-3.5 rounded-full bg-[#1A1A1D] text-white placeholder-[#8E8E93] text-[15px] border border-white/[0.06] focus:border-[#F26A3D]/80 focus:outline-none focus:ring-1 focus:ring-[#F26A3D]/50 transition-all duration-200" id="passwordInput" placeholder="Mật khẩu" type="password"/>
+<button aria-label="Ẩn hoặc hiện mật khẩu" class="absolute right-4 text-[#8E8E93] hover:text-white transition-colors duration-150 p-1 flex items-center justify-center active:scale-95" id="togglePassword" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility_off" id="eyeIcon">visibility_off</span>
+</button>
+</div>
+<!-- Micro-copy -->
+<div class="px-4">
+<span class="text-[11px] text-[#8E8E93] tracking-normal font-normal">Tối thiểu 8 ký tự</span>
+</div>
+</div>
+<!-- Primary Action Button: Pill bo tròn Coral -->
+<div class="pt-2">
+<button class="w-full h-13 py-3.5 rounded-full bg-[#F26A3D] text-white font-semibold text-[16px] tracking-tight hover:opacity-95 active:scale-[0.98] transition-all duration-150 flex items-center justify-center shadow-lg shadow-[#F26A3D]/20 cursor-pointer" type="submit">
+            Đăng ký
+          </button>
+</div>
+</form>
+<!-- Bottom Link: Đã có tài khoản? Đăng nhập -->
+<footer class="w-full text-center py-1 shrink-0">
+<p class="text-[13px] text-[#8E8E93]">
+          Đã có tài khoản? 
+          <a class="text-[#F26A3D] font-semibold hover:underline transition-all duration-150 ml-1 active:opacity-75" href="#">
+            Đăng nhập
+          </a>
+</p>
+</footer>
+</section>
+<!-- iOS Home Indicator -->
+<div class="w-full flex justify-center pb-2 pt-1 shrink-0 z-20">
+<div class="w-32 h-1 bg-white/30 rounded-full"></div>
+</div>
+</main>
+<!-- Interactive script for password reveal -->
+<script>
+    const toggleBtn = document.getElementById('togglePassword');
+    const pwdInput = document.getElementById('passwordInput');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (toggleBtn && pwdInput && eyeIcon) {
+      toggleBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.type === 'password';
+        pwdInput.type = isPassword ? 'text' : 'password';
+        eyeIcon.textContent = isPassword ? 'visibility' : 'visibility_off';
+        eyeIcon.setAttribute('data-icon', isPassword ? 'visibility' : 'visibility_off');
+      });
+    }
+  </script>
+</body></html>

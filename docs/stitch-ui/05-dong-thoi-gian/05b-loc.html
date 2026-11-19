@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Lọc - MyPlaces</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {},
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {},
+          fontFamily: {
+            headline: ["Inter", "sans-serif"],
+            display: ["Inter", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            label: ["Inter", "sans-serif"]
+          },
+          fontSize: {}
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      background-color: #0E0E10;
+      color: #FFFFFF;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0E0E10] text-white flex justify-center items-center min-h-screen p-0 m-0 overflow-hidden font-body antialiased selection:bg-[#F26A3D]/30">
+<!-- Mobile Screen Container 390x844 (iOS Portrait Frame simulation) -->
+<main class="relative w-full max-w-[390px] h-screen max-h-[844px] bg-[#0E0E10] overflow-hidden flex flex-col justify-between shadow-2xl">
+<!-- 1. iOS Status Bar -->
+<header class="relative z-30 flex items-center justify-between px-7 pt-3.5 pb-1 text-white select-none">
+<span class="text-sm font-semibold tracking-tight">9:41</span>
+<div class="flex items-center space-x-1.5">
+<span class="material-symbols-outlined text-[17px] leading-none">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-[17px] leading-none">wifi</span>
+<span class="material-symbols-outlined text-[19px] leading-none">battery_full</span>
+</div>
+</header>
+<!-- 2. Background View: Dòng thời gian cá nhân (Dimmed & Blurred Backdrop) -->
+<div class="absolute inset-0 z-0 flex flex-col pt-12 px-6 overflow-hidden pointer-events-none select-none filter blur-[6px] brightness-[0.38] scale-[0.98] transform transition-transform duration-300">
+<!-- Timeline Top Bar -->
+<div class="flex justify-between items-center pt-2 pb-4">
+<h1 class="font-headline text-2xl font-bold tracking-tight text-white">Dòng thời gian</h1>
+<div class="w-10 h-10 rounded-full bg-[#1A1A1D] flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">tune</span>
+</div>
+</div>
+<!-- Photo Cards in Background -->
+<div class="space-y-5 mt-2">
+<!-- Cafe Giảng Card -->
+<article class="relative w-full h-56 rounded-[28px] overflow-hidden bg-[#1A1A1D]">
+<img alt="Cafe Giảng" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrA-CynavY5qBaP2dnH2-q-HNMrmhStUgCjHVyJp5wazeDari2cC60jj8pVmZMP5ghtcnWdxptorUKws09ram9IATk3sDl-2pqz3KfvaqjzCGOuLxPsFnbCa40rujk2BU03uT7NxFhoYl7bS0exMQWiJtjSZU1qSlsmJFWbtlzofVXCY3qJOIB716nqyrp2W1Ng4AdNY1oDeBm2m71yW9kKJkqeoJo-8rQ3Sv6kF3L3wwYw4NZFsEFoazPw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+<div>
+<p class="text-white font-bold text-lg">Cafe Giảng</p>
+<p class="text-[#8E8E93] text-xs mt-0.5">39 Nguyễn Hữu Huân, Hoàn Kiếm</p>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-[#B8825A]"></span>
+</div>
+</article>
+<!-- Phở Bát Đàn Card -->
+<article class="relative w-full h-56 rounded-[28px] overflow-hidden bg-[#1A1A1D]">
+<img alt="Phở Gia Truyền Bát Đàn" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ALJJyrApwtd_qTUunETbTnHPrmj_o8Vv0VFbBEhCY8ncjnnmC98uA9U7wygrIV0xwHKLNb47U4mRSne9sLK3sLMRNofaSt1xbJyQD2udHFTPaEQ3K0DbvXrRL6-mJbeW-PYNaD6VeLGcwszxLaUr2J0SrqxE13N3ImIUCKl0N-mOgFG-xwqQHVDQLsSJ9nR4AE-VQk109toGIzQRBPMgnZe1_jT-ji3JpGZfhVj3pFP7FRtKGIj8olheh0qG-DI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+<div>
+<p class="text-white font-bold text-lg">Phở Bát Đàn</p>
+<p class="text-[#8E8E93] text-xs mt-0.5">49 Bát Đàn, Cửa Đông, Hoàn Kiếm</p>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-[#F26A3D]"></span>
+</div>
+</article>
+</div>
+</div>
+<!-- Dark Overlay Backdrop for modal dismissal tap -->
+<div class="absolute inset-0 z-10 bg-black/40 backdrop-blur-[2px]"></div>
+<!-- 3. Bottom Sheet: 'Lọc' (Modal Screen without Bottom Navigation Bar) -->
+<section class="relative z-20 mt-auto w-full bg-[#1A1A1D] rounded-t-[32px] px-6 pt-3 pb-3 flex flex-col shadow-2xl border-t border-white/5 animate-in slide-in-from-bottom duration-300">
+<!-- Drag Handle Indicator -->
+<div class="w-full flex justify-center items-center pb-2 pt-1 cursor-grab active:cursor-grabbing">
+<div class="w-10 h-1 bg-[#3A3A3C] rounded-full"></div>
+</div>
+<!-- Sheet Header -->
+<div class="flex items-center justify-between pt-1 pb-5">
+<h2 class="text-white font-bold text-xl tracking-tight">Lọc</h2>
+<button aria-label="Đóng" class="w-8 h-8 rounded-full bg-[#2C2C2E] text-[#8E8E93] hover:text-white flex items-center justify-center transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Scrollable or Fitted Content -->
+<div class="flex flex-col space-y-6 overflow-y-auto hide-scrollbar max-h-[520px]">
+<!-- SECTION 1: THỜI GIAN -->
+<div>
+<h3 class="text-xs tracking-wider uppercase font-semibold text-[#8E8E93] mb-3">THỜI GIAN</h3>
+<!-- Quick Filter Pills -->
+<div class="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-1">
+<button class="px-4 py-2 rounded-full text-xs font-medium bg-[#252528] text-[#8E8E93] hover:text-white transition-colors active:scale-95 whitespace-nowrap" type="button">
+              7 ngày
+            </button>
+<button class="px-4 py-2 rounded-full text-xs font-medium bg-[#252528] text-[#8E8E93] hover:text-white transition-colors active:scale-95 whitespace-nowrap" type="button">
+              30 ngày
+            </button>
+<!-- Active Pill -->
+<button class="px-4 py-2 rounded-full text-xs font-bold bg-[#FFFFFF] text-[#000000] shadow-sm transition-transform active:scale-95 whitespace-nowrap" type="button">
+              Năm nay
+            </button>
+<button class="px-4 py-2 rounded-full text-xs font-medium bg-[#252528] text-[#8E8E93] hover:text-white transition-colors active:scale-95 whitespace-nowrap" type="button">
+              Tùy chọn
+            </button>
+</div>
+<!-- Date Range Inputs -->
+<div class="grid grid-cols-2 gap-2.5 mt-3">
+<div class="flex items-center justify-between bg-[#121214] px-3.5 py-2.5 rounded-xl border border-white/5">
+<span class="text-xs text-white tracking-tight">Từ 01/01/2026</span>
+<span class="material-symbols-outlined text-[17px] text-[#8E8E93]">calendar_today</span>
+</div>
+<div class="flex items-center justify-between bg-[#121214] px-3.5 py-2.5 rounded-xl border border-white/5">
+<span class="text-xs text-white tracking-tight">Đến 17/11/2026</span>
+<span class="material-symbols-outlined text-[17px] text-[#8E8E93]">calendar_today</span>
+</div>
+</div>
+</div>
+<!-- SECTION 2: DANH MỤC -->
+<div>
+<h3 class="text-xs tracking-wider uppercase font-semibold text-[#8E8E93] mb-3">DANH MỤC</h3>
+<!-- Category Chips Grid -->
+<div class="flex flex-wrap gap-2.5">
+<!-- Ẩm thực -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-white text-xs font-medium hover:bg-[#2C2C30] transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F26A3D] shrink-0"></span>
+<span>Ẩm thực</span>
+</button>
+<!-- Cà phê (Selected) -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#2A2A2E] text-white text-xs font-semibold ring-1 ring-white/30 shadow-sm transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#B8825A] shrink-0"></span>
+<span>Cà phê</span>
+<span class="material-symbols-outlined text-[14px] text-white font-bold ml-0.5">check</span>
+</button>
+<!-- Du lịch -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-[#8E8E93] hover:text-white text-xs font-medium transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#4DB6E6] shrink-0"></span>
+<span>Du lịch</span>
+</button>
+<!-- Khách sạn -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-[#8E8E93] hover:text-white text-xs font-medium transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#9B87E8] shrink-0"></span>
+<span>Khách sạn</span>
+</button>
+<!-- Mua sắm -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-[#8E8E93] hover:text-white text-xs font-medium transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F06FA3] shrink-0"></span>
+<span>Mua sắm</span>
+</button>
+<!-- Giải trí -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-[#8E8E93] hover:text-white text-xs font-medium transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#F5C04A] shrink-0"></span>
+<span>Giải trí</span>
+</button>
+<!-- Khác -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#252528] text-[#8E8E93] hover:text-white text-xs font-medium transition active:scale-95" type="button">
+<span class="w-2 h-2 rounded-full bg-[#8E98A3] shrink-0"></span>
+<span>Khác</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Action Footer -->
+<footer class="pt-6 pb-2 flex items-center justify-between">
+<button class="text-sm font-medium text-[#8E8E93] hover:text-white px-2 py-2 transition-colors active:opacity-70" type="button">
+          Đặt lại
+        </button>
+<button class="bg-[#F26A3D] text-white font-semibold text-sm px-8 py-3.5 rounded-full shadow-lg shadow-[#F26A3D]/25 hover:opacity-95 active:scale-95 transition-all" type="button">
+          Áp dụng
+        </button>
+</footer>
+<!-- iOS Home Indicator -->
+<div class="w-full flex justify-center pt-3 pb-1 select-none">
+<div class="w-32 h-1 bg-[#666666] rounded-full"></div>
+</div>
+</section>
+</main>
+</body></html>
