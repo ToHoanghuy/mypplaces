@@ -5,8 +5,8 @@ import XCTest
 class MPUITestCase: XCTestCase {
     var app: XCUIApplication!
     var env: [String: String] { ProcessInfo.processInfo.environment }
-    var emailA: String { env["QA_EMAIL"] ?? "myplaces.qa+1@example.com" }
-    var emailB: String { env["QA_EMAIL_B"] ?? "myplaces.qa+2@example.com" }
+    var emailA: String { env["QA_EMAIL"] ?? "myplaces.qa+1@mailinator.com" }
+    var emailB: String { env["QA_EMAIL_B"] ?? "myplaces.qa+2@mailinator.com" }
     var password: String { env["QA_PASSWORD"] ?? "" }
 
     override func setUp() {
@@ -72,6 +72,14 @@ class MPUITestCase: XCTestCase {
             e.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
         }
         e.typeText(value)
+    }
+
+    /// SecureField typing drops characters on the iOS 26 simulator: reveal, type into the plain field, then hide again.
+    func typeSecret(_ id: String, _ value: String) {
+        tap("\(id).reveal")
+        usleep(300_000)
+        type(id, value)
+        tap("\(id).reveal")
     }
 
     func waitGone(_ e: XCUIElement, _ t: TimeInterval = 15) {

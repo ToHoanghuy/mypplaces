@@ -113,7 +113,7 @@ struct SignInView: View {
                         Spacer()
                         Button("Quên mật khẩu?") { path.append(.forgot) }.font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
                     }
-                    if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger).frame(maxWidth: .infinity, alignment: .leading) }
+                    if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger).frame(maxWidth: .infinity, alignment: .leading).accessibilityIdentifier("auth.error") }
                     PrimaryButton(title: "Đăng nhập", isLoading: loading, isEnabled: valid) { submit() }
                         .padding(.top, 6).accessibilityIdentifier("signin.submit")
                     HStack(spacing: 4) {
@@ -164,11 +164,11 @@ struct SignUpView: View {
                     InputField(placeholder: "Mật khẩu", text: $password, secure: true, contentType: .newPassword, identifier: "signup.password")
                     Text("Tối thiểu 8 ký tự").font(.system(size: 11)).foregroundStyle(password.isEmpty || password.count >= 8 ? Theme.textSecondary : Theme.danger)
                         .padding(.leading, 12)
-                    if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger) }
+                    if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger).accessibilityIdentifier("auth.error") }
                     if confirmSent {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "envelope").foregroundStyle(Theme.accent)
-                            Text("Đã gửi email xác nhận tới \(email). Hãy mở liên kết trong email rồi đăng nhập.")
+                            Text("Đã gửi email xác nhận tới \(email). Hãy mở liên kết trong email rồi đăng nhập.").accessibilityIdentifier("signup.confirmSent")
                                 .font(.system(size: 13)).foregroundStyle(.white)
                         }
                         .padding(14).background(Theme.surface, in: RoundedRectangle(cornerRadius: 18))

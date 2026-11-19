@@ -224,6 +224,8 @@ struct InputField: View {
                 Button { reveal.toggle() } label: {
                     Image(systemName: reveal ? "eye" : "eye.slash").foregroundStyle(Theme.textSecondary)
                 }.buttonStyle(.plain)
+                .accessibilityLabel(reveal ? "Ẩn mật khẩu" : "Hiện mật khẩu")
+                .accessibilityIdentifier("\(identifier ?? placeholder).reveal")
             }
             if let trailing { trailing }
         }
