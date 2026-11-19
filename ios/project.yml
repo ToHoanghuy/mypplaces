@@ -1,6 +1,6 @@
 name: MyPlaces
 options:
-  bundleIdPrefix: com.mypplaces
+  bundleIdPrefix: com.huyto
   deploymentTarget:
     iOS: "17.0"
   xcodeVersion: "15.0"
@@ -20,10 +20,16 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: MyPlaces
+    configFiles:
+      Debug: Config.xcconfig
+      Release: Config.xcconfig
     settings:
       base:
         DEVELOPMENT_TEAM: ""
-        PRODUCT_BUNDLE_IDENTIFIER: com.mypplaces.MyPlaces
+        GENERATE_INFOPLIST_FILE: YES
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        PRODUCT_BUNDLE_IDENTIFIER: com.huyto.MyPlaces
         INFOPLIST_FILE: MyPlaces/Info.plist
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
@@ -31,17 +37,18 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         ENABLE_PREVIEWS: YES
-      configs:
-        Debug:
-          SUPABASE_CONFIG_PATH: $(SRCROOT)/Config.xcconfig
-        Release:
-          SUPABASE_CONFIG_PATH: $(SRCROOT)/Config.xcconfig
+        INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "MyPlaces dùng vị trí của bạn để hiển thị bản đồ và check-in tại nơi bạn đang đứng."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "MyPlaces dùng ảnh bạn chọn để lưu kỷ niệm cho lần ghé, địa điểm và nhật ký."
+        INFOPLIST_KEY_NSCameraUsageDescription: "MyPlaces dùng camera để chụp ảnh kỷ niệm."
+        INFOPLIST_KEY_CFBundleDisplayName: MyPlaces
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: ""
     dependencies:
       - package: Supabase
         product: Supabase
     scheme:
       testTargets:
         - MyPlacesTests
+        - MyPlacesUITests
       gatherCoverageData: true
 
   MyPlacesTests:
@@ -52,8 +59,22 @@ targets:
     dependencies:
       - target: MyPlaces
     settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.huyto.MyPlacesTests
       BUNDLE_LOADER: $(TEST_HOST)
       TEST_HOST: $(BUILT_PRODUCTS_DIR)/MyPlaces.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MyPlaces
+
+  MyPlacesUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: MyPlacesUITests
+    dependencies:
+      - target: MyPlaces
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.huyto.MyPlacesUITests
+      TEST_TARGET_NAME: MyPlaces
 
 packages:
   Supabase:

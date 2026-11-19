@@ -77,3 +77,6 @@ Carthage/Build/
 *.key
 secrets/
 credentials/
+
+# Local build/scratch
+.build-tmp/

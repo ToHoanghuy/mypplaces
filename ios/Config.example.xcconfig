@@ -7,4 +7,4 @@
 //
 
 SUPABASE_URL = https:/$()/ektlcjoxnjlyiyzzzjob.supabase.co
-SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrdGxjam94bmpseWl5enpqb2IiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTczMTY2NjEyMCwiZXhwIjoyMDQ3MjQyMTIwfQ.placeholder_for_actual_key
+SUPABASE_ANON_KEY = sb_publishable_your_key_here
