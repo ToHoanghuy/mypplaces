@@ -16,7 +16,7 @@ class MPUITestCase: XCTestCase {
     @discardableResult
     func launch(signedInAs email: String?, open: String? = nil, args: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = ["-QAStubPhotos", "-QANoAutofill"] + args
+        app.launchArguments = ["-QAStubPhotos", "-QANoAutofill", "-AppleLanguages", "(vi)", "-AppleLocale", "vi_VN"] + args
         if let email {
             app.launchEnvironment["QA_EMAIL"] = email
             app.launchEnvironment["QA_PASSWORD"] = password
@@ -64,9 +64,27 @@ class MPUITestCase: XCTestCase {
         while !e.isHittable && Date() < end { usleep(200_000) }
     }
 
+    func field(_ id: String) -> XCUIElement {
+        let tf = app.textFields[id].firstMatch
+        if tf.exists { return tf }
+        let sf = app.secureTextFields[id].firstMatch
+        if sf.exists { return sf }
+        let tv = app.textViews[id].firstMatch
+        if tv.exists { return tv }
+        return el(id)
+    }
+
     func type(_ id: String, _ value: String, clear: Bool = false) {
-        let e = el(id)
-        wait(e); press(e)
+        _ = el(id).waitForExistence(timeout: 15)
+        let e = field(id)
+        wait(e)
+        revealAboveKeyboard(e)
+        if clear {
+            // Put the caret at the end so the deletes remove the whole value.
+            e.coordinate(withNormalizedOffset: CGVector(dx: 0.97, dy: 0.5)).tap()
+        } else {
+            press(e)
+        }
         usleep(400_000)
         if clear, let current = e.value as? String, !current.isEmpty {
             e.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count + 2))
@@ -80,6 +98,17 @@ class MPUITestCase: XCTestCase {
         usleep(300_000)
         type(id, value)
         tap("\(id).reveal")
+    }
+
+    /// Scroll a field out from under the keyboard (coordinate taps would otherwise land on keys).
+    func revealAboveKeyboard(_ e: XCUIElement) {
+        for _ in 0..<4 {
+            let kb = app.keyboards.firstMatch
+            guard kb.exists, e.frame.maxY > kb.frame.minY - 8 else { return }
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.45))
+            start.press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.15)))
+            usleep(400_000)
+        }
     }
 
     func waitGone(_ e: XCUIElement, _ t: TimeInterval = 15) {

@@ -49,7 +49,7 @@ struct MapScreen: View {
                     CircleIconButton(systemName: "location", size: 40, background: Theme.surface.opacity(0.92)) { centerOnUser() }
                         .accessibilityIdentifier("map.locate")
                     if !store.places.isEmpty {
-                        Button { addSeed = PlaceSeed(coordinate: region?.center ?? MapClustering.hanoi.center) } label: {
+                        Button { addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: false)) } label: {
                             Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(.white)
                                 .frame(width: 56, height: 56).background(Theme.accent, in: Circle())
                                 .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
@@ -60,7 +60,7 @@ struct MapScreen: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, 16)
-                .padding(.bottom, selectedPlace == nil ? 96 : 190)
+                .padding(.bottom, (store.hasLoaded && store.places.isEmpty) ? 330 : (selectedPlace == nil ? 96 : 190))
 
                 VStack {
                     Spacer()
@@ -142,6 +142,13 @@ struct MapScreen: View {
         }
     }
 
+    /// Where a new place starts: the visible map centre when zoomed in to street level, else the user, else Hà Nội.
+    private func seedCoordinate(preferUser: Bool) -> CLLocationCoordinate2D {
+        let user = LocationService.shared.lastLocation?.coordinate
+        if let r = region, r.span.latitudeDelta < 0.5, !(preferUser && user != nil) { return r.center }
+        return user ?? MapClustering.hanoi.center
+    }
+
     private func centerOnUser() {
         LocationService.shared.requestWhenInUse()
         withAnimation { position = .userLocation(fallback: .region(region ?? MapClustering.hanoi)) }
@@ -163,7 +170,7 @@ struct MapScreen: View {
             Text("Chưa có nơi nào").font(.system(size: 19, weight: .bold)).foregroundStyle(.white).padding(.top, 4)
             Text("Lưu nơi đầu tiên để thấy nó trên bản đồ").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
             PrimaryButton(title: "Thêm địa điểm", icon: "plus") {
-                addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? region?.center ?? MapClustering.hanoi.center)
+                addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: true))
             }
             .padding(.top, 14)
             .accessibilityIdentifier("map.empty.add")

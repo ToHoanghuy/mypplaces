@@ -98,6 +98,7 @@ struct PlaceSearchView: View {
                                 }
                             }
                             .listRowBackground(Theme.background)
+                            .accessibilityIdentifier("search.own")
                         }
                     } header: { sectionTitle("Địa điểm của bạn") }
                 }
@@ -120,6 +121,7 @@ struct PlaceSearchView: View {
                                 }
                             }
                             .listRowBackground(Theme.background)
+                            .accessibilityIdentifier("search.result")
                         }
                     } header: { sectionTitle("Trên bản đồ") }
                 }

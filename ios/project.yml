@@ -1,6 +1,7 @@
 name: MyPlaces
 options:
   bundleIdPrefix: com.huyto
+  developmentLanguage: vi
   deploymentTarget:
     iOS: "17.0"
   xcodeVersion: "15.0"
@@ -41,6 +42,7 @@ targets:
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "MyPlaces dùng ảnh bạn chọn để lưu kỷ niệm cho lần ghé, địa điểm và nhật ký."
         INFOPLIST_KEY_NSCameraUsageDescription: "MyPlaces dùng camera để chụp ảnh kỷ niệm."
         INFOPLIST_KEY_CFBundleDisplayName: MyPlaces
+        INFOPLIST_KEY_CFBundleDevelopmentRegion: vi
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: ""
     dependencies:
       - package: Supabase
