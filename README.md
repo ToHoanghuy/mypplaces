@@ -330,7 +330,10 @@ supabase/
 │   ├── 20261117000001_map_places_view.sql
 │   ├── 20261117000002_timeline_and_companion_rpcs.sql
 │   ├── 20261117000003_invitation_ttl_options.sql
-│   └── 20261117000004_companion_suggestions_invoker.sql
+│   ├── 20261117000004_companion_suggestions_invoker.sql
+│   ├── 20261120000001_poi_overture_fallback.sql      # bảng POI Overture (chỉ đọc) + search_pois()
+│   ├── 20261120000002_search_pois_coverage.sql       # xếp hạng: thêm độ phủ từ khoá
+│   └── 20261120000003_search_pois_short_query_guard.sql  # chặn truy vấn ngắn/chung chung quá chậm
 └── tests/database/                  # pgTAP (supabase test db)
     ├── 00000_test_helpers.test.sql  # schema `tests` + helper (PHẢI chạy đầu tiên)
     ├── 01_schema_hardening.test.sql
@@ -339,7 +342,8 @@ supabase/
     ├── 04_journals_projection.test.sql
     ├── 05_invitations_membership.test.sql
     ├── 06_storage.test.sql
-    └── 07_ui_v1_1_support.test.sql   # v1.2: map_places, my_timeline, companions, TTL (61 assertion)
+    ├── 07_ui_v1_1_support.test.sql   # v1.2: map_places, my_timeline, companions, TTL (61 assertion)
+    └── 08_poi_overture_search.test.sql  # tìm kiếm dự phòng Overture: RLS, chuẩn hoá, xếp hạng, giới hạn (31 assertion)
 local-validation/                    # chỉ để kiểm thử trên PostgreSQL thuần (không dùng cho Supabase thật)
 ├── stub_supabase.sql                # stub roles anon/authenticated/service_role, auth.*, storage.*
 └── run.sh                           # DB mới → stub → migrations → tests → tổng kết
@@ -496,3 +500,12 @@ từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub nà
   Test 01–07 chạy trong transaction rồi rollback: 36 + 80 + 54 + 69 + 112 + 45 + 61 = **457/457 pass**; không để lại dữ liệu.
 * Advisor: security – chỉ thêm `authenticated_security_definer_function_executable` cho `my_timeline` (có chủ đích, như 14 RPC hiện có) và `auth_leaked_password_protection` (cài đặt Auth trên dashboard); performance – chỉ INFO `unused_index`.
 * App: bản đồ `from('map_places').select()`; Dòng thời gian `rpc('my_timeline', {p_from, p_to, p_category, p_visit_id, p_limit})`; chọn người đi cùng `rpc('list_companion_suggestions', {p_query, p_limit})` rồi insert `visit_participants`.
+
+## 8. Tìm kiếm dự phòng Overture Maps (20/11/2026)
+
+* Bảng `public.poi_overture` (422.329 POI Việt Nam, release `2026-11-18.0`), `public.poi_overture_imports` (nhật ký import). RLS bật, `authenticated` chỉ `SELECT`, `anon` không có quyền; client không ghi được.
+* RPC `public.search_pois(q, lat, lng, max_results)` – SECURITY INVOKER, `search_path` rỗng, chỉ `authenticated` được gọi. Bỏ dấu (`unaccent` + Đ→d), `pg_trgm` (GIN trên tên + địa chỉ), GiST trên `point(longitude, latitude)`; q cắt 100 ký tự, cần ≥ 3 ký tự sau chuẩn hoá, kết quả 1–20 (mặc định 10), truy vấn < 6 ký tự có vị trí chỉ tìm trong ~28 km, tối đa 10.000 ứng viên trước khi chấm điểm.
+* Dung lượng: bảng ~174 MB (heap 92 + trigram 38 + GiST 27 + PK ~17), cả DB 190 MB / 500 MB (gói Free).
+* Local (PostgreSQL 17.11 + pgTAP): 17 migration áp dụng sạch, **491 assertion / 9 file, 0 lỗi**. Supabase thật: 3 migration áp dụng bằng `apply_migration`; test 08 không chạy trên DB thật vì kiểm số dòng của fixture (bảng thật đã có dữ liệu).
+* Cách import / làm mới hằng tháng và giấy phép: `scripts/overture/README.md`.
+

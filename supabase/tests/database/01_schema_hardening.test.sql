@@ -6,7 +6,7 @@ select tests.seed_users();
 select tables_are('public', array[
   'audit_log','invitations','journal_members','journal_places','journal_visits','journals',
   'memories','memory_attachments','place_members','places','profiles','visit_members',
-  'visit_participants','visits'], 'public schema contains exactly the expected tables');
+  'poi_overture','poi_overture_imports','visit_participants','visits'], 'public schema contains exactly the expected tables');
 
 select is((select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace
             where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity),
