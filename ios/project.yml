@@ -26,7 +26,7 @@ targets:
       Release: Config.xcconfig
     settings:
       base:
-        DEVELOPMENT_TEAM: ""
+        DEVELOPMENT_TEAM: HT3WSSFBZC
         GENERATE_INFOPLIST_FILE: YES
         MARKETING_VERSION: "0.1.0"
         CURRENT_PROJECT_VERSION: "1"
