@@ -24,21 +24,7 @@ struct CreateJournalView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     PhotoPickButton(maxCount: 1, onPicked: { cover = $0.first }) {
-                        ZStack {
-                            if let cover, let img = UIImage(data: cover.data) {
-                                Image(uiImage: img).resizable().scaledToFill().frame(height: 210).clipped()
-                            } else {
-                                RoundedRectangle(cornerRadius: 26, style: .continuous)
-                                    .stroke(style: StrokeStyle(lineWidth: 1.2, dash: [6])).foregroundStyle(Theme.textTertiary)
-                                VStack(spacing: 10) {
-                                    Image(systemName: "photo.badge.plus").font(.system(size: 18)).foregroundStyle(Theme.textSecondary)
-                                        .frame(width: 44, height: 44).background(Theme.surfaceHigh, in: Circle())
-                                    Text("Thêm ảnh bìa").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
-                                }
-                            }
-                        }
-                        .frame(height: 210).frame(maxWidth: .infinity)
-                        .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+                        coverArea
                     }
                     .accessibilityIdentifier("journal.cover")
 
@@ -82,6 +68,27 @@ struct CreateJournalView: View {
             .padding(20)
             .presentationDetents([.medium])
             .presentationBackground(Theme.surface)
+        }
+    }
+
+    @ViewBuilder private var coverArea: some View {
+        if let cover, let img = UIImage(data: cover.data) {
+            Color.clear
+                .frame(maxWidth: .infinity).frame(height: 210)
+                .overlay { Image(uiImage: img).resizable().scaledToFill() }
+                .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
+        } else {
+            VStack(spacing: 10) {
+                Image(systemName: "photo.badge.plus").font(.system(size: 18)).foregroundStyle(Theme.textSecondary)
+                    .frame(width: 44, height: 44).background(Theme.surfaceHigh, in: Circle())
+                Text("Thêm ảnh bìa").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+            }
+            .frame(maxWidth: .infinity).frame(height: 210)
+            .background {
+                RoundedRectangle(cornerRadius: 26, style: .continuous)
+                    .strokeBorder(Theme.textTertiary, style: StrokeStyle(lineWidth: 1.2, dash: [6]))
+            }
+            .contentShape(Rectangle())
         }
     }
 
