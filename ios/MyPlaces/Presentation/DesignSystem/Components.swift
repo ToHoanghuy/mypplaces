@@ -425,8 +425,14 @@ struct ToastModifier: ViewModifier {
 extension View {
     func toast(_ message: Binding<String?>) -> some View { modifier(ToastModifier(message: message)) }
 
+    /// Screen fill; tapping empty background also dismisses the keyboard (multi-line fields have no return-to-dismiss).
     func screenBackground() -> some View {
-        self.background(Theme.background.ignoresSafeArea())
+        self.background(
+            Theme.background.ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
+        )
     }
 }
 

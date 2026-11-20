@@ -27,7 +27,8 @@ class MPUITestCase: XCTestCase {
         return app
     }
 
-    func shot(_ name: String) {
+    func shot(_ name: String, keepKeyboard: Bool = false) {
+        if !keepKeyboard, app != nil { hideKeyboard() }
         sleep(1)
         let png = XCUIScreen.main.screenshot().pngRepresentation
         let att = XCTAttachment(data: png, uniformTypeIdentifier: "public.png")
@@ -56,6 +57,7 @@ class MPUITestCase: XCTestCase {
 
     /// Coordinate tap: SwiftUI fields inside ScrollViews often report "not hittable" on iOS 26 even when visible.
     func press(_ e: XCUIElement) {
+        if !e.isHittable { revealAboveKeyboard(e) }
         if e.isHittable { e.tap() } else { e.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
     }
 
@@ -109,6 +111,13 @@ class MPUITestCase: XCTestCase {
             start.press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.15)))
             usleep(400_000)
         }
+    }
+
+    /// Tap an empty strip of background near the top (modal title row) to drop the keyboard before a screenshot.
+    func hideKeyboard() {
+        guard app.keyboards.firstMatch.exists else { return }
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.115)).tap()
+        usleep(500_000)
     }
 
     func waitGone(_ e: XCUIElement, _ t: TimeInterval = 15) {

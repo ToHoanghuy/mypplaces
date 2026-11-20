@@ -47,7 +47,7 @@ final class B02MapPlacesUITests: MPUITestCase {
         type("search.field", query)
         let first = el("search.result")
         wait(first, 20)
-        if let shotName { shot(shotName) }
+        if let shotName { shot(shotName, keepKeyboard: true) }
         press(first)
         wait(el("addplace.title"), 15)
         sleep(2)
