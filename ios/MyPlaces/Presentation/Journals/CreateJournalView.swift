@@ -29,10 +29,10 @@ struct CreateJournalView: View {
                     .accessibilityIdentifier("journal.cover")
 
                     TextField("", text: $title, prompt: Text("Tiêu đề nhật ký").foregroundColor(Theme.textTertiary))
-                        .font(.system(size: 26, weight: .bold)).foregroundStyle(.white).tint(Theme.accent)
+                        .font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                         .accessibilityIdentifier("journal.title")
                     TextField("", text: $description, prompt: Text("Mô tả (tùy chọn)").foregroundColor(Theme.textTertiary), axis: .vertical)
-                        .font(.system(size: 15)).foregroundStyle(.white).tint(Theme.accent).lineLimit(1...5)
+                        .font(.system(size: 15)).foregroundStyle(Theme.textPrimary).tint(Theme.accent).lineLimit(1...5)
 
                     HStack(spacing: 10) {
                         datePill(icon: "calendar", text: start.map { "Từ \(VNFormat.numeric($0))" } ?? "Từ ngày") { editing = .start }
@@ -95,7 +95,7 @@ struct CreateJournalView: View {
     private func datePill(icon: String, text: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 8) { Image(systemName: icon).font(.system(size: 12)); Text(text).font(.system(size: 13)) }
-                .foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 44)
+                .foregroundStyle(Theme.textPrimary).frame(maxWidth: .infinity).frame(height: 44)
                 .background(Theme.surface, in: RoundedRectangle(cornerRadius: 14))
         }.buttonStyle(.plain)
     }

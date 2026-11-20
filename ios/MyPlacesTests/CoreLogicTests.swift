@@ -124,3 +124,48 @@ final class ClusteringTests: XCTestCase {
         XCTAssertGreaterThan(r.span.longitudeDelta, 0.2)
     }
 }
+
+final class ThemeScheduleTests: XCTestCase {
+    private let L = 6 * 60, D = 18 * 60
+    private var cal: Calendar { var c = Calendar(identifier: .gregorian); c.timeZone = TimeZone(identifier: "Asia/Ho_Chi_Minh")!; return c }
+    private func at(_ h: Int, _ m: Int) -> Date {
+        cal.date(from: DateComponents(year: 2026, month: 11, day: 20, hour: h, minute: m))!
+    }
+
+    func testAutoBoundaries() {
+        XCTAssertFalse(ThemeSchedule.isLight(minuteOfDay: 5 * 60 + 59, lightStart: L, darkStart: D))
+        XCTAssertTrue(ThemeSchedule.isLight(minuteOfDay: 6 * 60, lightStart: L, darkStart: D))
+        XCTAssertTrue(ThemeSchedule.isLight(minuteOfDay: 17 * 60 + 59, lightStart: L, darkStart: D))
+        XCTAssertFalse(ThemeSchedule.isLight(minuteOfDay: 18 * 60, lightStart: L, darkStart: D))
+        XCTAssertFalse(ThemeSchedule.isLight(minuteOfDay: 0, lightStart: L, darkStart: D))
+    }
+
+    func testWrapAroundMidnight() {
+        // light from 20:00 to 02:00 (odd but allowed)
+        XCTAssertTrue(ThemeSchedule.isLight(minuteOfDay: 23 * 60, lightStart: 20 * 60, darkStart: 2 * 60))
+        XCTAssertTrue(ThemeSchedule.isLight(minuteOfDay: 60, lightStart: 20 * 60, darkStart: 2 * 60))
+        XCTAssertFalse(ThemeSchedule.isLight(minuteOfDay: 12 * 60, lightStart: 20 * 60, darkStart: 2 * 60))
+        XCTAssertTrue(ThemeSchedule.isLight(minuteOfDay: 3 * 60, lightStart: 7 * 60, darkStart: 7 * 60))
+    }
+
+    func testSchemeByMode() {
+        XCTAssertEqual(ThemeSchedule.scheme(mode: .light, now: at(23, 0), lightStart: L, darkStart: D, calendar: cal), .light)
+        XCTAssertEqual(ThemeSchedule.scheme(mode: .dark, now: at(12, 0), lightStart: L, darkStart: D, calendar: cal), .dark)
+        XCTAssertEqual(ThemeSchedule.scheme(mode: .auto, now: at(12, 0), lightStart: L, darkStart: D, calendar: cal), .light)
+        XCTAssertEqual(ThemeSchedule.scheme(mode: .auto, now: at(18, 0), lightStart: L, darkStart: D, calendar: cal), .dark)
+        XCTAssertEqual(ThemeSchedule.scheme(mode: .auto, now: at(5, 30), lightStart: L, darkStart: D, calendar: cal), .dark)
+    }
+
+    func testNextBoundary() {
+        XCTAssertEqual(ThemeSchedule.nextBoundary(after: at(12, 0), lightStart: L, darkStart: D, calendar: cal), at(18, 0))
+        XCTAssertEqual(ThemeSchedule.nextBoundary(after: at(3, 0), lightStart: L, darkStart: D, calendar: cal), at(6, 0))
+        XCTAssertEqual(ThemeSchedule.nextBoundary(after: at(18, 0), lightStart: L, darkStart: D, calendar: cal),
+                       cal.date(byAdding: .day, value: 1, to: at(6, 0)))
+        XCTAssertNil(ThemeSchedule.nextBoundary(after: at(12, 0), lightStart: L, darkStart: L, calendar: cal))
+    }
+
+    func testModeTitlesVietnamese() {
+        XCTAssertEqual(AppearanceMode.allCases.map(\.title), ["Tự động theo giờ", "Sáng", "Tối"])
+        XCTAssertEqual(ThemeSchedule.label(6 * 60), "06:00")
+    }
+}

@@ -130,7 +130,7 @@ struct JournalDetailView: View {
                     EmptyStateView(icon: "book.closed", title: "Không tìm thấy nhật ký", message: "Nhật ký đã bị xóa hoặc bạn không còn là thành viên.")
                     Spacer()
                 }
-            } else { ProgressView().tint(.white) }
+            } else { ProgressView().tint(Theme.textPrimary) }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .screenBackground()
@@ -174,7 +174,7 @@ struct JournalDetailView: View {
                 Button(role: .destructive) { confirmLeave = true } label: { Label("Rời nhật ký", systemImage: "rectangle.portrait.and.arrow.right") }
             }
         } label: {
-            Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+            Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.onAccent)
                 .frame(width: 36, height: 36).background(Color.black.opacity(0.45), in: Circle())
         }
         .accessibilityIdentifier("journal.more")
@@ -185,7 +185,7 @@ struct JournalDetailView: View {
             ForEach(Array(["Dòng thời gian", "Bản đồ"].enumerated()), id: \.offset) { i, t in
                 Button { withAnimation(.easeInOut(duration: 0.2)) { tab = i } } label: {
                     Text(t).font(.system(size: 13, weight: tab == i ? .semibold : .regular))
-                        .foregroundStyle(tab == i ? .white : Theme.textSecondary)
+                        .foregroundStyle(tab == i ? Theme.textPrimary : Theme.textSecondary)
                         .frame(maxWidth: .infinity).frame(height: 34)
                         .background(tab == i ? Theme.surfaceHigh : .clear, in: Capsule())
                 }
@@ -211,14 +211,14 @@ struct JournalDetailView: View {
                                 if !model.members.isEmpty { Text("·"); Image(systemName: "person.2") }
                                 if j.isArchived { Text("· Đã lưu trữ") }
                             }
-                            .font(.system(size: 12)).foregroundStyle(.white.opacity(0.75))
-                            Text(j.title).font(.system(size: 28, weight: .bold)).foregroundStyle(.white)
+                            .font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.75))
+                            Text(j.title).font(.system(size: 28, weight: .bold)).foregroundStyle(Theme.textPrimary)
                                 .accessibilityIdentifier("journal.title.label")
                             HStack(spacing: 6) {
                                 AvatarStack(names: model.allPeople, size: 24, max: 4)
                                 if model.role == .owner && !j.isArchived {
                                     Button { shareTarget = target } label: {
-                                        Image(systemName: "plus").font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+                                        Image(systemName: "plus").font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.textPrimary)
                                             .frame(width: 24, height: 24).overlay(Circle().stroke(Theme.border))
                                     }.buttonStyle(.plain)
                                     .accessibilityIdentifier("journal.invite")
@@ -248,7 +248,7 @@ struct JournalDetailView: View {
 
                     if !model.memories.isEmpty || model.role.canContribute {
                         HStack {
-                            Text("Kỷ niệm & ghi chú").font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                            Text("Kỷ niệm & ghi chú").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                             Spacer()
                             if model.role.canContribute && !j.isArchived {
                                 Button { showAddMemory = true } label: { Image(systemName: "plus").foregroundStyle(Theme.textSecondary) }
@@ -261,10 +261,10 @@ struct JournalDetailView: View {
                                 Avatar(name: m.author?.displayName ?? "?", size: 28)
                                 VStack(alignment: .leading, spacing: 3) {
                                     HStack(spacing: 6) {
-                                        Text(m.authorId == MyPlacesAPI.shared.userID ? "Bạn" : (m.author?.displayName ?? "")).font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
+                                        Text(m.authorId == MyPlacesAPI.shared.userID ? "Bạn" : (m.author?.displayName ?? "")).font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                                         Text(VNFormat.relative(m.createdAt)).font(.mpCaption).foregroundStyle(Theme.textSecondary)
                                     }
-                                    if let b = m.body { Text(b).font(.system(size: 14)).foregroundStyle(.white.opacity(0.9)) }
+                                    if let b = m.body { Text(b).font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9)) }
                                     if let a = m.attachments.first {
                                         StorageImage(path: a.storagePath).frame(height: 160).clipShape(RoundedRectangle(cornerRadius: 14))
                                     }
@@ -280,7 +280,7 @@ struct JournalDetailView: View {
 
             if model.role.canContribute && !j.isArchived {
                 Button { showAdd = true } label: {
-                    Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(.white)
+                    Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(Theme.onAccent)
                         .frame(width: 56, height: 56).background(Theme.accent, in: Circle())
                         .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
                 }
@@ -302,7 +302,7 @@ struct JournalDetailView: View {
             HStack(spacing: 12) {
                 PlaceThumb(path: own?.coverStoragePath, category: row.category, size: 48, corner: 12)
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 6) { CategoryDot(category: row.category); Text(row.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(.white) }
+                    HStack(spacing: 6) { CategoryDot(category: row.category); Text(row.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary) }
                     HStack(spacing: 6) {
                         Text(row.subtitle)
                         Text("•")
@@ -335,11 +335,11 @@ struct JournalDetailView: View {
                         VStack(spacing: 4) {
                             ZStack(alignment: .topLeading) {
                                 PlaceThumb(path: PlacesStore.shared.place(stop.placeId)?.coverStoragePath, category: stop.category, size: 40, corner: 20)
-                                    .overlay(Circle().stroke(.white, lineWidth: 2))
+                                    .overlay(Circle().stroke(Theme.onAccent, lineWidth: 2))
                                 Text("\(i + 1)").font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.background)
-                                    .frame(width: 18, height: 18).background(.white, in: Circle()).offset(x: -6, y: -6)
+                                    .frame(width: 18, height: 18).background(Theme.textPrimary, in: Circle()).offset(x: -6, y: -6)
                             }
-                            Text(stop.title).font(.system(size: 10, weight: .medium)).foregroundStyle(.white)
+                            Text(stop.title).font(.system(size: 10, weight: .medium)).foregroundStyle(Theme.onAccent)
                                 .padding(.horizontal, 6).padding(.vertical, 2).background(.black.opacity(0.6), in: Capsule())
                         }
                     }
@@ -354,7 +354,7 @@ struct JournalDetailView: View {
                     CircleIconButton(systemName: "chevron.left") { dismiss() }
                     Spacer()
                     VStack(spacing: 2) {
-                        Text(j.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white)
+                        Text(j.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                         Text("\(j.dateRange ?? "") · \(stops.count) địa điểm").font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
                     }
                     Spacer()
@@ -369,7 +369,7 @@ struct JournalDetailView: View {
                                 PlaceThumb(path: PlacesStore.shared.place(stop.placeId)?.coverStoragePath, category: stop.category, size: 52, corner: 12)
                                 VStack(alignment: .leading, spacing: 2) {
                                     HStack(spacing: 4) { CategoryDot(category: stop.category); Text(stop.category.displayName).font(.system(size: 11)).foregroundStyle(Theme.textSecondary) }
-                                    Text(stop.title).font(.system(size: 14, weight: .semibold)).foregroundStyle(.white).lineLimit(1)
+                                    Text(stop.title).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                                     Text(stop.dateLine).font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
                                 }
                             }

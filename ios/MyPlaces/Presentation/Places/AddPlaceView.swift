@@ -48,7 +48,7 @@ struct AddPlaceView: View {
 
             VStack {
                 HStack(spacing: 12) {
-                    Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(.white)
+                    Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
                     Button { showSearch = true } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
@@ -86,7 +86,7 @@ struct AddPlaceView: View {
     private var centerPin: some View {
         VStack(spacing: 0) {
             Circle().fill(Theme.accent).frame(width: 34, height: 34)
-                .overlay(Circle().fill(.white).frame(width: 10, height: 10))
+                .overlay(Circle().fill(Theme.onAccent).frame(width: 10, height: 10))
                 .shadow(color: Theme.accent.opacity(0.5), radius: 10)
             Rectangle().fill(Theme.accent).frame(width: 3, height: 12)
         }
@@ -97,7 +97,7 @@ struct AddPlaceView: View {
         VStack(alignment: .leading, spacing: 18) {
             Capsule().fill(Theme.textTertiary).frame(width: 36, height: 4).frame(maxWidth: .infinity)
             TextField("", text: $title, prompt: Text("Tên địa điểm").foregroundColor(Theme.textTertiary))
-                .font(.system(size: 26, weight: .bold)).foregroundStyle(.white).tint(Theme.accent)
+                .font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                 .focused($titleFocused)
                 .accessibilityIdentifier("addplace.title")
             CategoryPicker(selection: $category, wrap: false)
@@ -105,11 +105,11 @@ struct AddPlaceView: View {
                 Image(systemName: "mappin.and.ellipse").foregroundStyle(Theme.textSecondary)
                 if editingAddress {
                     TextField("", text: $address, prompt: Text("Nhập địa chỉ").foregroundColor(Theme.textTertiary))
-                        .font(.system(size: 15)).foregroundStyle(.white)
+                        .font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
                         .onSubmit { editingAddress = false }
                         .onChange(of: address) { _, _ in addressTouched = true }
                 } else {
-                    Text(address.isEmpty ? "Đang lấy địa chỉ…" : address).font(.system(size: 15)).foregroundStyle(.white).lineLimit(2)
+                    Text(address.isEmpty ? "Đang lấy địa chỉ…" : address).font(.system(size: 15)).foregroundStyle(Theme.textPrimary).lineLimit(2)
                 }
                 Spacer()
                 Button(editingAddress ? "Xong" : "Sửa") { editingAddress.toggle() }
@@ -181,7 +181,7 @@ struct LocationPickerView: View {
             Map(position: $position).mapStyle(.standard(emphasis: .muted, pointsOfInterest: .excludingAll))
                 .onMapCameraChange(frequency: .onEnd) { center = $0.region.center }
                 .ignoresSafeArea()
-            Image(systemName: "mappin.circle.fill").font(.system(size: 40)).foregroundStyle(Theme.accent, .white).offset(y: -20)
+            Image(systemName: "mappin.circle.fill").font(.system(size: 40)).foregroundStyle(Theme.accent, Theme.textPrimary).offset(y: -20)
                 .allowsHitTesting(false)
             VStack {
                 ModalBar(title: "Đổi vị trí", onCancel: { dismiss() }) {

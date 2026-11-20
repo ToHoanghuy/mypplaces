@@ -81,9 +81,9 @@ struct TimelineView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Dòng thời gian").font(.mpLargeTitle).foregroundStyle(.white)
+                Text("Dòng thời gian").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
                 Spacer()
-                CircleIconButton(systemName: "slider.horizontal.3", tint: model.filter.isActive ? Theme.accent : .white, background: Theme.surface) { showFilter = true }
+                CircleIconButton(systemName: "slider.horizontal.3", tint: model.filter.isActive ? Theme.accent : Theme.textPrimary, background: Theme.surface) { showFilter = true }
                     .accessibilityIdentifier("timeline.filter")
             }
             .padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 8)
@@ -94,7 +94,7 @@ struct TimelineView: View {
                                message: model.filter.isActive ? "Thử đổi bộ lọc thời gian hoặc danh mục." : "Ghi lần ghé tại một địa điểm để bắt đầu dòng thời gian.")
                 Spacer()
             } else if !model.loaded {
-                Spacer(); ProgressView().tint(.white); Spacer()
+                Spacer(); ProgressView().tint(Theme.textPrimary); Spacer()
             } else {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0, pinnedViews: []) {
@@ -138,7 +138,7 @@ struct TimelineView: View {
                     ZStack(alignment: .bottomLeading) {
                         StorageImage(path: cover, placeholderCategory: item.placeCategory)
                         LinearGradient(colors: [.clear, .black.opacity(0.8)], startPoint: .center, endPoint: .bottom)
-                        caption(item).padding(14)
+                        caption(item).padding(14).onPhoto()
                     }
                     .frame(height: 170)
                 } else {
@@ -157,12 +157,12 @@ struct TimelineView: View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 6) {
                 if let c = item.placeCategory { CategoryDot(category: c) }
-                Text(item.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).lineLimit(1)
+                Text(item.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                 if item.myRole != .owner { Image(systemName: "person.2.fill").font(.system(size: 9)).foregroundStyle(Theme.textSecondary) }
             }
-            Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))").font(.system(size: 12)).foregroundStyle(.white.opacity(0.7))
+            Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))").font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.7))
             if let note = item.note, !note.isEmpty {
-                Text(note).font(.system(size: 13)).foregroundStyle(.white.opacity(0.85)).lineLimit(1)
+                Text(note).font(.system(size: 13)).foregroundStyle(Theme.textPrimary.opacity(0.85)).lineLimit(1)
             }
         }
     }
@@ -176,7 +176,7 @@ struct TimelineFilterSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Lọc").font(.system(size: 22, weight: .bold)).foregroundStyle(.white)
+                Text("Lọc").font(.system(size: 22, weight: .bold)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 CircleIconButton(systemName: "xmark", size: 32, background: Theme.surfaceHigh) { dismiss() }
             }
@@ -204,7 +204,7 @@ struct TimelineFilterSheet: View {
                 Button("Đặt lại") { draft = TimelineFilter() }.font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
                 Spacer()
                 Button { filter = draft; dismiss() } label: {
-                    Text("Áp dụng").font(.system(size: 16, weight: .semibold)).foregroundStyle(.white)
+                    Text("Áp dụng").font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.onAccent)
                         .padding(.horizontal, 28).frame(height: 48).background(Theme.accent, in: Capsule())
                 }
                 .buttonStyle(.plain)

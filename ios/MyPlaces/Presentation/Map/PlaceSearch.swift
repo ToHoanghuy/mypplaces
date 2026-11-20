@@ -80,7 +80,7 @@ struct PlaceSearchView: View {
             HStack(spacing: 12) {
                 SearchField(placeholder: "Tìm địa điểm", text: $model.query, focused: $focused) { model.search(near: region) }
                     .accessibilityIdentifier("search.field")
-                Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(.white)
+                Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
             }
             .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 10)
 
@@ -116,7 +116,7 @@ struct PlaceSearchView: View {
                                         }
                                     }
                                     Spacer()
-                                    Image(systemName: "plus").font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
+                                    Image(systemName: "plus").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                                         .frame(width: 28, height: 28).background(Theme.surfaceHigh, in: Circle())
                                 }
                             }
@@ -132,7 +132,7 @@ struct PlaceSearchView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.textPrimary)
         }
         .screenBackground()
         .onChange(of: model.query) { _, _ in model.search(near: region) }

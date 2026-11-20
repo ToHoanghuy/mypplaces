@@ -33,7 +33,7 @@ struct LogVisitView: View {
                 VStack(spacing: 12) {
                     HStack(spacing: 10) {
                         PlaceThumb(path: place.coverStoragePath, category: place.category, size: 28, corner: 14)
-                        Text(place.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                        Text(place.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                         CategoryDot(category: place.category)
                         Spacer()
                     }
@@ -64,7 +64,7 @@ struct LogVisitView: View {
                             Text("Thời gian").font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
                             Spacer()
                             VStack(alignment: .trailing, spacing: 2) {
-                                Text(VNFormat.friendlyDateTime(visitedAt)).font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                                Text(VNFormat.friendlyDateTime(visitedAt)).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                                 Text(VNFormat.zoneLabel(timezoneId)).font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
                             }
                         }
@@ -80,7 +80,7 @@ struct LogVisitView: View {
                     }
 
                     TextField("", text: $note, prompt: Text("Ghi chú ngắn…").foregroundColor(Theme.textTertiary), axis: .vertical)
-                        .lineLimit(3...6).font(.system(size: 15)).foregroundStyle(.white).tint(Theme.accent)
+                        .lineLimit(3...6).font(.system(size: 15)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                         .padding(14).frame(minHeight: 90, alignment: .topLeading)
                         .background(Theme.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
                         .accessibilityIdentifier("visit.note")
@@ -91,7 +91,7 @@ struct LogVisitView: View {
                             ForEach(companions) { c in
                                 VStack(spacing: 4) {
                                     Avatar(name: c.name, path: { if case .user(let u) = c { return u.avatarPath } else { return nil } }(), size: 40)
-                                    Text(c.name.split(separator: " ").last.map(String.init) ?? c.name).font(.system(size: 11)).foregroundStyle(.white).lineLimit(1)
+                                    Text(c.name.split(separator: " ").last.map(String.init) ?? c.name).font(.system(size: 11)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                                 }
                                 .frame(width: 48)
                             }
@@ -169,16 +169,16 @@ struct CompanionPickerSheet: View {
     var body: some View {
         VStack(spacing: 14) {
             Capsule().fill(Theme.textTertiary).frame(width: 36, height: 4).padding(.top, 8)
-            Text("Người đi cùng").font(.system(size: 17, weight: .semibold)).foregroundStyle(.white)
+            Text("Người đi cùng").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass").foregroundStyle(Theme.textSecondary)
                 TextField("", text: $query, prompt: Text("Tìm hoặc nhập tên").foregroundColor(Theme.textSecondary))
-                    .foregroundStyle(.white).tint(Theme.accent).submitLabel(.done)
+                    .foregroundStyle(Theme.textPrimary).tint(Theme.accent).submitLabel(.done)
                     .onSubmit(addGuest)
                     .accessibilityIdentifier("companion.query")
                 if !query.trimmingCharacters(in: .whitespaces).isEmpty {
                     Button("Thêm", action: addGuest)
-                        .font(.system(size: 13, weight: .semibold)).foregroundStyle(.white)
+                        .font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.onAccent)
                         .padding(.horizontal, 14).frame(height: 30).background(Theme.accent, in: Capsule())
                         .accessibilityIdentifier("companion.addGuest")
                 }
@@ -224,7 +224,7 @@ struct CompanionPickerSheet: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Avatar(name: name, path: path, size: 40)
-                Text(name).font(.system(size: 15)).foregroundStyle(.white)
+                Text(name).font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 22)).foregroundStyle(selected ? Theme.accent : Theme.textTertiary)

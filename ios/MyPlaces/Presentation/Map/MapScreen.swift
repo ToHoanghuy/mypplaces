@@ -50,7 +50,7 @@ struct MapScreen: View {
                         .accessibilityIdentifier("map.locate")
                     if !store.places.isEmpty {
                         Button { addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: false)) } label: {
-                            Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(.white)
+                            Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(Theme.onAccent)
                                 .frame(width: 56, height: 56).background(Theme.accent, in: Circle())
                                 .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
                         }
@@ -165,9 +165,9 @@ struct MapScreen: View {
 
     private var emptyCard: some View {
         VStack(spacing: 8) {
-            Image(systemName: "mappin.and.ellipse").font(.system(size: 18)).foregroundStyle(.white)
+            Image(systemName: "mappin.and.ellipse").font(.system(size: 18)).foregroundStyle(Theme.textPrimary)
                 .frame(width: 44, height: 44).background(Theme.surfaceHigh, in: Circle())
-            Text("Chưa có nơi nào").font(.system(size: 19, weight: .bold)).foregroundStyle(.white).padding(.top, 4)
+            Text("Chưa có nơi nào").font(.system(size: 19, weight: .bold)).foregroundStyle(Theme.textPrimary).padding(.top, 4)
             Text("Lưu nơi đầu tiên để thấy nó trên bản đồ").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
             PrimaryButton(title: "Thêm địa điểm", icon: "plus") {
                 addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: true))

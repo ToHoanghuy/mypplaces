@@ -95,7 +95,7 @@ struct PlaceDetailView: View {
                 EmptyStateView(icon: "mappin.slash", title: "Không tìm thấy địa điểm", message: "Địa điểm đã bị xóa hoặc bạn không còn quyền xem.",
                                actionTitle: nil)
             } else {
-                ProgressView().tint(.white)
+                ProgressView().tint(Theme.textPrimary)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -130,7 +130,7 @@ struct PlaceDetailView: View {
                     header(p, height: 300, rounded: false)
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 6) { CategoryDot(category: p.category); Text(p.category.displayName).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
-                        Text(p.title).font(.system(size: 28, weight: .bold)).foregroundStyle(.white)
+                        Text(p.title).font(.system(size: 28, weight: .bold)).foregroundStyle(Theme.textPrimary)
                             .accessibilityIdentifier("place.title")
                         HStack(spacing: 6) {
                             Image(systemName: "mappin.and.ellipse").font(.system(size: 12))
@@ -181,7 +181,7 @@ struct PlaceDetailView: View {
         HStack(spacing: 12) {
             PlaceThumb(path: photo, category: model.place?.category ?? .other, size: 46, corner: 10)
             VStack(alignment: .leading, spacing: 3) {
-                Text(VNFormat.weekdayDay(date, tz: VNFormat.tz(tz))).font(.system(size: 14, weight: .semibold)).foregroundStyle(.white)
+                Text(VNFormat.weekdayDay(date, tz: VNFormat.tz(tz))).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                 Text(note?.isEmpty == false ? note! : VNFormat.time(date, tz: VNFormat.tz(tz)))
                     .font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
             }
@@ -205,7 +205,7 @@ struct PlaceDetailView: View {
                         }.buttonStyle(.plain)
                     }
                     ForEach(model.memories.filter { $0.attachments.isEmpty }) { m in
-                        Text(m.body ?? "").font(.system(size: 11)).foregroundStyle(.white).lineLimit(4)
+                        Text(m.body ?? "").font(.system(size: 11)).foregroundStyle(Theme.textPrimary).lineLimit(4)
                             .padding(8).frame(width: 84, height: 84, alignment: .topLeading)
                             .background(Theme.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
@@ -234,7 +234,7 @@ struct PlaceDetailView: View {
                         Button { router.push(.journal(j.journalId)) } label: {
                             HStack(spacing: 8) {
                                 StorageImage(path: j.journals?.coverPath).frame(width: 22, height: 22).clipShape(Circle())
-                                Text(j.journals?.title ?? "").font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                                Text(j.journals?.title ?? "").font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textPrimary)
                                 Image(systemName: "chevron.right").font(.system(size: 10)).foregroundStyle(Theme.textSecondary)
                             }
                             .padding(.leading, 6).padding(.trailing, 12).frame(height: 36)
@@ -256,7 +256,7 @@ struct PlaceDetailView: View {
                     header(p, height: 250, rounded: true).padding(.horizontal, 12).padding(.top, 4)
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 6) { CategoryDot(category: p.category); Text(p.category.displayName).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
-                        Text(p.title).font(.system(size: 26, weight: .bold)).foregroundStyle(.white)
+                        Text(p.title).font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary)
                             .accessibilityIdentifier("place.title")
                         if let a = p.address { Text(a).font(.system(size: 14)).foregroundStyle(Theme.textSecondary) }
                         HStack(spacing: 8) {
@@ -271,7 +271,7 @@ struct PlaceDetailView: View {
                     .padding(.horizontal, 20).padding(.top, 16)
 
                     HStack {
-                        Text("Kỷ niệm").font(.system(size: 16, weight: .semibold)).foregroundStyle(.white)
+                        Text("Kỷ niệm").font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                         Spacer()
                         Text("\(model.memories.count) kỷ niệm").font(.mpCaption).foregroundStyle(Theme.textSecondary)
                     }
@@ -315,12 +315,12 @@ struct PlaceDetailView: View {
                 StorageImage(path: a.storagePath, placeholderCategory: category)
                     .onTapGesture { viewerPhoto = a.storagePath }
             } else {
-                Text(m.body ?? "").font(.system(size: 13)).foregroundStyle(.white).padding(12)
+                Text(m.body ?? "").font(.system(size: 13)).foregroundStyle(Theme.textPrimary).padding(12)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).background(Theme.surface)
             }
             HStack(spacing: 4) {
                 Avatar(name: m.author?.displayName ?? "?", size: 16)
-                Text(firstName(m.author?.displayName)).font(.system(size: 11, weight: .medium)).foregroundStyle(.white)
+                Text(firstName(m.author?.displayName)).font(.system(size: 11, weight: .medium)).foregroundStyle(Theme.onAccent)
             }
             .padding(.horizontal, 6).frame(height: 22).background(.black.opacity(0.55), in: Capsule()).padding(8)
         }
@@ -356,7 +356,7 @@ struct PlaceDetailView: View {
                             Button(role: .destructive) { confirmLeave = true } label: { Label("Rời địa điểm chia sẻ", systemImage: "rectangle.portrait.and.arrow.right") }
                         }
                     } label: {
-                        Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                        Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.onAccent)
                             .frame(width: 36, height: 36).background(Color.black.opacity(0.45), in: Circle())
                     }
                     .accessibilityIdentifier("place.more")

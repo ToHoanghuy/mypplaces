@@ -38,7 +38,7 @@ struct EditPlaceView: View {
                         Map(position: .constant(.region(MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.004, longitudeDelta: 0.004))))) {
                             Annotation("", coordinate: coordinate) {
                                 Circle().fill(Theme.accent).frame(width: 26, height: 26)
-                                    .overlay(Circle().fill(.white).frame(width: 8, height: 8))
+                                    .overlay(Circle().fill(Theme.textPrimary).frame(width: 8, height: 8))
                             }
                         }
                         .mapStyle(.standard(emphasis: .muted, pointsOfInterest: .excludingAll))
@@ -48,7 +48,7 @@ struct EditPlaceView: View {
                         .overlay(alignment: .bottomTrailing) {
                             Button { showPicker = true } label: {
                                 HStack(spacing: 6) { Image(systemName: "mappin.and.ellipse").foregroundStyle(Theme.accent); Text("Đổi vị trí") }
-                                    .font(.system(size: 12, weight: .semibold)).foregroundStyle(.white)
+                                    .font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.onAccent)
                                     .padding(.horizontal, 12).frame(height: 30).background(.black.opacity(0.7), in: Capsule())
                             }
                             .buttonStyle(.plain).padding(10)

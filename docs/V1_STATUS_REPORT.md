@@ -211,3 +211,9 @@ Cập nhật 19/11/2026 (giờ Việt Nam). Đối chiếu từng mã yêu cầu
 | 10 | P0 | Kế hoạch export dữ liệu + xóa tài khoản trước production (NFR-14, FR-AU-07, UC-16) |  |
 | 11 | Vận hành | Domain universal link, SMTP riêng, bật leaked password protection, dọn 2 lời mời test còn pending |  |
 | 12 | P1 | Realtime trong Nhật ký (FR-SH-11), Favorite (FR-PL-08), cài đặt riêng tư (FR-AU-06) | Backend đã publish realtime 11 bảng. |
+
+## Tính năng bổ sung ngoài BRD v1.2
+
+| Ngày | Tính năng | Ghi chú |
+|---|---|---|
+| 20/11/2026 | Giao diện Sáng / Tối / Tự động theo giờ (Cá nhân › Giao diện) | Giữ nguyên nền tối cũ; thêm nền trắng. Mặc định "Tự động theo giờ": sáng 06:00–18:00, tối ngoài khung đó (chỉnh được 2 mốc giờ), tự đổi khi app đang mở. Không tính vào % hoàn thiện so với BRD. Ảnh: `docs/screenshots/theme/`. Test: `ThemeScheduleTests` (unit), `G09ThemeUITests` (UI). |

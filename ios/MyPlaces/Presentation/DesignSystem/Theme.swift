@@ -1,18 +1,26 @@
 import SwiftUI
+import UIKit
 
-/// "MyPlaces Minimal" (Stitch design system assets/8094474840949808557): dark #0E0E10,
-/// coral #F26A3D used sparingly, category colors only as tiny dots, photo first.
+/// "MyPlaces Minimal" (Stitch design system assets/8094474840949808557).
+/// Dark (#0E0E10, original look) and Light (white) palettes; coral #F26A3D used sparingly,
+/// category colors only as tiny dots, photo first.
+/// Every token is a dynamic color resolved from the current `colorScheme`, so the whole app
+/// follows `AppearanceSettings` (applied with `preferredColorScheme` at the root).
 enum Theme {
-    static let background = Color(hex: 0x0E0E10)
-    static let surface = Color(hex: 0x1A1A1D)
-    static let surfaceHigh = Color(hex: 0x232327)
-    static let accent = Color(hex: 0xF26A3D)
-    static let danger = Color(hex: 0xFF453A)
-    static let textPrimary = Color.white
-    static let textSecondary = Color(hex: 0x8E8E93)
-    static let textTertiary = Color(hex: 0x5C5C61)
-    static let hairline = Color.white.opacity(0.06)
-    static let border = Color.white.opacity(0.08)
+    static let background = Color(light: 0xFFFFFF, dark: 0x0E0E10)
+    static let surface = Color(light: 0xF2F2F4, dark: 0x1A1A1D)
+    static let surfaceHigh = Color(light: 0xE7E7EB, dark: 0x232327)
+    static let accent = Color(light: 0xE85D2F, dark: 0xF26A3D)
+    static let danger = Color(light: 0xE0362C, dark: 0xFF453A)
+    static let textPrimary = Color(light: 0x111113, dark: 0xFFFFFF)
+    static let textSecondary = Color(light: 0x6C6C72, dark: 0x8E8E93)
+    static let textTertiary = Color(light: 0xA3A3AA, dark: 0x5C5C61)
+    static let hairline = Color(light: 0x000000, lightAlpha: 0.07, dark: 0xFFFFFF, darkAlpha: 0.06)
+    static let border = Color(light: 0x000000, lightAlpha: 0.09, dark: 0xFFFFFF, darkAlpha: 0.08)
+    /// Soft drop shadow for floating elements (tab bar, cards over the map).
+    static let shadow = Color(light: 0x000000, lightAlpha: 0.12, dark: 0x000000, darkAlpha: 0.45)
+    /// Content drawn on accent fills, photos or black scrims: always white in both themes.
+    static let onAccent = Color.white
 
     static let radius: CGFloat = 16
     static let radiusLarge: CGFloat = 24
@@ -26,6 +34,27 @@ extension Color {
                   blue: Double(hex & 0xFF) / 255,
                   opacity: opacity)
     }
+
+    /// Dynamic color resolved per light/dark trait.
+    init(light: UInt32, lightAlpha: CGFloat = 1, dark: UInt32, darkAlpha: CGFloat = 1) {
+        self.init(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark ? UIColor(hex: dark, alpha: darkAlpha) : UIColor(hex: light, alpha: lightAlpha)
+        })
+    }
+}
+
+extension UIColor {
+    convenience init(hex: UInt32, alpha: CGFloat = 1) {
+        self.init(red: CGFloat((hex >> 16) & 0xFF) / 255,
+                  green: CGFloat((hex >> 8) & 0xFF) / 255,
+                  blue: CGFloat(hex & 0xFF) / 255,
+                  alpha: alpha)
+    }
+}
+
+extension View {
+    /// Content laid over a photo / dark gradient keeps the dark palette (white text) in both themes.
+    func onPhoto() -> some View { environment(\.colorScheme, .dark) }
 }
 
 extension PlaceCategory {

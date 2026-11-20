@@ -34,8 +34,9 @@ class MPUITestCase: XCTestCase {
         let att = XCTAttachment(data: png, uniformTypeIdentifier: "public.png")
         att.name = name; att.lifetime = .keepAlways; add(att)
         if let dir = env["SHOT_DIR"] {
-            try? FileManager.default.createDirectory(atPath: dir, withIntermediateDirectories: true)
-            try? png.write(to: URL(fileURLWithPath: dir).appendingPathComponent("\(name).png"))
+            let url = URL(fileURLWithPath: dir).appendingPathComponent("\(name).png")
+            try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? png.write(to: url)
         }
     }
 

@@ -47,12 +47,12 @@ struct PhotoTile: View {
             if uploading {
                 ZStack {
                     Color.black.opacity(0.5)
-                    VStack(spacing: 6) { ProgressView().tint(Theme.accent); Text("Đang tải lên…").font(.system(size: 11)).foregroundStyle(.white) }
+                    VStack(spacing: 6) { ProgressView().tint(Theme.accent); Text("Đang tải lên…").font(.system(size: 11)).foregroundStyle(Theme.textPrimary) }
                 }
             }
             if let onRemove, !uploading {
                 Button(action: onRemove) {
-                    Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).foregroundStyle(.white)
+                    Image(systemName: "xmark").font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.onAccent)
                         .frame(width: 22, height: 22).background(.black.opacity(0.6), in: Circle())
                 }
                 .buttonStyle(.plain).padding(8)

@@ -35,7 +35,7 @@ struct AddMemoryView: View {
                         }
                     }
                     TextField("", text: $text, prompt: Text("Viết vài dòng…").foregroundColor(Theme.textTertiary), axis: .vertical)
-                        .font(.system(size: 17)).foregroundStyle(.white).tint(Theme.accent)
+                        .font(.system(size: 17)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                         .lineLimit(3...12).focused($focused)
                         .accessibilityIdentifier("memory.text")
                     if text.count > 1800 {
@@ -49,11 +49,11 @@ struct AddMemoryView: View {
                 HStack(spacing: 10) {
                     PhotoPickButton(maxCount: 10 - photos.count, onPicked: { photos.append(contentsOf: $0) }) {
                         HStack(spacing: 6) { Image(systemName: "photo.on.rectangle"); Text("Thư viện") }
-                            .font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                            .font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textPrimary)
                             .padding(.horizontal, 14).frame(height: 36).background(Theme.surface, in: Capsule())
                     }
                     .accessibilityIdentifier("memory.library")
-                    Image(systemName: "camera").font(.system(size: 14)).foregroundStyle(UIImagePickerController.isSourceTypeAvailable(.camera) ? .white : Theme.textTertiary)
+                    Image(systemName: "camera").font(.system(size: 14)).foregroundStyle(UIImagePickerController.isSourceTypeAvailable(.camera) ? Theme.textPrimary : Theme.textTertiary)
                         .frame(width: 36, height: 36).background(Theme.surface, in: Circle())
                 }
                 InfoNote(text: visibilityNote)

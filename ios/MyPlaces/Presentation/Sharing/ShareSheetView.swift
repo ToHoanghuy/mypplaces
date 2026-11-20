@@ -16,12 +16,12 @@ struct ShareSheetView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             ZStack {
-                Text("Chia sẻ \(target.type.noun)").font(.system(size: 17, weight: .semibold)).foregroundStyle(.white)
+                Text("Chia sẻ \(target.type.noun)").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                 HStack {
                     CircleIconButton(systemName: "xmark", size: 32, background: Theme.surface) { dismiss() }
                     Spacer()
                     Button { dismiss(); DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { router.push(.members(target)) } } label: {
-                        Image(systemName: "person.2").font(.system(size: 13)).foregroundStyle(.white)
+                        Image(systemName: "person.2").font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
                             .frame(width: 32, height: 32).background(Theme.surface, in: Circle())
                     }
                     .accessibilityIdentifier("share.members")
@@ -31,7 +31,7 @@ struct ShareSheetView: View {
 
             HStack(spacing: 12) {
                 PlaceThumb(path: target.coverPath, category: target.category ?? .other, size: 48, corner: 12)
-                Text(target.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).lineLimit(2)
+                Text(target.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(2)
                 if let c = target.category { CategoryDot(category: c) }
                 Spacer()
             }
@@ -56,9 +56,9 @@ struct ShareSheetView: View {
                 ForEach([1, 7, 30], id: \.self) { d in
                     Button { ttl = d } label: {
                         Text("\(d) ngày").font(.system(size: 14, weight: ttl == d ? .semibold : .regular))
-                            .foregroundStyle(ttl == d ? Theme.background : .white)
+                            .foregroundStyle(ttl == d ? Theme.background : Theme.textPrimary)
                             .frame(maxWidth: .infinity).frame(height: 40)
-                            .background(ttl == d ? Color.white : Theme.surface, in: Capsule())
+                            .background(ttl == d ? Theme.textPrimary : Theme.surface, in: Capsule())
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("share.ttl.\(d)")
@@ -79,7 +79,7 @@ struct ShareSheetView: View {
             HStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
                 Text("Đã tạo liên kết mời · \(role.displayName) · \(VNFormat.expiresIn(inv.expiresAt))")
-                    .font(.system(size: 13)).foregroundStyle(.white)
+                    .font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
             }
             Text(inv.link.absoluteString).font(.system(size: 12, design: .monospaced)).foregroundStyle(Theme.textSecondary)
                 .lineLimit(2).truncationMode(.middle)
@@ -90,14 +90,14 @@ struct ShareSheetView: View {
             Spacer()
             ShareLink(item: inv.link, message: Text("Mời bạn xem \(target.type.noun) “\(target.title)” trên MyPlaces")) {
                 HStack { Image(systemName: "square.and.arrow.up"); Text("Gửi liên kết") }
-                    .font(.system(size: 16, weight: .semibold)).foregroundStyle(.white)
+                    .font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.onAccent)
                     .frame(maxWidth: .infinity).frame(height: 52).background(Theme.accent, in: Capsule())
             }
             Button {
                 UIPasteboard.general.string = inv.link.absoluteString
                 copied = true
             } label: {
-                Text(copied ? "Đã sao chép" : "Sao chép liên kết").font(.system(size: 15, weight: .medium)).foregroundStyle(.white)
+                Text(copied ? "Đã sao chép" : "Sao chép liên kết").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
                     .frame(maxWidth: .infinity).frame(height: 44)
             }
             .buttonStyle(.plain)
@@ -116,7 +116,7 @@ struct ShareSheetView: View {
     private func roleRow(_ r: MemberRole, title: String) -> some View {
         Button { role = r } label: {
             HStack {
-                Text(title).font(.system(size: 15)).foregroundStyle(role == r ? .white : Theme.textSecondary)
+                Text(title).font(.system(size: 15)).foregroundStyle(role == r ? Theme.textPrimary : Theme.textSecondary)
                 Spacer()
                 Image(systemName: role == r ? "largecircle.fill.circle" : "circle")
                     .foregroundStyle(role == r ? Theme.accent : Theme.textTertiary)

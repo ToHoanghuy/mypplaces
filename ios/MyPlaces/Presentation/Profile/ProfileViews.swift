@@ -14,9 +14,9 @@ struct ProfileView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                Text("Cá nhân").font(.system(size: 17, weight: .semibold)).foregroundStyle(.white)
+                Text("Cá nhân").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                 HStack { Spacer()
-                    Button { router.push(.sync) } label: { Image(systemName: "gearshape").font(.system(size: 18)).foregroundStyle(.white) }
+                    Button { router.push(.sync) } label: { Image(systemName: "gearshape").font(.system(size: 18)).foregroundStyle(Theme.textPrimary) }
                         .accessibilityIdentifier("profile.settings")
                 }
             }
@@ -27,11 +27,11 @@ struct ProfileView: View {
                     Avatar(name: session.profile?.displayName ?? "?", path: session.profile?.avatarPath, size: 96)
                         .overlay(Circle().stroke(Theme.border, lineWidth: 2))
                         .padding(.top, 20)
-                    Text(session.profile?.displayName ?? " ").font(.system(size: 24, weight: .bold)).foregroundStyle(.white)
+                    Text(session.profile?.displayName ?? " ").font(.system(size: 24, weight: .bold)).foregroundStyle(Theme.textPrimary)
                         .accessibilityIdentifier("profile.name")
                     Text(session.email ?? "").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
                     Button { showEdit = true } label: {
-                        Text("Sửa hồ sơ").font(.system(size: 13, weight: .medium)).foregroundStyle(.white)
+                        Text("Sửa hồ sơ").font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textPrimary)
                             .padding(.horizontal, 14).frame(height: 30).overlay(Capsule().stroke(Theme.border, lineWidth: 1))
                     }
                     .buttonStyle(.plain)
@@ -48,6 +48,9 @@ struct ProfileView: View {
                     }
                     .background(Theme.surface, in: RoundedRectangle(cornerRadius: 22))
                     .padding(.top, 30)
+
+                    AppearanceSection()
+                        .padding(.top, 6)
 
                     Button { confirmSignOut = true } label: {
                         Text("Đăng xuất").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.danger)
@@ -84,7 +87,7 @@ struct ProfileView: View {
         Button(action: action) {
             HStack(spacing: 14) {
                 Image(systemName: icon).font(.system(size: 15)).foregroundStyle(Theme.textSecondary).frame(width: 20)
-                Text(title).font(.system(size: 15)).foregroundStyle(.white)
+                Text(title).font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 if let value { Text(value).font(.system(size: 13)).foregroundStyle(Theme.textSecondary) }
                 if let valueIcon { Image(systemName: valueIcon).font(.system(size: 11)).foregroundStyle(Theme.textSecondary) }
@@ -115,7 +118,7 @@ struct EditProfileView: View {
                     VStack(spacing: 10) {
                         Avatar(name: name.isEmpty ? "?" : name, path: session.profile?.avatarPath, size: 120)
                             .overlay(alignment: .bottomTrailing) {
-                                Image(systemName: "camera").font(.system(size: 13)).foregroundStyle(.white)
+                                Image(systemName: "camera").font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
                                     .frame(width: 34, height: 34).background(Theme.surfaceHigh, in: Circle())
                                     .overlay(Circle().stroke(Theme.background, lineWidth: 3))
                             }
@@ -129,7 +132,7 @@ struct EditProfileView: View {
                     Text("Tên hiển thị").font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
                     HStack {
                         TextField("", text: $name, prompt: Text("Nhập tên").foregroundColor(Theme.textTertiary))
-                            .font(.system(size: 16, weight: .medium)).foregroundStyle(.white).tint(Theme.accent)
+                            .font(.system(size: 16, weight: .medium)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                             .accessibilityIdentifier("profile.nameField")
                         Text("\(name.trimmingCharacters(in: .whitespaces).count)/40").font(.system(size: 12))
                             .foregroundStyle(name.count > 40 ? Theme.danger : Theme.textSecondary)
@@ -184,7 +187,7 @@ struct SyncView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 12) {
                 CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() }.accessibilityIdentifier("nav.back")
-                Text("Đồng bộ").font(.mpLargeTitle).foregroundStyle(.white)
+                Text("Đồng bộ").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
             }
             .padding(.horizontal, 20).padding(.top, 8)
             ScrollView {
@@ -192,14 +195,14 @@ struct SyncView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         HStack(spacing: 12) {
                             Image(systemName: sync.pendingCount == 0 ? "checkmark.icloud" : "arrow.triangle.2.circlepath.icloud")
-                                .font(.system(size: 18)).foregroundStyle(.white)
+                                .font(.system(size: 18)).foregroundStyle(Theme.textPrimary)
                                 .frame(width: 44, height: 44).background(Theme.background, in: RoundedRectangle(cornerRadius: 12))
                                 .overlay(alignment: .topTrailing) {
                                     if sync.pendingCount > 0 { Circle().fill(Theme.accent).frame(width: 9, height: 9).offset(x: 2, y: -2) }
                                 }
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(sync.pendingCount == 0 ? "Đã đồng bộ" : "\(sync.pendingCount) thay đổi chưa đồng bộ")
-                                    .font(.system(size: 17, weight: .semibold)).foregroundStyle(.white)
+                                    .font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                                     .accessibilityIdentifier("sync.status")
                                 Text(lastLine).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
                             }
@@ -208,8 +211,8 @@ struct SyncView: View {
                             Divider().overlay(Theme.hairline)
                             HStack { Spacer()
                                 Button { Task { await sync.retryFailed() } } label: {
-                                    Group { if sync.isSyncing { ProgressView().tint(.white) } else { Text("Thử lại") } }
-                                        .font(.system(size: 14, weight: .semibold)).foregroundStyle(.white)
+                                    Group { if sync.isSyncing { ProgressView().tint(Theme.onAccent) } else { Text("Thử lại") } }
+                                        .font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.onAccent)
                                         .padding(.horizontal, 18).frame(height: 36).background(Theme.accent, in: Capsule())
                                 }
                                 .buttonStyle(.plain)
@@ -224,7 +227,7 @@ struct SyncView: View {
                         VStack(spacing: 0) {
                             ForEach(sync.items) { item in
                                 HStack {
-                                    Text(item.label).font(.system(size: 14)).foregroundStyle(.white).lineLimit(1)
+                                    Text(item.label).font(.system(size: 14)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                                     Spacer()
                                     Text(item.state == .failed ? "Lỗi – thử lại" : (sync.isSyncing ? "Đang gửi" : "Đang chờ"))
                                         .font(.system(size: 11, weight: .medium))
@@ -285,8 +288,8 @@ struct SyncView: View {
     private func permRow(icon: String, title: String, value: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: 14) {
-                Image(systemName: icon).font(.system(size: 15)).foregroundStyle(.white).frame(width: 20)
-                Text(title).font(.system(size: 15)).foregroundStyle(.white)
+                Image(systemName: icon).font(.system(size: 15)).foregroundStyle(Theme.textPrimary).frame(width: 20)
+                Text(title).font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 Text(value).font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
                 Image(systemName: "chevron.right").font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
@@ -294,5 +297,78 @@ struct SyncView: View {
             .padding(.horizontal, 16).frame(height: 56).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// "Giao diện": Tự động theo giờ (mặc định) / Sáng / Tối. Extra feature beyond BRD v1.2.
+struct AppearanceSection: View {
+    @AppStorage(AppearanceKeys.mode) private var modeRaw = AppearanceMode.auto.rawValue
+    @AppStorage(AppearanceKeys.lightStart) private var lightStart = AppearanceKeys.defaultLightStart
+    @AppStorage(AppearanceKeys.darkStart) private var darkStart = AppearanceKeys.defaultDarkStart
+    @Environment(\.colorScheme) private var scheme
+
+    private var mode: AppearanceMode { AppearanceMode(rawValue: modeRaw) ?? .auto }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("GIAO DIỆN").font(.mpSection).tracking(0.6).foregroundStyle(Theme.textSecondary)
+                Spacer()
+                Text("Đang dùng: \(scheme == .dark ? "Tối" : "Sáng")")
+                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                    .accessibilityIdentifier("appearance.current")
+            }
+            .padding(.horizontal, 4)
+            VStack(spacing: 0) {
+                ForEach(Array(AppearanceMode.allCases.enumerated()), id: \.element) { i, m in
+                    if i > 0 { Divider().overlay(Theme.hairline).padding(.leading, 48) }
+                    Button { withAnimation(.easeInOut(duration: 0.25)) { modeRaw = m.rawValue } } label: {
+                        HStack(spacing: 14) {
+                            Image(systemName: icon(m)).font(.system(size: 15)).foregroundStyle(Theme.textSecondary).frame(width: 20)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(m.title).font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+                                if m == .auto {
+                                    Text("Sáng từ \(ThemeSchedule.label(lightStart)), tối từ \(ThemeSchedule.label(darkStart))")
+                                        .font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                                }
+                            }
+                            Spacer()
+                            Image(systemName: mode == m ? "checkmark.circle.fill" : "circle")
+                                .font(.system(size: 18)).foregroundStyle(mode == m ? Theme.accent : Theme.textTertiary)
+                        }
+                        .padding(.horizontal, 16).frame(minHeight: 56).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("appearance.\(m.rawValue)")
+                    .accessibilityAddTraits(mode == m ? .isSelected : [])
+                }
+                if mode == .auto {
+                    Divider().overlay(Theme.hairline).padding(.leading, 48)
+                    timeRow(icon: "sun.max", title: "Bật nền sáng lúc", minutes: $lightStart)
+                    Divider().overlay(Theme.hairline).padding(.leading, 48)
+                    timeRow(icon: "moon", title: "Bật nền tối lúc", minutes: $darkStart)
+                }
+            }
+            .background(Theme.surface, in: RoundedRectangle(cornerRadius: 22))
+        }
+    }
+
+    private func icon(_ m: AppearanceMode) -> String {
+        switch m { case .auto: return "clock"; case .light: return "sun.max"; case .dark: return "moon" }
+    }
+
+    private func timeRow(icon: String, title: String, minutes: Binding<Int>) -> some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon).font(.system(size: 15)).foregroundStyle(Theme.textSecondary).frame(width: 20)
+            Text(title).font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+            Spacer()
+            DatePicker("", selection: Binding(
+                get: { Calendar.current.date(bySettingHour: minutes.wrappedValue / 60, minute: minutes.wrappedValue % 60, second: 0, of: Date()) ?? Date() },
+                set: { minutes.wrappedValue = ThemeSchedule.minuteOfDay($0) }
+            ), displayedComponents: .hourAndMinute)
+            .labelsHidden()
+            .tint(Theme.accent)
+        }
+        .padding(.horizontal, 16).frame(height: 56)
     }
 }

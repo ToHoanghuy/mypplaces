@@ -31,7 +31,7 @@ struct HeroPhoto: View {
                 if let caption {
                     HStack(spacing: 6) {
                         Circle().fill(Theme.accent).frame(width: 5, height: 5)
-                        Text(caption).font(.system(size: 11, weight: .medium)).foregroundStyle(.white)
+                        Text(caption).font(.system(size: 11, weight: .medium)).foregroundStyle(Theme.onAccent)
                     }
                     .padding(.horizontal, 10).frame(height: 24)
                     .background(.black.opacity(0.55), in: Capsule())
@@ -49,11 +49,11 @@ struct AuthHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             ZStack {
-                if let centerTitle { Text(centerTitle).font(.system(size: 16, weight: .bold)).foregroundStyle(.white) }
+                if let centerTitle { Text(centerTitle).font(.system(size: 16, weight: .bold)).foregroundStyle(Theme.textPrimary) }
                 HStack { CircleIconButton(systemName: "chevron.left", background: Theme.surface, action: onBack); Spacer() }
             }
             .padding(.bottom, 8)
-            Text(title).font(.system(size: 30, weight: .bold)).foregroundStyle(.white)
+            Text(title).font(.system(size: 30, weight: .bold)).foregroundStyle(Theme.textPrimary)
             if let subtitle { Text(subtitle).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
         }
     }
@@ -63,12 +63,12 @@ struct WelcomeView: View {
     @Binding var path: [AuthRoute]
     var body: some View {
         VStack(spacing: 0) {
-            Text("MyPlaces").font(.system(size: 17, weight: .bold)).foregroundStyle(.white).padding(.top, 8)
+            Text("MyPlaces").font(.system(size: 17, weight: .bold)).foregroundStyle(Theme.textPrimary).padding(.top, 8)
             HeroPhoto(caption: nil, height: 400).padding(.top, 14)
             Spacer(minLength: 20)
             VStack(spacing: 10) {
                 Text("MYPLACES").font(.system(size: 11, weight: .semibold)).tracking(1.2).foregroundStyle(Theme.textSecondary)
-                Text("Nơi chốn là kỷ niệm").font(.system(size: 28, weight: .bold)).foregroundStyle(.white)
+                Text("Nơi chốn là kỷ niệm").font(.system(size: 28, weight: .bold)).foregroundStyle(Theme.textPrimary)
                 Text("Lưu nơi bạn đã đến, từng lần ghé và người đi cùng.")
                     .font(.system(size: 14)).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
                 HStack(spacing: 5) {
@@ -83,7 +83,7 @@ struct WelcomeView: View {
             PrimaryButton(title: "Tạo tài khoản") { path.append(.signUp) }
                 .accessibilityIdentifier("welcome.signup")
             Button("Tôi đã có tài khoản") { path.append(.signIn) }
-                .font(.system(size: 14, weight: .semibold)).foregroundStyle(.white)
+                .font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                 .padding(.vertical, 16)
                 .accessibilityIdentifier("welcome.signin")
         }
@@ -169,7 +169,7 @@ struct SignUpView: View {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "envelope").foregroundStyle(Theme.accent)
                             Text("Đã gửi email xác nhận tới \(email). Hãy mở liên kết trong email rồi đăng nhập.").accessibilityIdentifier("signup.confirmSent")
-                                .font(.system(size: 13)).foregroundStyle(.white)
+                                .font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
                         }
                         .padding(14).background(Theme.surface, in: RoundedRectangle(cornerRadius: 18))
                     }
@@ -223,7 +223,7 @@ struct ForgotPasswordView: View {
                     HStack(spacing: 12) {
                         Image(systemName: "envelope").font(.system(size: 14)).foregroundStyle(Theme.accent)
                             .frame(width: 32, height: 32).background(Theme.accent.opacity(0.15), in: Circle())
-                        Text("Đã gửi liên kết đặt lại mật khẩu tới email của bạn.").font(.system(size: 13)).foregroundStyle(.white)
+                        Text("Đã gửi liên kết đặt lại mật khẩu tới email của bạn.").font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
                     }
                     .padding(14).frame(maxWidth: .infinity, alignment: .leading)
                     .background(Theme.surface, in: RoundedRectangle(cornerRadius: 20))

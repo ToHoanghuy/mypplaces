@@ -46,7 +46,7 @@ struct JournalListView: View {
         VStack(spacing: 0) {
             HStack {
                 if archivedOnly { CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() } }
-                Text(archivedOnly ? "Đã lưu trữ" : "Nhật ký").font(.mpLargeTitle).foregroundStyle(.white)
+                Text(archivedOnly ? "Đã lưu trữ" : "Nhật ký").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 if !archivedOnly {
                     CircleIconButton(systemName: "plus", background: Theme.surface) { showCreate = true }
@@ -63,7 +63,7 @@ struct JournalListView: View {
                 Spacer()
                 if !archivedOnly && archivedCount > 0 { archivedRow.padding(.horizontal, 20).padding(.bottom, 100) }
             } else if !model.loaded {
-                Spacer(); ProgressView().tint(.white); Spacer()
+                Spacer(); ProgressView().tint(Theme.textPrimary); Spacer()
             } else {
                 ScrollView {
                     LazyVStack(spacing: 12) {
@@ -109,10 +109,11 @@ struct JournalListView: View {
             StorageImage(path: j.coverPath)
             LinearGradient(colors: [.clear, .black.opacity(0.75)], startPoint: .top, endPoint: .bottom)
             VStack(alignment: .leading, spacing: 4) {
-                Text(j.title).font(.system(size: 20, weight: .bold)).foregroundStyle(.white).lineLimit(1)
-                if let r = j.dateRange { Text(r).font(.system(size: 12)).foregroundStyle(.white.opacity(0.75)) }
+                Text(j.title).font(.system(size: 20, weight: .bold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
+                if let r = j.dateRange { Text(r).font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.75)) }
             }
             .padding(16)
+            .onPhoto()
         }
         .frame(height: 170)
         .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
@@ -121,7 +122,7 @@ struct JournalListView: View {
                 Image(systemName: badge.icon).font(.system(size: 10))
                 Text(badge.text).font(.system(size: 11, weight: .medium))
             }
-            .foregroundStyle(.white).padding(.horizontal, 10).frame(height: 24)
+            .foregroundStyle(Theme.onAccent).padding(.horizontal, 10).frame(height: 24)
             .background(.black.opacity(0.45), in: Capsule())
             .padding(12)
         }
@@ -136,7 +137,7 @@ struct JournalPickerSheet: View {
     @State private var model = JournalListModel()
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Thêm vào nhật ký").font(.system(size: 18, weight: .bold)).foregroundStyle(.white).padding(.top, 24)
+            Text("Thêm vào nhật ký").font(.system(size: 18, weight: .bold)).foregroundStyle(Theme.textPrimary).padding(.top, 24)
             let list = model.journals.filter { !$0.isArchived && model.role($0).canContribute }
             if model.loaded && list.isEmpty {
                 Text("Bạn chưa có nhật ký nào có thể thêm.").font(.mpCallout).foregroundStyle(Theme.textSecondary)
@@ -148,7 +149,7 @@ struct JournalPickerSheet: View {
                             HStack(spacing: 12) {
                                 StorageImage(path: j.coverPath).frame(width: 44, height: 44).clipShape(RoundedRectangle(cornerRadius: 10))
                                 VStack(alignment: .leading) {
-                                    Text(j.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                                    Text(j.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                                     if let r = j.dateRange { Text(r).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
                                 }
                                 Spacer()

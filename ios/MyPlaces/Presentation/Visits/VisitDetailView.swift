@@ -67,7 +67,7 @@ struct VisitDetailView: View {
                 VStack { backBar; Spacer()
                     EmptyStateView(icon: "arrow.triangle.2.circlepath", title: "Đang chờ đồng bộ", message: "Lần ghé sẽ hiện đầy đủ khi đồng bộ xong.")
                     Spacer() }
-            } else { ProgressView().tint(.white) }
+            } else { ProgressView().tint(Theme.textPrimary) }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .screenBackground()
@@ -159,30 +159,31 @@ struct VisitDetailView: View {
                 } label: {
                     HStack(spacing: 6) {
                         if let c = item.placeCategory { CategoryDot(category: c) }
-                        Text(item.title).font(.system(size: 13, weight: .medium)).foregroundStyle(.white.opacity(0.9))
+                        Text(item.title).font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.onAccent.opacity(0.9))
                     }
                     .padding(.horizontal, 10).frame(height: 24).background(.black.opacity(0.4), in: Capsule())
                 }
                 .buttonStyle(.plain)
                 Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))")
-                    .font(.system(size: 24, weight: .bold)).foregroundStyle(.white)
+                    .font(.system(size: 24, weight: .bold)).foregroundStyle(Theme.textPrimary)
                     .accessibilityIdentifier("visit.date")
                 HStack(alignment: .bottom) {
                     if let note = item.note, !note.isEmpty {
-                        Text(note).font(.system(size: 14)).foregroundStyle(.white.opacity(0.9)).lineLimit(3)
+                        Text(note).font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9)).lineLimit(3)
                     }
                     Spacer()
                     if !model.participants.isEmpty { AvatarStack(names: model.participants.map(\.name), size: 24, max: 2) }
                 }
                 if !model.participants.isEmpty {
                     Text("Cùng " + model.participants.map(\.name).joined(separator: ", "))
-                        .font(.system(size: 12)).foregroundStyle(.white.opacity(0.7)).lineLimit(1)
+                        .font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.7)).lineLimit(1)
                 }
             }
             .padding(18)
         }
         .frame(height: 470)
         .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .onPhoto()
         .overlay(alignment: .top) {
             HStack {
                 CircleIconButton(systemName: "chevron.left") { dismiss() }.accessibilityIdentifier("nav.back")
@@ -190,7 +191,7 @@ struct VisitDetailView: View {
                 if photos.count > 1 {
                     HStack(spacing: 4) {
                         ForEach(0..<min(photos.count, 8), id: \.self) { i in
-                            Capsule().fill(i == page ? .white : .white.opacity(0.4)).frame(width: i == page ? 14 : 5, height: 5)
+                            Capsule().fill(i == page ? Theme.textPrimary : Theme.textPrimary.opacity(0.4)).frame(width: i == page ? 14 : 5, height: 5)
                         }
                     }
                 }
@@ -207,7 +208,7 @@ struct VisitDetailView: View {
                         Button(role: .destructive) { confirmLeave = true } label: { Label("Rời lần ghé", systemImage: "rectangle.portrait.and.arrow.right") }
                     }
                 } label: {
-                    Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                    Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.onAccent)
                         .frame(width: 36, height: 36).background(Color.black.opacity(0.45), in: Circle())
                 }
                 .accessibilityIdentifier("visit.more")
@@ -222,10 +223,10 @@ struct VisitDetailView: View {
             Avatar(name: m.author?.displayName ?? "?", path: m.author?.avatarPath, size: 32)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
-                    Text(isMe ? "Bạn" : (m.author?.displayName ?? "Thành viên")).font(.system(size: 14, weight: .semibold)).foregroundStyle(.white)
+                    Text(isMe ? "Bạn" : (m.author?.displayName ?? "Thành viên")).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                     Text(VNFormat.relative(m.createdAt)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
                 }
-                Text(m.body ?? "").font(.system(size: 14)).foregroundStyle(.white.opacity(0.9))
+                Text(m.body ?? "").font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9))
                 if !m.attachments.isEmpty {
                     HStack(spacing: 6) {
                         ForEach(m.attachments.prefix(3)) { a in

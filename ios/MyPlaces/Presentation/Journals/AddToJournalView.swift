@@ -23,7 +23,7 @@ struct AddToJournalView: View {
                 ForEach(Array(["Địa điểm", "Lần ghé"].enumerated()), id: \.offset) { i, t in
                     Button { tab = i } label: {
                         Text(t).font(.system(size: 13, weight: tab == i ? .semibold : .regular))
-                            .foregroundStyle(tab == i ? .white : Theme.textSecondary)
+                            .foregroundStyle(tab == i ? Theme.textPrimary : Theme.textSecondary)
                             .frame(maxWidth: .infinity).frame(height: 34)
                             .background(tab == i ? Theme.surfaceHigh : .clear, in: Capsule())
                     }.buttonStyle(.plain)
@@ -39,8 +39,8 @@ struct AddToJournalView: View {
                             addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
                         } label: {
                             HStack(spacing: 14) {
-                                Image(systemName: "plus").foregroundStyle(.white).frame(width: 40, height: 40).background(Theme.surface, in: Circle())
-                                Text("Tạo địa điểm mới").font(.system(size: 15, weight: .medium)).foregroundStyle(.white)
+                                Image(systemName: "plus").foregroundStyle(Theme.textPrimary).frame(width: 40, height: 40).background(Theme.surface, in: Circle())
+                                Text("Tạo địa điểm mới").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
                                 Spacer()
                                 Image(systemName: "chevron.right").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
                             }
@@ -105,7 +105,7 @@ struct AddToJournalView: View {
             HStack(spacing: 12) {
                 PlaceThumb(path: path, category: category, size: 40, corner: 20)
                 VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) { Text(title).font(.system(size: 15, weight: .medium)).foregroundStyle(.white); CategoryDot(category: category) }
+                    HStack(spacing: 6) { Text(title).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary); CategoryDot(category: category) }
                     if let subtitle { Text(subtitle).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1) }
                 }
                 Spacer()

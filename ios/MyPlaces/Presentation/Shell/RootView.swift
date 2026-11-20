@@ -10,7 +10,7 @@ struct RootView: View {
             Theme.background.ignoresSafeArea()
             switch session.phase {
             case .loading:
-                ProgressView().tint(.white)
+                ProgressView().tint(Theme.textPrimary)
             case .signedOut:
                 AuthFlowView()
                     .transition(.opacity)

@@ -12,7 +12,7 @@ struct PlaceListView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("Địa điểm").font(.mpLargeTitle).foregroundStyle(.white)
+                Text("Địa điểm").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 CircleIconButton(systemName: "plus", tint: Theme.accent, background: Theme.surface) {
                     addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
@@ -73,13 +73,13 @@ struct PlaceListView: View {
             PlaceThumb(path: p.coverStoragePath, category: p.category, size: 52, corner: 12)
                 .overlay(alignment: .bottomLeading) {
                     if p.isShared {
-                        Image(systemName: "person.2.fill").font(.system(size: 7)).foregroundStyle(.white)
+                        Image(systemName: "person.2.fill").font(.system(size: 7)).foregroundStyle(Theme.onAccent)
                             .frame(width: 16, height: 16).background(.black.opacity(0.7), in: Circle()).padding(3)
                     }
                 }
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(p.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).lineLimit(1)
+                    Text(p.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                     CategoryDot(category: p.category)
                     if let state = sync.state(for: p.id) {
                         Badge(text: state == .failed ? "Lỗi đồng bộ" : "Chưa đồng bộ", tone: state == .failed ? Theme.danger : Theme.textSecondary)

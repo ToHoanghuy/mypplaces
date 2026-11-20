@@ -39,12 +39,16 @@ struct PrimaryButton: View {
     }
 
     private var foreground: Color {
-        switch tone { case .white: return Theme.background; default: return .white }
+        switch tone {
+        case .white: return Theme.background
+        case .surface: return Theme.textPrimary
+        default: return Theme.onAccent
+        }
     }
     private var background: Color {
         switch tone {
         case .accent: return Theme.accent
-        case .white: return .white
+        case .white: return Theme.textPrimary
         case .danger: return Theme.danger
         case .surface: return Theme.surface
         }
@@ -60,9 +64,9 @@ struct PillButton: View {
     var body: some View {
         Button(action: action) {
             Group {
-                if isLoading { ProgressView().tint(.white).scaleEffect(0.8) } else { Text(title).font(.system(size: 14, weight: .semibold)) }
+                if isLoading { ProgressView().tint(Theme.onAccent).scaleEffect(0.8) } else { Text(title).font(.system(size: 14, weight: .semibold)) }
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.onAccent)
             .padding(.horizontal, 16)
             .frame(height: 32)
             .background(Theme.accent, in: Capsule())
@@ -76,16 +80,18 @@ struct PillButton: View {
 struct CircleIconButton: View {
     var systemName: String
     var size: CGFloat = 36
-    var tint: Color = .white
-    var background: Color = Color.black.opacity(0.45)
+    /// nil = white on the photo scrim (default) or primary text on a themed background.
+    var tint: Color? = nil
+    /// nil = translucent black scrim, used over photos and maps in both themes.
+    var background: Color? = nil
     var action: () -> Void
     var body: some View {
         Button(action: action) {
             Image(systemName: systemName)
                 .font(.system(size: size * 0.42, weight: .semibold))
-                .foregroundStyle(tint)
+                .foregroundStyle(tint ?? (background == nil ? Theme.onAccent : Theme.textPrimary))
                 .frame(width: size, height: size)
-                .background(background, in: Circle())
+                .background(background ?? Color.black.opacity(0.45), in: Circle())
                 .overlay(Circle().stroke(Theme.border, lineWidth: 0.5))
         }
         .buttonStyle(.plain)
@@ -107,8 +113,8 @@ struct Chip: View {
             }
             .padding(.horizontal, 14)
             .frame(height: 32)
-            .foregroundStyle(selected ? Theme.background : .white)
-            .background(selected ? Color.white : Theme.surface, in: Capsule())
+            .foregroundStyle(selected ? Theme.background : Theme.textPrimary)
+            .background(selected ? Theme.textPrimary : Theme.surface, in: Capsule())
             .overlay(Capsule().stroke(selected ? .clear : Theme.border, lineWidth: 1))
         }
         .buttonStyle(.plain)
@@ -167,7 +173,7 @@ struct SearchField: View {
             Image(systemName: "magnifyingglass").font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
             field
                 .font(.system(size: 15))
-                .foregroundStyle(.white)
+                .foregroundStyle(Theme.textPrimary)
                 .tint(Theme.accent)
                 .submitLabel(.search)
                 .onSubmit(onSubmit)
@@ -213,7 +219,7 @@ struct InputField: View {
                 }
             }
             .font(.system(size: 15))
-            .foregroundStyle(.white)
+            .foregroundStyle(Theme.textPrimary)
             .tint(Theme.accent)
             .keyboardType(keyboard)
             .textContentType(QAHooks.noAutofill ? nil : contentType)
@@ -246,7 +252,7 @@ struct Avatar: View {
             if let path {
                 StorageImage(path: path).clipShape(Circle())
             } else {
-                Text(initials).font(.system(size: size * 0.4, weight: .semibold)).foregroundStyle(.white)
+                Text(initials).font(.system(size: size * 0.4, weight: .semibold)).foregroundStyle(Theme.textPrimary)
             }
         }
         .frame(width: size, height: size)
@@ -268,7 +274,7 @@ struct AvatarStack: View {
         HStack(spacing: -size * 0.3) {
             ForEach(Array(names.prefix(max).enumerated()), id: \.offset) { _, n in Avatar(name: n, size: size) }
             if names.count > max {
-                Text("+\(names.count - max)").font(.system(size: 10, weight: .semibold)).foregroundStyle(.white)
+                Text("+\(names.count - max)").font(.system(size: 10, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                     .padding(.leading, size * 0.4)
             }
         }
@@ -283,7 +289,7 @@ struct SectionHeader: View {
         HStack {
             Text(uppercase ? title.uppercased() : title)
                 .font(uppercase ? .mpSection : .system(size: 15, weight: .semibold))
-                .foregroundStyle(uppercase ? Theme.textSecondary : .white)
+                .foregroundStyle(uppercase ? Theme.textSecondary : Theme.textPrimary)
                 .tracking(uppercase ? 0.6 : 0)
             Spacer()
             if let count {
@@ -330,9 +336,9 @@ struct EmptyStateView: View {
     var action: (() -> Void)? = nil
     var body: some View {
         VStack(spacing: 10) {
-            Image(systemName: icon).font(.system(size: 20)).foregroundStyle(.white)
+            Image(systemName: icon).font(.system(size: 20)).foregroundStyle(Theme.textPrimary)
                 .frame(width: 48, height: 48).background(Theme.surfaceHigh, in: Circle())
-            Text(title).font(.system(size: 18, weight: .bold)).foregroundStyle(.white)
+            Text(title).font(.system(size: 18, weight: .bold)).foregroundStyle(Theme.textPrimary)
             Text(message).font(.mpCallout).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
             if let actionTitle, let action {
                 PrimaryButton(title: actionTitle, icon: "plus", action: action).padding(.top, 10)
@@ -386,7 +392,7 @@ struct ModalBar<Trailing: View>: View {
     @ViewBuilder var trailing: Trailing
     var body: some View {
         ZStack {
-            Text(title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).lineLimit(1).padding(.horizontal, 80)
+            Text(title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1).padding(.horizontal, 80)
             HStack {
                 Button(cancelTitle, action: onCancel).font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
                     .accessibilityIdentifier("modal.cancel")
@@ -406,7 +412,7 @@ struct ToastModifier: ViewModifier {
         content.overlay(alignment: .top) {
             if let message {
                 Text(message)
-                    .font(.system(size: 14, weight: .medium)).foregroundStyle(.white)
+                    .font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.textPrimary)
                     .padding(.horizontal, 16).padding(.vertical, 12)
                     .background(Theme.surfaceHigh, in: Capsule())
                     .overlay(Capsule().stroke(Theme.border, lineWidth: 1))
@@ -452,11 +458,11 @@ struct ConfirmCard: View {
             VStack(spacing: 14) {
                 Image(systemName: icon).font(.system(size: 20)).foregroundStyle(Theme.danger)
                     .frame(width: 52, height: 52).background(Theme.danger.opacity(0.15), in: Circle())
-                Text(title).font(.system(size: 19, weight: .bold)).foregroundStyle(.white).multilineTextAlignment(.center)
+                Text(title).font(.system(size: 19, weight: .bold)).foregroundStyle(Theme.textPrimary).multilineTextAlignment(.center)
                 Text(message).font(.system(size: 13)).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
                 PrimaryButton(title: confirmTitle, tone: .danger, isLoading: isLoading, height: 48, action: onConfirm)
                     .padding(.top, 6).accessibilityIdentifier("confirm.ok")
-                Button("Hủy", action: onCancel).font(.system(size: 15, weight: .medium)).foregroundStyle(.white).padding(.vertical, 6)
+                Button("Hủy", action: onCancel).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary).padding(.vertical, 6)
             }
             .padding(22)
             .background(Theme.surfaceHigh, in: RoundedRectangle(cornerRadius: 28, style: .continuous))

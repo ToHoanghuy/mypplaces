@@ -25,7 +25,7 @@ struct MyPlacesApp: App {
             RootView()
                 .environment(session)
                 .environment(router)
-                .preferredColorScheme(.dark)
+                .appAppearance()
                 .tint(Theme.accent)
                 .onOpenURL { url in
                     if let link = DeepLink(url: url) { router.open(link) }

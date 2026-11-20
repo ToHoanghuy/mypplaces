@@ -12,7 +12,7 @@ struct PlacePinView: View {
                 StorageImage(path: place.coverStoragePath, placeholderCategory: place.category)
                     .frame(width: size, height: size)
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(selected ? Theme.accent : .white, lineWidth: selected ? 3 : 2.5))
+                    .overlay(Circle().stroke(selected ? Theme.accent : Theme.textPrimary, lineWidth: selected ? 3 : 2.5))
                     .overlay(alignment: .bottomTrailing) {
                         CategoryDot(category: place.category, size: 10)
                             .overlay(Circle().stroke(Theme.background, lineWidth: 2))
@@ -20,28 +20,29 @@ struct PlacePinView: View {
                     }
                     .overlay(alignment: .topLeading) {
                         if place.isShared {
-                            Image(systemName: "person.2.fill").font(.system(size: 7)).foregroundStyle(.white)
+                            Image(systemName: "person.2.fill").font(.system(size: 7)).foregroundStyle(Theme.textPrimary)
                                 .frame(width: 15, height: 15).background(Theme.surfaceHigh, in: Circle())
-                                .overlay(Circle().stroke(.white, lineWidth: 1))
+                                .overlay(Circle().stroke(Theme.textPrimary, lineWidth: 1))
                                 .offset(x: -2, y: -2)
                         }
                     }
             } else {
                 Image(systemName: place.category.icon)
                     .font(.system(size: 13, weight: .semibold))
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Theme.textPrimary)
                     .frame(width: selected ? 40 : 32, height: selected ? 40 : 32)
                     .background(place.category.color.opacity(place.visitStatus == .visited ? 0.95 : 0.7), in: Circle())
-                    .overlay(Circle().stroke(selected ? Theme.accent : .white.opacity(0.85), lineWidth: selected ? 3 : 1.5))
+                    .overlay(Circle().stroke(selected ? Theme.accent : Theme.textPrimary.opacity(0.85), lineWidth: selected ? 3 : 1.5))
             }
             if cluster.count > 1 {
                 Text("+\(cluster.count - 1)")
                     .font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.background)
                     .padding(.horizontal, 5).frame(height: 17)
-                    .background(.white, in: Capsule())
+                    .background(Theme.textPrimary, in: Capsule())
                     .offset(x: 8, y: -6)
             }
         }
+        .onPhoto()
         .shadow(color: .black.opacity(0.5), radius: 6, y: 3)
         .animation(.spring(duration: 0.25), value: selected)
         .accessibilityElement(children: .ignore)
@@ -61,7 +62,7 @@ struct PlacePreviewCard: View {
             PlaceThumb(path: place.coverStoragePath, category: place.category, size: 58, corner: 14)
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(place.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(.white).lineLimit(1)
+                    Text(place.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
                     CategoryDot(category: place.category)
                 }
                 Text(PlaceCopy.visitSummary(place)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
@@ -75,7 +76,7 @@ struct PlacePreviewCard: View {
         .padding(12)
         .background(Theme.surface.opacity(0.96), in: RoundedRectangle(cornerRadius: 22, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).stroke(Theme.border, lineWidth: 1))
-        .shadow(color: .black.opacity(0.4), radius: 18, y: 8)
+        .shadow(color: Theme.shadow, radius: 18, y: 8)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("map.preview")
     }

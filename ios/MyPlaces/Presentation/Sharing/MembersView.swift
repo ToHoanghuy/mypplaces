@@ -52,7 +52,7 @@ struct MembersView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 12) {
                 CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() }.accessibilityIdentifier("nav.back")
-                Text("Thành viên").font(.mpLargeTitle).foregroundStyle(.white)
+                Text("Thành viên").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 HStack(spacing: 4) { Image(systemName: "person.2"); Text("\(model.members.count + 1) người") }
                     .font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
@@ -83,7 +83,7 @@ struct MembersView: View {
                                     Image(systemName: inv.inviteeEmailNormalized == nil ? "link" : "envelope").foregroundStyle(Theme.textSecondary)
                                         .frame(width: 40, height: 40).background(Theme.surfaceHigh, in: Circle())
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(inv.inviteeEmailNormalized ?? "Liên kết mời").font(.system(size: 15, weight: .medium)).foregroundStyle(.white)
+                                        Text(inv.inviteeEmailNormalized ?? "Liên kết mời").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
                                         Text("\(inv.role.displayName) · \(VNFormat.expiresIn(inv.expiresAt))").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
                                     }
                                     Spacer()
@@ -155,7 +155,7 @@ struct MembersView: View {
         HStack(spacing: 12) {
             Avatar(name: name, size: 40)
             VStack(alignment: .leading, spacing: 2) {
-                Text(name).font(.system(size: 15, weight: .semibold)).foregroundStyle(.white)
+                Text(name).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
                 Text(subtitle).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
@@ -172,7 +172,7 @@ struct MembersView: View {
                     }
                 } label: {
                     HStack(spacing: 4) { Text(role.displayName); Image(systemName: "chevron.down").font(.system(size: 9)) }
-                        .font(.system(size: 12, weight: .medium)).foregroundStyle(.white)
+                        .font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.textPrimary)
                         .padding(.horizontal, 10).frame(height: 28).background(Theme.surfaceHigh, in: Capsule())
                 }
                 .accessibilityIdentifier("member.role.\(name)")
