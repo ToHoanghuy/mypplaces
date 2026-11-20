@@ -31,6 +31,7 @@ struct AddPlaceView: View {
         _provider = State(initialValue: seed.provider)
         _providerPlaceId = State(initialValue: seed.providerPlaceId)
         _addressTouched = State(initialValue: seed.address != nil)
+        if let c = seed.category { _category = State(initialValue: c) }
     }
 
     var body: some View {
@@ -77,6 +78,7 @@ struct AddPlaceView: View {
                 addressTouched = s.address != nil
                 center = s.coordinate
                 provider = s.provider; providerPlaceId = s.providerPlaceId
+                if let c = s.category { category = c }
                 position = .region(MKCoordinateRegion(center: s.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.004, longitudeDelta: 0.004)))
             }
         }

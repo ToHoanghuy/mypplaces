@@ -1,5 +1,6 @@
 import Foundation
 import Supabase
+import CoreLocation
 
 /// Thin, typed wrapper over the live Supabase API (tables under RLS, projection RPCs,
 /// sharing RPCs and the private `memory-media` bucket). No business rule is re-implemented
@@ -111,6 +112,12 @@ final class MyPlacesAPI: @unchecked Sendable {
     func companionSuggestions(query: String? = nil, limit: Int = 30) async throws -> [CompanionSuggestion] {
         struct P: Encodable { var pQuery: String?; var pLimit: Int }
         return try await client.rpc("list_companion_suggestions", params: P(pQuery: query, pLimit: limit)).execute().value
+    }
+
+    /// Overture fallback POIs (`search_pois`; server clamps q to 100 chars and limit to 1…20).
+    func searchPOIs(query: String, near center: CLLocationCoordinate2D?, limit: Int = 10) async throws -> [POIResult] {
+        struct P: Encodable { var q: String; var lat: Double?; var lng: Double?; var maxResults: Int }
+        return try await client.rpc("search_pois", params: P(q: query, lat: center?.latitude, lng: center?.longitude, maxResults: limit)).execute().value
     }
 
     struct TimelineParams: Encodable {

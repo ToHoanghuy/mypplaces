@@ -80,3 +80,13 @@ Không thêm cột/bảng nào; không có cột trạng thái hay favorite. Ngu
 | 11 | 10. Decisions | Thêm ERD-09..ERD-13. |
 | 12 | Document status | Cập nhật trạng thái v1.2. |
 | 13 | 13 (mới) | Thêm mục 13: quyết định, đối tượng mới, migration và kiểm thử. |
+
+## Bổ sung 20/11/2026 – Tìm kiếm dự phòng Overture Maps
+
+- `20261120000001_poi_overture_fallback.sql` – extension `pg_trgm`, `unaccent` (schema `extensions`); `private.vn_norm()`; bảng `public.poi_overture` (id, name, category, address, latitude, longitude, confidence + cột sinh `name_norm`, `search_norm`), `public.poi_overture_imports`; RLS chỉ đọc cho `authenticated`; index GIN trigram + GiST vị trí; RPC `search_pois`.
+- `20261120000002_search_pois_coverage.sql` – xếp hạng thêm 0.15 × tỉ lệ từ khoá có mặt nguyên từ trong tên + địa chỉ.
+- `20261120000003_search_pois_short_query_guard.sql` – q ≥ 3 ký tự sau chuẩn hoá; truy vấn ngắn có vị trí chỉ tìm trong ~28 km; giới hạn 10.000 ứng viên. Thời gian xấu nhất trên DB thật: 14 s ("ph") → ~1 s ("nhà hàng").
+- Dữ liệu: 422.329 POI (Overture `2026-11-18.0`, lọc Việt Nam, ngưỡng confidence theo danh mục, bỏ tên rác, gộp trùng 30 m). Script: `scripts/overture/build_vn_pois.py`.
+- iOS: `POISearch.swift` (model, quy tắc gộp/bỏ trùng, cache), mục "Gợi ý thêm" trong màn tìm kiếm, điền sẵn form Thêm địa điểm (cả danh mục), Cá nhân › Giới thiệu ghi nguồn dữ liệu.
+- Test: pgTAP `08_poi_overture_search.test.sql` (31), `SearchMergeTests` (9), `H10SearchFallbackUITests` (2).
+

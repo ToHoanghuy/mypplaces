@@ -6,15 +6,27 @@ import MapKit
 final class MapSearchModel {
     var query = ""
     var results: [MKMapItem] = []
+    /// Overture fallback POIs, already deduped against `results`.
+    var fallback: [POIResult] = []
     var isSearching = false
     @ObservationIgnored private var task: Task<Void, Never>?
+    @ObservationIgnored var cache = POISearchCache.shared
+    @ObservationIgnored var fetchPOIs: (String, CLLocationCoordinate2D?) async throws -> [POIResult] = { q, c in
+        try await MyPlacesAPI.shared.searchPOIs(query: q, near: c, limit: 10)
+    }
+
+    static let debounce: Duration = .milliseconds(400)
+    static let minChars = 2
+    /// The server ignores shorter normalized queries (cost guard), so don't call it for them.
+    static let minFallbackChars = 3
 
     func search(near region: MKCoordinateRegion?) {
         task?.cancel()
         let q = query.trimmingCharacters(in: .whitespaces)
-        guard q.count >= 2 else { results = []; return }
+        guard q.count >= Self.minChars else { results = []; fallback = []; isSearching = false; return }
+        let center = region?.center ?? LocationService.shared.lastLocation?.coordinate
         task = Task {
-            try? await Task.sleep(for: .milliseconds(300))
+            try? await Task.sleep(for: Self.debounce)
             guard !Task.isCancelled else { return }
             isSearching = true
             let req = MKLocalSearch.Request()
@@ -23,7 +35,23 @@ final class MapSearchModel {
             if let region { req.region = region }
             let res = try? await MKLocalSearch(request: req).start()
             guard !Task.isCancelled else { return }
-            results = Array((res?.mapItems ?? []).prefix(15))
+            let apple = Array((res?.mapItems ?? []).prefix(15))
+            results = apple
+            var extra: [POIResult] = []
+            if SearchMerge.normalize(q).count >= Self.minFallbackChars,
+               SearchMerge.needsFallback(appleNames: apple.compactMap(\.name), query: q) {
+                let key = SearchMerge.cacheKey(query: q, center: center)
+                let pois: [POIResult]
+                if let hit = cache.get(key) { pois = hit }
+                else {
+                    pois = (try? await fetchPOIs(q, center)) ?? []
+                    guard !Task.isCancelled else { return }
+                    if !pois.isEmpty { cache.set(key, pois) }
+                }
+                extra = SearchMerge.dedupe(pois: pois, against: apple.map { ($0.name ?? "", $0.placemark.coordinate) })
+            }
+            guard !Task.isCancelled else { return }
+            fallback = extra
             isSearching = false
         }
     }
@@ -38,6 +66,8 @@ struct PlaceSeed: Hashable, Identifiable {
     var address: String?
     var provider: String?
     var providerPlaceId: String?
+    /// Only set by sources that know the category (Overture fallback); MapKit leaves it nil.
+    var category: PlaceCategory?
 
     init(title: String = "", coordinate: CLLocationCoordinate2D, address: String? = nil) {
         self.title = title; latitude = coordinate.latitude; longitude = coordinate.longitude; self.address = address
@@ -53,6 +83,14 @@ struct PlaceSeed: Hashable, Identifiable {
         }
     }
 
+    init(poi: POIResult) {
+        title = poi.name
+        latitude = poi.latitude; longitude = poi.longitude
+        address = poi.address
+        category = poi.category
+        provider = POIAttribution.provider; providerPlaceId = poi.id.uuidString.lowercased()
+    }
+
     var coordinate: CLLocationCoordinate2D { .init(latitude: latitude, longitude: longitude) }
 
     static func address(_ p: CLPlacemark) -> String? {
@@ -64,7 +102,7 @@ struct PlaceSeed: Hashable, Identifiable {
     }
 }
 
-/// 02d – search own places + MapKit results.
+/// 02d – search own places + MapKit results, plus Overture POIs when Apple finds too little.
 struct PlaceSearchView: View {
     var region: MKCoordinateRegion?
     var showsOwnPlaces = true
@@ -125,18 +163,50 @@ struct PlaceSearchView: View {
                         }
                     } header: { sectionTitle("Trên bản đồ") }
                 }
+                if !model.fallback.isEmpty {
+                    Section {
+                        ForEach(model.fallback) { poi in
+                            Button { onSelectMapItem(PlaceSeed(poi: poi)); dismiss() } label: {
+                                HStack(spacing: 12) {
+                                    Image(systemName: poi.category.icon).font(.system(size: 15)).foregroundStyle(poi.category.color)
+                                        .frame(width: 40, height: 40).background(Theme.surface, in: Circle())
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(poi.name).font(.system(size: 15, weight: .semibold)).lineLimit(1)
+                                        Text(poiSubtitle(poi)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "plus").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                                        .frame(width: 28, height: 28).background(Theme.surfaceHigh, in: Circle())
+                                }
+                            }
+                            .listRowBackground(Theme.background)
+                            .accessibilityIdentifier("search.poi")
+                        }
+                        Text(POIAttribution.text).font(.system(size: 11)).foregroundStyle(Theme.textTertiary)
+                            .listRowBackground(Theme.background).listRowSeparator(.hidden)
+                            .accessibilityIdentifier("search.attribution")
+                    } header: { sectionTitle("Gợi ý thêm") }
+                }
                 if model.isSearching { HStack { Spacer(); ProgressView(); Spacer() }.listRowBackground(Theme.background) }
-                if !model.query.isEmpty && ownMatches.isEmpty && model.results.isEmpty && !model.isSearching {
+                if !model.query.isEmpty && ownMatches.isEmpty && model.results.isEmpty && model.fallback.isEmpty && !model.isSearching {
                     Text("Không tìm thấy kết quả").font(.mpCallout).foregroundStyle(Theme.textSecondary).listRowBackground(Theme.background)
                 }
             }
             .listStyle(.plain)
+            .scrollDismissesKeyboard(.immediately)
             .scrollContentBackground(.hidden)
             .foregroundStyle(Theme.textPrimary)
         }
         .screenBackground()
         .onChange(of: model.query) { _, _ in model.search(near: region) }
         .onAppear { focused = true }
+    }
+
+    private func poiSubtitle(_ p: POIResult) -> String {
+        var parts = [p.category.displayName]
+        if let a = p.address, !a.isEmpty { parts.append(a) }
+        if let d = p.distanceM { parts.append(d < 1000 ? "\(Int(d.rounded())) m" : String(format: "%.1f km", d / 1000)) }
+        return parts.joined(separator: " · ")
     }
 
     private func sectionTitle(_ t: String) -> some View {

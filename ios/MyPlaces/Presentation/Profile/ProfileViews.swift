@@ -52,6 +52,9 @@ struct ProfileView: View {
                     AppearanceSection()
                         .padding(.top, 6)
 
+                    AboutDataSection()
+                        .padding(.top, 6)
+
                     Button { confirmSignOut = true } label: {
                         Text("Đăng xuất").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.danger)
                             .frame(maxWidth: .infinity).frame(height: 52)
@@ -370,5 +373,29 @@ struct AppearanceSection: View {
             .tint(Theme.accent)
         }
         .padding(.horizontal, 16).frame(height: 56)
+    }
+}
+
+/// "Giới thiệu": data sources/attribution for the Overture fallback search.
+struct AboutDataSection: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("GIỚI THIỆU").font(.mpSection).tracking(0.6).foregroundStyle(Theme.textSecondary)
+                .padding(.horizontal, 4)
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 14) {
+                    Image(systemName: "map").font(.system(size: 15)).foregroundStyle(Theme.textSecondary).frame(width: 20)
+                    Text("Nguồn dữ liệu bản đồ").font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+                }
+                Text("Bản đồ và tìm kiếm: Apple Maps. Khi Apple không tìm thấy, ứng dụng gợi ý thêm từ dữ liệu mở.")
+                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary).padding(.leading, 34)
+                Text(POIAttribution.text)
+                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary).padding(.leading, 34)
+                    .accessibilityIdentifier("about.attribution")
+            }
+            .padding(.horizontal, 14).padding(.vertical, 14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Theme.surface, in: RoundedRectangle(cornerRadius: 22))
+        }
     }
 }
