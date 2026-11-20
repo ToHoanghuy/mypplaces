@@ -43,6 +43,9 @@ enum QAHooks {
         }
         guard let email = env["QA_EMAIL"], let password = env["QA_PASSWORD"] else { return }
         for _ in 0..<20 where session.phase == .loading { try? await Task.sleep(for: .milliseconds(150)) }
+        if session.phase == .signedIn, session.email?.lowercased() != email.lowercased() {
+            await session.signOut()   // switch QA account (A ↔ B) between launches
+        }
         if session.phase == .signedOut { try? await session.signIn(email: email, password: password) }
         #endif
     }
