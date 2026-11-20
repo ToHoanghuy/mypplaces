@@ -217,7 +217,8 @@ struct SyncView: View {
                             }
                         }
                     }
-                    .padding(16).background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
+                    .padding(16).frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Theme.surface, in: RoundedRectangle(cornerRadius: 24))
 
                     if !sync.items.isEmpty {
                         VStack(spacing: 0) {

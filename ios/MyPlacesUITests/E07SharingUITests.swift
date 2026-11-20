@@ -68,4 +68,16 @@ final class E07SharingUITests: MPUITestCase {
         sleep(4)
         shot("02_map_user_b_shared")
     }
+
+    func test03MembersScreen() {
+        launch(signedInAs: emailA)
+        waitSignedIn()
+        goTab(3)
+        tap("journal.card.Hà Nội mùa thu", 20)
+        tap("journal.invite", 15)
+        tap("share.members", 10)
+        wait(app.staticTexts["QA Bảo Ngọc"].firstMatch, 20)
+        sleep(2)
+        shot("07b_members")
+    }
 }

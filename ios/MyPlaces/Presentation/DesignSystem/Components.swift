@@ -253,7 +253,8 @@ struct Avatar: View {
         .overlay(Circle().stroke(Theme.background, lineWidth: size > 40 ? 0 : 1.5))
     }
     private var initials: String {
-        let parts = name.split(separator: " ")
+        // Vietnamese given name is the last word; skip suffixes like "(bạn)".
+        let parts = name.split(separator: " ").filter { $0.first?.isLetter == true }
         guard let last = parts.last?.first else { return "?" }
         return String(last).uppercased()
     }
