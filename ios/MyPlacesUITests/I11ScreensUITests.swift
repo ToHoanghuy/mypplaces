@@ -8,7 +8,15 @@ final class I11ScreensUITests: MPUITestCase {
     func test02Dark() { tour(mode: "dark") }
 
     private var prefix: String { env["SHOT_PREFIX"] ?? "shot" }
-    private func s(_ mode: String, _ name: String) { shot("liquid-glass/\(prefix)_\(mode)_\(name)") }
+    /// Optional: SHOT_FOLDER (default liquid-glass) and TEXT_SIZE (a UIContentSizeCategory name such as
+    /// UICTContentSizeCategoryXXXL or UICTContentSizeCategoryAccessibilityXL) for Dynamic Type reviews.
+    private var folder: String { env["SHOT_FOLDER"] ?? "liquid-glass" }
+    private var sizeArgs: [String] { env["TEXT_SIZE"].map { ["-UIPreferredContentSizeCategoryName", $0] } ?? [] }
+    private var sizeTag: String {
+        guard let t = env["TEXT_SIZE"] else { return "" }
+        return t.replacingOccurrences(of: "UICTContentSizeCategory", with: "").lowercased() + "_"
+    }
+    private func s(_ mode: String, _ name: String) { shot("\(folder)/\(prefix)_\(sizeTag)\(mode)_\(name)") }
 
     private func dismissModal() {
         hideKeyboard()
@@ -27,14 +35,14 @@ final class I11ScreensUITests: MPUITestCase {
 
     private func tour(mode: String) {
         // Auth (signed out)
-        launch(signedInAs: nil, args: ["-QASignOut", "-appearance.mode", mode])
+        launch(signedInAs: nil, args: sizeArgs + ["-QASignOut", "-appearance.mode", mode])
         if el("welcome.signin").waitForExistence(timeout: 20) {
             sleep(1); s(mode, "00_welcome")
             tap("welcome.signin"); sleep(1); s(mode, "00b_signin")
         }
         app.terminate()
 
-        launch(signedInAs: emailA, args: ["-appearance.mode", mode])
+        launch(signedInAs: emailA, args: sizeArgs + ["-appearance.mode", mode])
         waitSignedIn()
         sleep(4); s(mode, "01_map")
 
