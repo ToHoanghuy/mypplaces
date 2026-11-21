@@ -189,7 +189,8 @@ Update sync state (synced/failed)
 - [x] MapKit map với user location
 - [x] Search địa điểm qua MapKit
 - [x] Place CRUD (Create, Read, Update, soft Delete)
-- [x] Place list với filter theo category
+- [x] Place list với filter theo category, menu sắp xếp (Tùy chỉnh / Hoạt động gần nhất / Tên) và nhấn giữ + kéo để tự sắp xếp (thứ tự lưu theo từng người, bảng `place_user_order`)
+- [x] Phông Inter (SIL OFL 1.1) qua `Font.mp(...)` / `AppFont` trong `DesignSystem/Typography.swift`, co giãn theo Dynamic Type – không dùng `.system(size:)` cố định cho chữ
 - [x] SwiftData local cache
 - [x] Outbox pattern cho offline-first
 - [x] Unit tests cho model mapping và outbox

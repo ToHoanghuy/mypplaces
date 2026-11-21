@@ -128,7 +128,7 @@ Cập nhật 19/11/2026 (giờ Việt Nam). Đối chiếu từng mã yêu cầu
 | NFR-04 | 09 Backend & NFR | Mutation có pending record local trước network | P0 | Một phần | Outbox SwiftData cho Place CRUD + tạo Visit; phần khác online |
 | NFR-05 | 09 Backend & NFR | RLS + JWT cho mọi mutation | P0 | Hoàn thành | pgTAP 457/457 live |
 | NFR-06 | 09 Backend & NFR | Không background location; giải thích quyền | P0 | Hoàn thành | Chỉ WhenInUse; màn Quyền vị trí & ảnh |
-| NFR-07 | 09 Backend & NFR | Dynamic Type, VoiceOver, contrast, touch target | P0 | Một phần | Có accessibilityIdentifier, ít accessibilityLabel (3 chỗ), font cố định – chưa Dynamic Type |
+| NFR-07 | 09 Backend & NFR | Dynamic Type, VoiceOver, contrast, touch target | P0 | Một phần | Dynamic Type: toàn bộ chữ dùng Inter co giãn theo cỡ chữ hệ thống (21/11/2026, đã kiểm XXXL và AX3). Còn thiếu: accessibilityLabel (ít chỗ), chưa rà VoiceOver |
 | NFR-08 | 09 Backend & NFR | Text tách khỏi code; vi/en | P0 | Khác tài liệu | Chỉ tiếng Việt, chuỗi viết thẳng trong code (chưa có Localizable) |
 | NFR-09 | 09 Backend & NFR | Tách module, repository, logic test được | P0 | Hoàn thành | Core/Data/Presentation; 18 unit test CoreLogicTests |
 | NFR-10 | 09 Backend & NFR | Log request_id, error code, sync state | P0 | Chưa làm | Chưa có logging có cấu trúc |
@@ -188,7 +188,6 @@ Cập nhật 19/11/2026 (giờ Việt Nam). Đối chiếu từng mã yêu cầu
 | Ảnh đại diện: nút 'Đổi ảnh' bị tắt (FR-AU-05) | Backend chưa có bucket avatars; hiện avatar chữ cái đầu. |
 | Link mời chỉ dùng custom scheme myplaces://  | Chưa có domain cho universal link; người nhận cần cài app hoặc nhập mã trong app. |
 | Bộ lọc Dòng thời gian chỉ chọn 1 loại địa điểm | RPC my_timeline nhận một p_category; thiết kế gợi ý chọn nhiều. |
-| Font hệ thống SF thay cho Inter | Không đóng gói font Inter vào app. |
 | Chip loại địa điểm luôn hiện trên Bản đồ | Đơn giản hóa thay cho bảng lọc ẩn/hiện. |
 | Viewer thấy icon loại thay vì ảnh bìa Place được chia sẻ | Policy storage chỉ cấp ảnh trong phạm vi quyền; ảnh bìa lấy từ kỷ niệm của Visit chưa chia sẻ. |
 | Dòng trong Nhật ký hiện người thêm thay vì người đi cùng | Projection của Nhật ký không trả danh sách người đi cùng. |
@@ -205,7 +204,7 @@ Cập nhật 19/11/2026 (giờ Việt Nam). Đối chiếu từng mã yêu cầu
 | 4 | P0 | Mở rộng outbox offline cho Kỷ niệm/ảnh/Nhật ký + test mất mạng thật (NFR-04, UC-15, BR-HY-10) |  |
 | 5 | P0 | Bucket avatars + upload ảnh đại diện (FR-AU-05) | Việc backend + bật nút 'Đổi ảnh'. |
 | 6 | P0 | Phân trang cursor cho map_places/timeline + thumbnail ảnh (NFR-01, NFR-02, NFR-11) |  |
-| 7 | P0 | Accessibility: Dynamic Type, VoiceOver label (NFR-07) |  |
+| 7 | P0 | Accessibility: VoiceOver label (NFR-07) | Dynamic Type đã xong 21/11/2026. |
 | 8 | P0 | Tách chuỗi Localizable + bản tiếng Anh (NFR-08) |  |
 | 9 | P0 | Logging có cấu trúc request_id/error code/sync state (NFR-10) |  |
 | 10 | P0 | Kế hoạch export dữ liệu + xóa tài khoản trước production (NFR-14, FR-AU-07, UC-16) |  |
@@ -220,3 +219,5 @@ Cập nhật 19/11/2026 (giờ Việt Nam). Đối chiếu từng mã yêu cầu
 | 20/11/2026 | Tìm kiếm dự phòng bằng dữ liệu mở (Overture Maps) khi Apple Maps không tìm thấy | Bản đồ và tìm kiếm chính vẫn là MapKit. Khi Apple trả < 3 kết quả liên quan (từ khoá ≥ 3 ký tự), app gọi RPC `search_pois` (Supabase, bảng `poi_overture` 422.329 POI Việt Nam, release Overture 2026-11-18.0, chỉ đọc cho user đã đăng nhập) và hiện mục "Gợi ý thêm" (tối đa 5, bỏ trùng với kết quả Apple trong 50 m + tên giống). Chọn một gợi ý sẽ điền sẵn tên, danh mục, toạ độ, địa chỉ (provider `overture`). Ghi nguồn "Dữ liệu địa điểm: Overture Maps Foundation, © OpenStreetMap contributors" dưới các gợi ý và ở Cá nhân › Giới thiệu. Debounce 400 ms, cache 40 truy vấn gần nhất. Bộ 30 truy vấn thật (HN + HCM): Apple một mình 23 đúng / 1 gần đúng / 6 sai → Apple + dự phòng 26 / 3 / 1. Ảnh: `docs/screenshots/search/`. Test: `SearchMergeTests` (unit, 9), `H10SearchFallbackUITests` (UI, sáng + tối), pgTAP `08_poi_overture_search` (31). Không tính vào % hoàn thiện so với BRD. |
 | 21/11/2026 | Nén ảnh trên máy trước khi tải lên | Mọi ảnh kỷ niệm/ảnh bìa nhật ký đi qua `ImageCompressor`: thu nhỏ bằng ImageIO (không giải mã toàn ảnh) để cạnh dài ≤ 1600 px (không phóng to), xoay đúng chiều, bỏ toàn bộ EXIF/GPS, JPEG chất lượng 0,7 (hạ dần tới 0,5 nếu > 500 KB), chạy nền. Đo trên 6 ảnh mẫu (1,3–2,8 MB gốc): cách cũ 2048 px/0,82 trung bình 792 KB → mới 366 KB (248–464 KB), giảm ~54%. Bucket `memory-media` hạ giới hạn từ 10 MB xuống 2 MB. Chưa tạo ảnh thumbnail riêng (chưa có chỗ lưu/hiển thị). Test: `ImageCompressorTests` (8), `C04VisitsUITests/test01`, pgTAP 06. |
 | 21/11/2026 | Giao diện Liquid Glass (iOS 26) | Tab bar hệ thống, nút/điều khiển nổi bằng kính, CTA glass tô cam, panel Thêm địa điểm nổi, sheet thấp dạng kính; thẻ nội dung giữ nền đặc. iOS 17–25 dùng vật liệu mờ, "Giảm độ trong suốt" dùng nền đặc. Không đổi chức năng, không tính vào % so với BRD. Kế hoạch: `docs/design/LIQUID_GLASS_PLAN.md`. Ảnh: `docs/screenshots/liquid-glass/`. Test: `I11ScreensUITests`. |
+| 21/11/2026 | Phông chữ Inter + Dynamic Type | Inter (SIL OFL 1.1, subset tiếng Việt) cho toàn app, kể cả tiêu đề thanh điều hướng, nhãn tab, ô tìm kiếm; mọi chữ co giãn theo cỡ chữ hệ thống, hàng/nút cao lên theo chữ, tiêu đề xuống dòng ở cỡ lớn. Ghi công ở Cá nhân › Giới thiệu. Ảnh: `docs/screenshots/typography/`. Test: `I11ScreensUITests` (3 cỡ chữ × sáng/tối). |
+| 21/11/2026 | Tự sắp xếp danh sách Địa điểm | Menu sắp xếp Tùy chỉnh / Hoạt động gần nhất / Tên; ở Tùy chỉnh nhấn giữ rồi kéo để đổi chỗ. Thứ tự lưu riêng cho từng người (bảng `place_user_order`, RPC `set_place_order`), đồng bộ qua outbox nên dùng được khi offline; địa điểm mới nằm trên cùng; tắt kéo khi đang tìm/lọc. Ảnh: `docs/screenshots/reorder/`. Test: pgTAP 09 (28), `PlaceOrderingTests` (9), `J13PlaceReorderUITests`. |

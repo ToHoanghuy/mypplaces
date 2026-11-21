@@ -114,3 +114,21 @@ Không thêm cột/bảng nào; không có cột trạng thái hay favorite. Ngu
 - Đã chạy thử trên máy ảo iOS 18.6 (giao diện dự phòng) và chụp ảnh Dynamic Type cỡ lớn / Giảm độ trong suốt (`I12AccessibilityUITests`).
 - UI test không còn phụ thuộc dữ liệu QA còn sót: B02 test00 tự tạo rồi xoá địa điểm tạm; test01/02 chỉ tạo dữ liệu mẫu còn thiếu (bỏ qua nếu đã có); test04 sửa được cả tên gốc lẫn tên đã đổi; C04 dùng ghi chú gắn mã chạy và tự xoá lần ghé đã tạo; D05 tạo nhật ký tên riêng rồi tự xoá; E07 cho user B rời địa điểm / nhật ký trước khi nhận lời mời lại.
 - Ảnh: `docs/screenshots/liquid-glass/r2_*` (iOS 26), `ios18/` (iOS 18.6, dự phòng), `a11y/` (chữ cỡ lớn, Giảm độ trong suốt).
+
+## Bổ sung 21/11/2026 – Phông chữ Inter và Dynamic Type (MYP-3)
+
+- Phông Inter 4.1 (SIL OFL 1.1, không có Reserved Font Name nên được phép subset): 4 độ đậm Regular / Medium / SemiBold / Bold, đã subset Latin + tiếng Việt + dấu câu, tiền tệ, mũi tên (~275 KB/tệp). Đăng ký qua `UIAppFonts`; giấy phép `Resources/Fonts/Inter-OFL.txt`; ghi công ở Cá nhân › Giới thiệu ("Phông chữ: Inter …").
+- `DesignSystem/Typography.swift`: `Font.mp(size, weight)` = `Font.custom(_:size:relativeTo:)` nên mọi chữ co giãn theo cỡ chữ hệ thống (trước đây hầu hết dùng `.system(size:)` cố định, không đổi theo Dynamic Type). Các token `mpLargeTitle … mpCaption2` chuyển sang Inter. ~225 chỗ `.system(size:)` đã thay.
+- UIKit: tiêu đề lớn / tiêu đề thanh điều hướng, nút thanh công cụ, nhãn tab, ô tìm kiếm dùng Inter qua `UIFontMetrics` (chỉ đặt font, không đổi nền nên không ảnh hưởng kính iOS 26).
+- Giữ SF: biểu tượng SF Symbols trong vòng tròn kích thước cố định (nút tròn, ghim bản đồ, chữ cái avatar).
+- Cỡ chữ lớn: chiều cao cố định của nút/hàng (20–62 pt) đổi sang `minHeight`; tiêu đề/địa chỉ một dòng được 2–3 dòng từ cỡ XXXL (`mpLineLimit`); sheet chia sẻ cuộn được, lựa chọn hạn lời mời xếp dọc ở cỡ trợ năng.
+- Ảnh trước/sau (16 màn × sáng/tối × cỡ thường / XXXL / AX3): `docs/screenshots/typography/`.
+
+## Bổ sung 21/11/2026 – Tự sắp xếp danh sách Địa điểm (MYP-4)
+
+- Nút sắp xếp trên toolbar tab Địa điểm: **Tùy chỉnh** (mặc định), **Hoạt động gần nhất**, **Tên** (so sánh theo tiếng Việt). Lựa chọn lưu trên máy.
+- Tùy chỉnh: nhấn giữ một địa điểm rồi kéo lên/xuống (List `.onMove`, rung nhẹ khi thả). Địa điểm chưa có vị trí (mới tạo hoặc mới được chia sẻ) nằm trên cùng; khi chưa từng kéo, thứ tự giống "Hoạt động gần nhất".
+- Khi đang tìm kiếm hoặc lọc danh mục: không kéo được, hiện dòng "Bỏ tìm kiếm và bộ lọc để sắp xếp lại".
+- Lưu theo từng người xem: `20261121000002_place_user_order.sql` – bảng `public.place_user_order (user_id, place_id, position, updated_at)`, RLS chỉ hàng của chính mình và chỉ Place đọc được; RPC `set_place_order(uuid[])` (SECURITY INVOKER, thay toàn bộ thứ tự, bỏ qua id không đọc được, idempotent). Địa điểm được chia sẻ có thứ tự riêng cho mỗi người. Không dùng ON DELETE CASCADE (quy tắc schema; Place xóa mềm).
+- Offline: thao tác kéo ghi vào outbox (`PLACE_ORDER`, chỉ giữ bản mới nhất) rồi đồng bộ; bản thứ tự đã đồng bộ lưu ở `place_order.json`.
+- Test: pgTAP `09_place_user_order.test.sql` (28), `PlaceOrderingTests` (9), `J13PlaceReorderUITests` (kéo thả, khởi động lại vẫn giữ thứ tự, lọc thì tắt kéo). pgTAP local 520/520 (10 file). Security advisor không có cảnh báo mới.
