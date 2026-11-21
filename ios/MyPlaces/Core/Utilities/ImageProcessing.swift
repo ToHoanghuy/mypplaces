@@ -3,32 +3,24 @@ import SwiftUI
 import PhotosUI
 
 enum ImageProcessing {
-    /// Downscales to <= 2048px and encodes JPEG (bucket accepts jpeg/png/heic, max 10 MB).
-    static func prepare(_ image: UIImage, maxDimension: CGFloat = 2048, quality: CGFloat = 0.82) -> PreparedPhoto? {
-        let size = image.size
-        let scale = min(1, maxDimension / max(size.width, size.height))
-        let target = CGSize(width: (size.width * scale).rounded(), height: (size.height * scale).rounded())
-        let format = UIGraphicsImageRendererFormat.default()
-        format.scale = 1
-        let rendered = UIGraphicsImageRenderer(size: target, format: format).image { _ in
-            image.draw(in: CGRect(origin: .zero, size: target))
-        }
-        var q = quality
-        var data = rendered.jpegData(compressionQuality: q)
-        while let d = data, d.count > 9_500_000, q > 0.3 {
-            q -= 0.15
-            data = rendered.jpegData(compressionQuality: q)
-        }
-        guard let data else { return nil }
-        return PreparedPhoto(id: UUID(), data: data, width: Int(target.width), height: Int(target.height))
+    /// Picked photo bytes -> upload-ready JPEG (<= 1600 px, q 0.7→0.5, no EXIF/GPS). See `ImageCompressor`.
+    static func prepare(data: Data) async -> PreparedPhoto? {
+        guard let r = await ImageCompressor.compressInBackground(data) else { return nil }
+        return PreparedPhoto(id: UUID(), data: r.data, width: r.width, height: r.height)
+    }
+
+    /// Synchronous variant for already-decoded images (QA sample photos).
+    static func prepare(_ image: UIImage) -> PreparedPhoto? {
+        guard let src = image.jpegData(compressionQuality: 0.95), let r = ImageCompressor.compress(src) else { return nil }
+        return PreparedPhoto(id: UUID(), data: r.data, width: r.width, height: r.height)
     }
 
     static func load(_ items: [PhotosPickerItem]) async -> [PreparedPhoto] {
         var result: [PreparedPhoto] = []
         for item in items {
+            // Original file bytes (HEIC/JPEG); decoding + downsampling happens off the main thread.
             if let data = try? await item.loadTransferable(type: Data.self),
-               let img = UIImage(data: data),
-               let p = prepare(img) {
+               let p = await prepare(data: data) {
                 result.append(p)
             }
         }

@@ -90,3 +90,10 @@ Không thêm cột/bảng nào; không có cột trạng thái hay favorite. Ngu
 - iOS: `POISearch.swift` (model, quy tắc gộp/bỏ trùng, cache), mục "Gợi ý thêm" trong màn tìm kiếm, điền sẵn form Thêm địa điểm (cả danh mục), Cá nhân › Giới thiệu ghi nguồn dữ liệu.
 - Test: pgTAP `08_poi_overture_search.test.sql` (31), `SearchMergeTests` (9), `H10SearchFallbackUITests` (2).
 
+## Bổ sung 21/11/2026 – Nén ảnh trước khi tải lên
+
+- iOS: `ImageCompressor.swift` (ImageIO `CGImageSourceCreateThumbnailAtIndex`, cạnh dài ≤ 1600 px, không phóng to, áp dụng hướng EXIF, mã hoá lại chỉ từ điểm ảnh nên không còn EXIF/GPS, JPEG 0,7 → tối thiểu 0,5 nếu > 500 KB, chạy ngoài main thread). `ImageProcessing` dùng bộ nén này cho PhotosPicker và ảnh mẫu QA; upload vẫn là `image/jpeg`, đường dẫn `.jpg`.
+- Đo thật (6 ảnh mẫu của simulator, gốc 1,27–2,81 MB): cũ 432/488/1029/707/754/1344 KB → mới 248/262/434/390/399/464 KB.
+- `20261121000001_media_size_limit_2mb.sql` – bucket `memory-media` giới hạn 2 MB (trước 10 MB), ràng buộc `memory_attachments.size_bytes` ≤ 2 MB; MIME giữ nguyên. Object lớn nhất hiện có 970 KB.
+- Test: `ImageCompressorTests` (8), pgTAP 06 (46). Local 492/492.
+

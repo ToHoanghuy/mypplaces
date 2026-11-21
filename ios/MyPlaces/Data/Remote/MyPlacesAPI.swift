@@ -180,13 +180,13 @@ final class MyPlacesAPI: @unchecked Sendable {
         let path = "\(uid.uuidString.lowercased())/\(memoryId.uuidString.lowercased())/\(photo.id.uuidString.lowercased()).jpg"
         do {
             try await client.storage.from(Self.mediaBucket).upload(path, data: photo.data,
-                options: FileOptions(cacheControl: "31536000", contentType: "image/jpeg", upsert: false))
+                options: FileOptions(cacheControl: "31536000", contentType: ImageCompressor.contentType, upsert: false))
         } catch {
             if !AppError.isDuplicate(error) { throw error }   // idempotent retry
         }
         do {
             try await client.from("memory_attachments").insert(AttachmentInsert(
-                id: photo.id, memoryId: memoryId, storagePath: path, mimeType: "image/jpeg",
+                id: photo.id, memoryId: memoryId, storagePath: path, mimeType: ImageCompressor.contentType,
                 sizeBytes: photo.data.count, width: photo.width, height: photo.height), returning: .minimal).execute()
         } catch {
             if !AppError.isDuplicate(error) { throw error }

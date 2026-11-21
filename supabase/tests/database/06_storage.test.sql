@@ -1,6 +1,6 @@
 -- Storage: private bucket, storage.objects policies tied to memory_attachments / memory parents.
 begin;
-select plan(45);
+select plan(46);
 select tests.seed_users();
 -- Hosted Supabase: storage.protect_delete() blocks direct DELETE on storage tables unless this flag is set
 -- (the Storage API sets it). Setting it lets the RLS delete-policy tests run; harmless on plain Postgres.
@@ -39,9 +39,10 @@ select throws_ok(format($f$insert into public.memory_attachments (id, memory_id,
                    tests.media_path('bob', '55555555-0000-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-0000000000f4')),
                  '23514', null, 'MIME allowlist (jpeg/png/heic)');
 select throws_ok(format($f$insert into public.memory_attachments (id, memory_id, storage_path, mime_type, size_bytes)
-                   values ('aaaaaaaa-1111-0000-0000-0000000000f5', '55555555-0000-0000-0000-000000000001', %L, 'image/jpeg', 10485761)$f$,
+                   values ('aaaaaaaa-1111-0000-0000-0000000000f5', '55555555-0000-0000-0000-000000000001', %L, 'image/jpeg', 2097153)$f$,
                    tests.media_path('bob', '55555555-0000-0000-0000-000000000001', 'aaaaaaaa-1111-0000-0000-0000000000f5')),
-                 '23514', null, 'size limit 10 MB');
+                 '23514', null, 'size limit 2 MB (client compresses to <= ~500 KB)');
+select is((select file_size_limit from storage.buckets where id = 'memory-media'), 2097152::bigint, 'memory-media bucket limit is 2 MB');
 select throws_ok($$insert into public.memory_attachments (id, memory_id, storage_path, mime_type, size_bytes)
                    values ('aaaaaaaa-1111-0000-0000-0000000000f6', '55555555-0000-0000-0000-000000000001', '../../etc/passwd', 'image/jpeg', 10)$$,
                  '23514', null, 'path traversal / free-form paths rejected');

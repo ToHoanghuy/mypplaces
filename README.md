@@ -333,7 +333,8 @@ supabase/
 │   ├── 20261117000004_companion_suggestions_invoker.sql
 │   ├── 20261120000001_poi_overture_fallback.sql      # bảng POI Overture (chỉ đọc) + search_pois()
 │   ├── 20261120000002_search_pois_coverage.sql       # xếp hạng: thêm độ phủ từ khoá
-│   └── 20261120000003_search_pois_short_query_guard.sql  # chặn truy vấn ngắn/chung chung quá chậm
+│   ├── 20261120000003_search_pois_short_query_guard.sql  # chặn truy vấn ngắn/chung chung quá chậm
+│   └── 20261121000001_media_size_limit_2mb.sql      # bucket ảnh: giới hạn 2 MB (app nén ảnh trước)
 └── tests/database/                  # pgTAP (supabase test db)
     ├── 00000_test_helpers.test.sql  # schema `tests` + helper (PHẢI chạy đầu tiên)
     ├── 01_schema_hardening.test.sql
@@ -508,4 +509,9 @@ từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub nà
 * Dung lượng: bảng ~174 MB (heap 92 + trigram 38 + GiST 27 + PK ~17), cả DB 190 MB / 500 MB (gói Free).
 * Local (PostgreSQL 17.11 + pgTAP): 17 migration áp dụng sạch, **491 assertion / 9 file, 0 lỗi**. Supabase thật: 3 migration áp dụng bằng `apply_migration`; test 08 không chạy trên DB thật vì kiểm số dòng của fixture (bảng thật đã có dữ liệu).
 * Cách import / làm mới hằng tháng và giấy phép: `scripts/overture/README.md`.
+
+## 9. Nén ảnh + giới hạn Storage 2 MB (21/11/2026)
+
+* App nén ảnh trước khi tải lên (≤ 1600 px, JPEG 0,7→0,5, bỏ EXIF/GPS); ảnh thực tế 250–470 KB.
+* `memory-media`: `file_size_limit` 10 MB → 2 MB, `memory_attachments.size_bytes` ≤ 2 MB. Local: 18 migration, **492 assertion / 9 file, 0 lỗi**.
 
