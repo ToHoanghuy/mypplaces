@@ -35,6 +35,7 @@ enum OutboxKind: String, Codable {
     case placeUpdate = "PLACE_UPDATE"
     case placeDelete = "PLACE_DELETE"
     case visitCreate = "VISIT_CREATE"
+    case placeOrder = "PLACE_ORDER"
 }
 
 enum OutboxState: String, Codable {
@@ -44,6 +45,11 @@ enum OutboxState: String, Codable {
 
 struct PlaceUpdatePayload: Codable, Hashable { var id: UUID; var update: PlaceUpdate }
 struct PlaceDeletePayload: Codable, Hashable { var id: UUID }
+/// MYP-4: the viewer's full custom order (index 0 = top). Only the latest one is kept in the outbox.
+struct PlaceOrderPayload: Codable, Hashable {
+    static let resourceID = UUID(uuidString: "00000000-0000-0000-0000-0000000000d4")!
+    var ids: [UUID]
+}
 
 /// A Visit recorded locally: visit + companions + photos (files kept until uploaded).
 struct VisitDraftPayload: Codable, Hashable {

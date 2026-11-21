@@ -60,6 +60,13 @@ final class SyncEngine {
         reloadItems()
     }
 
+    /// Like `enqueue`, but first drops queued ops of the same kind (last write wins, e.g. list order).
+    func enqueueReplacing<T: Encodable>(_ kind: OutboxKind, resourceID: UUID, label: String, payload: T) throws {
+        guard let context else { return }
+        for op in operations() where op.kind == kind.rawValue { context.delete(op) }
+        try enqueue(kind, resourceID: resourceID, label: label, payload: payload)
+    }
+
     func payloads<T: Decodable>(_ kind: OutboxKind, as type: T.Type) -> [T] {
         rawPayloads.filter { $0.kind == kind }.compactMap { try? JSONCoding.localDecoder.decode(T.self, from: $0.data) }
     }
@@ -167,6 +174,9 @@ final class SyncEngine {
                 }
                 try await api.createMemory(parent: .visit(d.visit.id), body: nil, photos: photos, memoryId: d.memoryId)
             }
+        case .placeOrder:
+            let p = try dec.decode(PlaceOrderPayload.self, from: op.payload)
+            try await api.setPlaceOrder(p.ids)
         case .none:
             break
         }

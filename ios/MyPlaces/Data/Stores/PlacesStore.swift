@@ -9,6 +9,8 @@ final class PlacesStore {
     static let shared = PlacesStore()
 
     private(set) var serverPlaces: [MapPlace] = []
+    /// MYP-4: last order fetched from the server (place id -> position); mirrored on disk.
+    private(set) var serverOrder: [UUID: Int] = [:]
     private(set) var isLoading = false
     private(set) var hasLoaded = false
     var errorMessage: String?
@@ -16,7 +18,26 @@ final class PlacesStore {
     @ObservationIgnored private let api = MyPlacesAPI.shared
     private var sync: SyncEngine { SyncEngine.shared }
 
-    private init() { serverPlaces = loadCache() }
+    private init() {
+        serverPlaces = loadCache()
+        serverOrder = loadOrderCache()
+    }
+
+    /// Viewer's custom order: a queued (not yet synced) reorder wins over the server copy.
+    var orderPositions: [UUID: Int] {
+        _ = sync.items
+        if let pending = sync.payloads(.placeOrder, as: PlaceOrderPayload.self).last {
+            return PlaceOrdering.positions(for: pending.ids)
+        }
+        return serverOrder
+    }
+
+    /// Saves a new custom order (outbox first, so it works offline and survives relaunch).
+    func setOrder(_ ids: [UUID]) {
+        try? sync.enqueueReplacing(.placeOrder, resourceID: PlaceOrderPayload.resourceID,
+                                   label: "Sắp xếp danh sách địa điểm", payload: PlaceOrderPayload(ids: ids))
+        Task { await sync.syncNow() }
+    }
 
     /// Server rows + local pending writes.
     var places: [MapPlace] {
@@ -57,6 +78,11 @@ final class PlacesStore {
             hasLoaded = true
             errorMessage = nil
             saveCache()
+            // Order is optional: a failure here must not hide the list.
+            if let order = try? await api.placeOrder() {
+                serverOrder = order
+                saveOrderCache()
+            }
         } catch {
             hasLoaded = true
             if !AppError.isNetwork(error) { errorMessage = AppError.message(error) }
@@ -88,8 +114,10 @@ final class PlacesStore {
 
     func reset() {
         serverPlaces = []
+        serverOrder = [:]
         hasLoaded = false
         try? FileManager.default.removeItem(at: cacheURL)
+        try? FileManager.default.removeItem(at: orderCacheURL)
     }
 
     // MARK: Cache
@@ -99,6 +127,16 @@ final class PlacesStore {
     }
     private func saveCache() {
         if let data = try? JSONCoding.localEncoder.encode(serverPlaces) { try? data.write(to: cacheURL, options: .atomic) }
+    }
+    private var orderCacheURL: URL {
+        FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("place_order.json")
+    }
+    private func saveOrderCache() {
+        if let data = try? JSONEncoder().encode(serverOrder) { try? data.write(to: orderCacheURL, options: .atomic) }
+    }
+    private func loadOrderCache() -> [UUID: Int] {
+        guard let data = try? Data(contentsOf: orderCacheURL) else { return [:] }
+        return (try? JSONDecoder().decode([UUID: Int].self, from: data)) ?? [:]
     }
     private func loadCache() -> [MapPlace] {
         guard let data = try? Data(contentsOf: cacheURL) else { return [] }

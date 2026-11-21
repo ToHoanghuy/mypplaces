@@ -34,6 +34,19 @@ final class MyPlacesAPI: @unchecked Sendable {
         try await client.from("map_places").select().order("title").execute().value
     }
 
+    /// MYP-4: the signed-in viewer's custom order (RLS: own rows only).
+    func placeOrder() async throws -> [UUID: Int] {
+        struct Row: Decodable { var placeId: UUID; var position: Int }
+        let rows: [Row] = try await client.from("place_user_order").select("place_id,position").execute().value
+        return Dictionary(rows.map { ($0.placeId, $0.position) }, uniquingKeysWith: min)
+    }
+
+    /// Replaces the viewer's whole order (idempotent; unreadable ids are ignored server-side).
+    func setPlaceOrder(_ ids: [UUID]) async throws {
+        struct P: Encodable { var pPlaceIds: [UUID] }
+        try await client.rpc("set_place_order", params: P(pPlaceIds: ids)).execute()
+    }
+
     func mapPlace(_ id: UUID) async throws -> MapPlace? {
         let rows: [MapPlace] = try await client.from("map_places").select().eq("place_id", value: id).limit(1).execute().value
         return rows.first
