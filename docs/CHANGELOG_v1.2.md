@@ -97,3 +97,12 @@ Không thêm cột/bảng nào; không có cột trạng thái hay favorite. Ngu
 - `20261121000001_media_size_limit_2mb.sql` – bucket `memory-media` giới hạn 2 MB (trước 10 MB), ràng buộc `memory_attachments.size_bytes` ≤ 2 MB; MIME giữ nguyên. Object lớn nhất hiện có 970 KB.
 - Test: `ImageCompressorTests` (8), pgTAP 06 (46). Local 492/492.
 
+
+## Bổ sung 21/11/2026 – Giao diện Liquid Glass (iOS 26)
+
+- Kế hoạch và quyết định từng màn: `docs/design/LIQUID_GLASS_PLAN.md`. Kính chỉ dùng cho lớp điều hướng và điều khiển nổi; thẻ nội dung giữ nền đặc; không đặt kính chồng lên kính.
+- Lớp design system `DesignSystem/Glass.swift`: `mpGlass`, `MPGlassGroup` (GlassEffectContainer), `mpGlassButton`, `mpProminentButton`, `mpScrollEdgeSoft`, `mpBackgroundExtension`, `mpSheetBackground`, `mpSheetContentBackground`. Mọi API iOS 26 nằm sau `if #available(iOS 26, *)`; deployment target vẫn iOS 17.
+- iOS 26: tab bar hệ thống (`TabView` + `Tab`, thu nhỏ khi cuộn xuống), ẩn ở màn chi tiết; CTA là glass tô cam; nút tròn, chip lọc và ô tìm trên bản đồ là glass; panel Thêm địa điểm nổi dạng glass; sheet thấp dùng nền glass hệ thống; hộp xác nhận và toast dạng glass.
+- iOS 17–25: tab bar nổi tự vẽ nền vật liệu mờ; CTA viên đặc như cũ; bật "Giảm độ trong suốt" thì mọi nền kính thành nền đặc.
+- Không đổi backend, chuỗi tiếng Việt hay accessibility identifier. Test UI tìm nút tab hệ thống theo vị trí.
+- Ảnh trước/sau (16 màn × sáng/tối): `docs/screenshots/liquid-glass/` (`before_*`, `after_*`), test `I11ScreensUITests`.

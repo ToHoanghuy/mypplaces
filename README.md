@@ -515,3 +515,6 @@ từng file test và so khớp kế hoạch `1..N`. **Không áp dụng stub nà
 * App nén ảnh trước khi tải lên (≤ 1600 px, JPEG 0,7→0,5, bỏ EXIF/GPS); ảnh thực tế 250–470 KB.
 * `memory-media`: `file_size_limit` 10 MB → 2 MB, `memory_attachments.size_bytes` ≤ 2 MB. Local: 18 migration, **492 assertion / 9 file, 0 lỗi**.
 
+## 10. Giao diện Liquid Glass (21/11/2026)
+
+* iOS 26 dùng Liquid Glass cho tab bar, nút nổi, ô tìm và chip trên bản đồ, panel Thêm địa điểm và sheet thấp; iOS 17–25 tự chuyển sang vật liệu mờ / nền đặc. Chi tiết: `docs/design/LIQUID_GLASS_PLAN.md`, ảnh trước/sau: `docs/screenshots/liquid-glass/`.

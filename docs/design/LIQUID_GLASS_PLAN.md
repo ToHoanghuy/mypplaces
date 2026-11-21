@@ -61,3 +61,22 @@ toast và `ConfirmCard` (glass như alert iOS 26).
 
 * Ảnh trước/sau: `docs/screenshots/liquid-glass/` (`before_*`, `after_*`, sáng & tối, 16 màn mỗi chế độ, test `I11ScreensUITests`).
 * Unit + UI test đầy đủ; giữ mọi accessibility identifier (riêng tab hệ thống iOS 26: helper test tìm nút tab theo vị trí).
+
+## 6. Kết quả triển khai (21/11/2026)
+
+Đã làm theo kế hoạch, với vài điều chỉnh khi xem ảnh chụp thật:
+
+| Màn hình | Đã làm | Khác kế hoạch |
+|---|---|---|
+| Khung tab | iOS 26: `TabView(selection:)` + `Tab(...)`, `.tabBarMinimizeBehavior(.onScrollDown)`, tint cam; ẩn tab bar ở mọi màn chi tiết (`Router.appRoutes`). iOS 17–25: tab bar nổi cũ, nền `.mpGlass`. | `Theme.tabInset`: trên iOS 26 tab bar hệ thống đã nằm trong safe area nên bỏ khoảng đệm 74 pt tự thêm trước đây. |
+| Chào mừng / Đăng nhập | CTA "Tạo tài khoản", "Đăng nhập" là glass tô cam (`PrimaryButton`); nút quay lại glass tròn. | — |
+| Bản đồ | Ô "Tìm địa điểm" glass (cao 48), chip lọc glass nổi (chip đang chọn giữ nền đặc để dễ đọc), nút định vị + nút "+" gom trong `GlassEffectContainer`; "+" là `FloatingActionButton` glass tô cam. Thẻ xem nhanh giữ nền đặc. | — |
+| Tìm kiếm | Ô tìm glass + nút "Hủy" glass, kết quả dạng danh sách, `scrollEdgeEffectStyle(.soft)`. | — |
+| Thêm địa điểm | Thanh trên: "Hủy" glass + ô tìm glass; bảng thông tin thành panel glass nổi, cách mép 8 pt, bo 34 (giống bảng Apple Maps). | Trường nhập và chip danh mục trong panel giữ nền đặc (tránh glass chồng glass). |
+| Danh sách / Dòng thời gian / Nhật ký / Cá nhân | Giữ tiêu đề lớn tự vẽ; nút "+", lọc, cài đặt thành glass tròn; thẻ nội dung giữ nền đặc. | Không chuyển sang navigation bar hệ thống: ô tìm + hàng chip nằm ngoài vùng cuộn nên tiêu đề lớn hệ thống không thu gọn được, lợi ích nhỏ mà phải đổi nhiều test. |
+| Chi tiết địa điểm / lần ghé / nhật ký | Nút quay lại / chia sẻ / "…" là glass tròn trên ảnh bìa; CTA "Ghi lần ghé", "Thêm kỷ niệm" glass tô cam; nút "+" của nhật ký là `FloatingActionButton`. | Chưa dùng `backgroundExtensionEffect`: ảnh bìa đã tràn lên vùng status bar, hiệu ứng phản chiếu không thêm gì. |
+| Form | Thanh trên: nút "Hủy" glass dạng viên (giữ chữ, id `modal.cancel`) + nút hành động glass tô cam. | Giữ chữ "Hủy" thay vì icon xmark – rõ nghĩa hơn với tiếng Việt và giữ nguyên test. |
+| Sheet thấp (lọc dòng thời gian, chọn nhật ký, chọn ngày, nhập mã mời) | iOS 26: dùng nền sheet glass của hệ thống (`mpSheetBackground`, `mpSheetContentBackground`). iOS < 26: nền đặc như cũ. | — |
+| Hộp xác nhận, toast | Glass (bo 32) như alert iOS 26; nền mờ phía sau 40%. | — |
+
+Fallback iOS 17–25: vật liệu `ultraThinMaterial` + viền mảnh + bóng nhẹ; khi bật "Giảm độ trong suốt" dùng nền đặc `surfaceHigh` (hoặc màu tô). CTA vẫn là viên đặc màu cam; `CircleIconButton` giữ kiểu cũ; `mpScrollEdgeSoft`/`mpBackgroundExtension` không làm gì.
