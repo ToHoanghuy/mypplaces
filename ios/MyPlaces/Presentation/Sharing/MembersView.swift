@@ -48,16 +48,33 @@ struct MembersView: View {
         _model = State(initialValue: MembersModel(target: target))
     }
 
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    private var backButton: some View {
+        CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() }.accessibilityIdentifier("nav.back")
+    }
+    private var titleText: some View {
+        Text("Thành viên").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
+    }
+    private var countChip: some View {
+        HStack(spacing: 4) { Image(systemName: "person.2"); Text("\(model.members.count + 1) người") }
+            .font(.mp(12)).foregroundStyle(Theme.textSecondary)
+            .lineLimit(1).fixedSize()
+            .padding(.horizontal, 10).frame(minHeight: 28).background(Theme.surface, in: Capsule())
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 12) {
-                CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() }.accessibilityIdentifier("nav.back")
-                Text("Thành viên").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary).minimumScaleFactor(0.8)
-                Spacer(minLength: 8)
-                HStack(spacing: 4) { Image(systemName: "person.2"); Text("\(model.members.count + 1) người") }
-                    .font(.mp(12)).foregroundStyle(Theme.textSecondary)
-                    .lineLimit(1).fixedSize()
-                    .padding(.horizontal, 10).frame(minHeight: 28).background(Theme.surface, in: Capsule())
+            // Accessibility sizes: title gets its own row so "Thành viên" never breaks mid-word.
+            Group {
+                if typeSize.isAccessibilitySize {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack { backButton; Spacer(minLength: 8); countChip }
+                        titleText
+                    }
+                } else {
+                    HStack(spacing: 12) { backButton; titleText; Spacer(minLength: 8); countChip }
+                }
             }
             .padding(.horizontal, 20).padding(.top, 8)
 
