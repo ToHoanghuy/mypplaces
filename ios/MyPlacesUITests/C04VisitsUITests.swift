@@ -15,8 +15,12 @@ final class C04VisitsUITests: MPUITestCase {
         sleep(2)
     }
 
+    /// Waits for the synced (tappable) row: a just-logged visit shows as a non-tappable pending row
+    /// until the outbox has uploaded it (photos can take a while on the simulator).
     private func openVisit(note: String) {
-        let row = app.staticTexts[note].firstMatch
+        let synced = app.buttons.matching(identifier: "visit.row")
+            .containing(NSPredicate(format: "label CONTAINS %@", note)).firstMatch
+        let row = synced.waitForExistence(timeout: 60) ? synced : app.staticTexts[note].firstMatch
         wait(row, 20); press(row)
         wait(el("visit.more"), 15)
     }
