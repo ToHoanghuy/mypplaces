@@ -149,10 +149,21 @@ class MPUITestCase: XCTestCase {
 
     var tabsVisible: Bool { btn("tab.0").exists || app.tabBars.buttons.count > 0 }
 
+    /// Waits until the tab bar has been visible for 2 s in a row: when the app switches QA accounts it briefly
+    /// shows the previous session's tabs, signs out, then signs in again.
     func waitSignedIn(file: StaticString = #filePath, line: UInt = #line) {
-        let end = Date().addingTimeInterval(30)
-        while !tabsVisible && Date() < end { usleep(300_000) }
-        XCTAssertTrue(tabsVisible, "Tab bar missing (not signed in?)", file: file, line: line)
+        let end = Date().addingTimeInterval(40)
+        var since: Date?
+        while Date() < end {
+            if tabsVisible {
+                if let since, Date().timeIntervalSince(since) >= 2 { return }
+                since = since ?? Date()
+            } else {
+                since = nil
+            }
+            usleep(300_000)
+        }
+        XCTFail("Tab bar missing (not signed in?)", file: file, line: line)
     }
 
     func goTab(_ i: Int, file: StaticString = #filePath, line: UInt = #line) {
