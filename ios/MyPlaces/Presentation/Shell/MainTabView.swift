@@ -5,22 +5,57 @@ struct MainTabView: View {
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
+        Group {
+            if #available(iOS 26.0, *) {
+                SystemTabs()
+            } else {
+                LegacyTabs()
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await SyncEngine.shared.syncNow(); await PlacesStore.shared.refresh() } }
+        }
+    }
+
+    @ViewBuilder fileprivate static func root(_ tab: AppTab, router: Router) -> some View {
+        @Bindable var router = router
+        switch tab {
+        case .map: NavigationStack(path: $router.mapPath) { MapScreen().appRoutes() }
+        case .places: NavigationStack(path: $router.placesPath) { PlaceListView().appRoutes() }
+        case .timeline: NavigationStack(path: $router.timelinePath) { TimelineView().appRoutes() }
+        case .journals: NavigationStack(path: $router.journalsPath) { JournalListView().appRoutes() }
+        case .profile: NavigationStack(path: $router.profilePath) { ProfileView().appRoutes() }
+        }
+    }
+}
+
+/// iOS 26: system TabView – Liquid Glass tab bar, minimizes while scrolling down, keeps each tab's state.
+/// Detail screens hide it (`appRoutes` → `.toolbar(.hidden, for: .tabBar)`), as before.
+@available(iOS 26.0, *)
+private struct SystemTabs: View {
+    @Environment(Router.self) private var router
+    var body: some View {
+        @Bindable var router = router
+        TabView(selection: $router.tab) {
+            ForEach(AppTab.allCases, id: \.self) { tab in
+                Tab(tab.title, systemImage: tab.icon, value: tab) {
+                    MainTabView.root(tab, router: router)
+                }
+                .accessibilityIdentifier("tab.\(tab.rawValue)")
+            }
+        }
+        .tint(Theme.accent)
+        .tabBarMinimizeBehavior(.onScrollDown)
+    }
+}
+
+/// iOS 17–25: one stack at a time + floating tab bar drawn by the app (material glass look).
+private struct LegacyTabs: View {
+    @Environment(Router.self) private var router
+    var body: some View {
         @Bindable var router = router
         ZStack(alignment: .bottom) {
-            Group {
-                switch router.tab {
-                case .map:
-                    NavigationStack(path: $router.mapPath) { MapScreen().appRoutes() }
-                case .places:
-                    NavigationStack(path: $router.placesPath) { PlaceListView().appRoutes() }
-                case .timeline:
-                    NavigationStack(path: $router.timelinePath) { TimelineView().appRoutes() }
-                case .journals:
-                    NavigationStack(path: $router.journalsPath) { JournalListView().appRoutes() }
-                case .profile:
-                    NavigationStack(path: $router.profilePath) { ProfileView().appRoutes() }
-                }
-            }
+            MainTabView.root(router.tab, router: router)
             if showsTabBar {
                 FloatingTabBar(selection: $router.tab)
                     .padding(.bottom, 4)
@@ -28,9 +63,6 @@ struct MainTabView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-        .onChange(of: scenePhase) { _, phase in
-            if phase == .active { Task { await SyncEngine.shared.syncNow(); await PlacesStore.shared.refresh() } }
-        }
     }
 
     /// Tab bar only on tab roots (Locket-like: detail screens are full-bleed).
@@ -69,9 +101,6 @@ struct FloatingTabBar: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 2)
-        .background(.ultraThinMaterial, in: Capsule())
-        .background(Theme.surface.opacity(0.7), in: Capsule())
-        .overlay(Capsule().stroke(Theme.border, lineWidth: 1))
-        .shadow(color: Theme.shadow, radius: 20, y: 8)
+        .mpGlass(in: Capsule())
     }
 }

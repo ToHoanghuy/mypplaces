@@ -127,7 +127,24 @@ class MPUITestCase: XCTestCase {
         wait(for: [ex], timeout: t)
     }
 
-    func waitSignedIn() { wait(btn("tab.0"), 30) }
+    /// Tab button: app-drawn bar (iOS < 26, id "tab.N") or the system Liquid Glass tab bar (iOS 26, by position).
+    func tabButton(_ i: Int) -> XCUIElement {
+        let custom = btn("tab.\(i)")
+        if custom.exists { return custom }
+        return app.tabBars.buttons.element(boundBy: i)
+    }
 
-    func goTab(_ i: Int) { tap("tab.\(i)") }
+    var tabsVisible: Bool { btn("tab.0").exists || app.tabBars.buttons.count > 0 }
+
+    func waitSignedIn(file: StaticString = #filePath, line: UInt = #line) {
+        let end = Date().addingTimeInterval(30)
+        while !tabsVisible && Date() < end { usleep(300_000) }
+        XCTAssertTrue(tabsVisible, "Tab bar missing (not signed in?)", file: file, line: line)
+    }
+
+    func goTab(_ i: Int, file: StaticString = #filePath, line: UInt = #line) {
+        let b = tabButton(i)
+        XCTAssertTrue(b.waitForExistence(timeout: 15), "Missing tab \(i)", file: file, line: line)
+        if b.isHittable { b.tap() } else { b.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
+    }
 }

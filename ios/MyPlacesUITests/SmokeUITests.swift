@@ -12,13 +12,12 @@ final class A01AuthUITests: MPUITestCase {
         shot("01b_signup_filled")
         tap("signup.submit")
         // Either goes straight in (no confirmation) or shows the confirmation note.
-        let tabs = btn("tab.0")
         let note = el("signup.confirmSent")
         let err = el("auth.error")
         let end = Date().addingTimeInterval(20)
-        while Date() < end && !tabs.exists && !note.exists && !err.exists { usleep(300_000) }
+        while Date() < end && !tabsVisible && !note.exists && !err.exists { usleep(300_000) }
         shot("01b_signup_result")
-        XCTAssertTrue(tabs.exists || note.exists || err.exists, "Sign-up produced no visible outcome")
+        XCTAssertTrue(tabsVisible || note.exists || err.exists, "Sign-up produced no visible outcome")
     }
 
     func test02SignInScreen() {

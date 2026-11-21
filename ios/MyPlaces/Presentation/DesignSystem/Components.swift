@@ -30,8 +30,8 @@ struct PrimaryButton: View {
             .frame(maxWidth: .infinity)
             .frame(height: height)
             .foregroundStyle(foreground)
-            .background(background, in: Capsule())
-            .shadow(color: tone == .accent ? Theme.accent.opacity(0.25) : .clear, radius: 14, y: 6)
+            .modifier(PrimaryFill(tone: tone, color: background))
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
         .disabled(!isEnabled || isLoading)
@@ -55,6 +55,21 @@ struct PrimaryButton: View {
     }
 }
 
+/// iOS 26: tinted, interactive Liquid Glass for accent/danger/surface CTAs; solid capsule otherwise.
+private struct PrimaryFill: ViewModifier {
+    var tone: ButtonTone
+    var color: Color
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *), tone != .white {
+            content.mpGlass(in: Capsule(), interactive: true, tint: tone == .surface ? nil : color)
+        } else {
+            content
+                .background(color, in: Capsule())
+                .shadow(color: tone == .accent ? Theme.accent.opacity(0.25) : .clear, radius: 14, y: 6)
+        }
+    }
+}
+
 /// Small coral capsule used in nav bars ("Lưu", "Đăng", "Tạo").
 struct PillButton: View {
     var title: String
@@ -68,8 +83,9 @@ struct PillButton: View {
             }
             .foregroundStyle(Theme.onAccent)
             .padding(.horizontal, 16)
-            .frame(height: 32)
-            .background(Theme.accent, in: Capsule())
+            .frame(height: 34)
+            .modifier(PrimaryFill(tone: .accent, color: Theme.accent))
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
         .disabled(!isEnabled || isLoading)
@@ -87,12 +103,44 @@ struct CircleIconButton: View {
     var action: () -> Void
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName)
-                .font(.system(size: size * 0.42, weight: .semibold))
-                .foregroundStyle(tint ?? (background == nil ? Theme.onAccent : Theme.textPrimary))
-                .frame(width: size, height: size)
-                .background(background ?? Color.black.opacity(0.45), in: Circle())
-                .overlay(Circle().stroke(Theme.border, lineWidth: 0.5))
+            if #available(iOS 26.0, *) {
+                // Floating control: Liquid Glass adapts to the photo / map / background behind it.
+                Image(systemName: systemName)
+                    .font(.system(size: size * 0.42, weight: .semibold))
+                    .foregroundStyle(tint ?? Color.primary)
+                    .frame(width: size, height: size)
+                    .mpGlass(in: Circle(), interactive: true)
+                    .contentShape(Circle())
+            } else {
+                Image(systemName: systemName)
+                    .font(.system(size: size * 0.42, weight: .semibold))
+                    .foregroundStyle(tint ?? (background == nil ? Theme.onAccent : Theme.textPrimary))
+                    .frame(width: size, height: size)
+                    .background(background ?? Color.black.opacity(0.45), in: Circle())
+                    .overlay(Circle().stroke(Theme.border, lineWidth: 0.5))
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+/// Round coral action floating over content (map "+"). iOS 26: tinted interactive glass.
+struct FloatingActionButton: View {
+    var systemName: String
+    var size: CGFloat = 56
+    var action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            if #available(iOS 26.0, *) {
+                Image(systemName: systemName).font(.system(size: size * 0.4, weight: .semibold)).foregroundStyle(Theme.onAccent)
+                    .frame(width: size, height: size)
+                    .mpGlass(in: Circle(), interactive: true, tint: Theme.accent)
+                    .contentShape(Circle())
+            } else {
+                Image(systemName: systemName).font(.system(size: size * 0.4, weight: .semibold)).foregroundStyle(Theme.onAccent)
+                    .frame(width: size, height: size).background(Theme.accent, in: Circle())
+                    .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
+            }
         }
         .buttonStyle(.plain)
     }
@@ -103,6 +151,8 @@ struct Chip: View {
     var category: PlaceCategory? = nil
     var selected: Bool
     var showCheck = false
+    /// Chips floating over the map use glass; chips inside forms/lists stay solid (content).
+    var floating = false
     var action: () -> Void
     var body: some View {
         Button(action: action) {
@@ -114,11 +164,25 @@ struct Chip: View {
             .padding(.horizontal, 14)
             .frame(height: 32)
             .foregroundStyle(selected ? Theme.background : Theme.textPrimary)
-            .background(selected ? Theme.textPrimary : Theme.surface, in: Capsule())
-            .overlay(Capsule().stroke(selected ? .clear : Theme.border, lineWidth: 1))
+            .modifier(ChipFill(selected: selected, floating: floating))
+            .contentShape(Capsule())
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("chip.\(title)")
+    }
+}
+
+private struct ChipFill: ViewModifier {
+    var selected: Bool
+    var floating: Bool
+    func body(content: Content) -> some View {
+        if floating && !selected {
+            content.mpGlass(in: Capsule(), interactive: true)
+        } else {
+            content
+                .background(selected ? Theme.textPrimary : Theme.surface, in: Capsule())
+                .overlay(Capsule().stroke(selected ? .clear : Theme.border, lineWidth: 1))
+        }
     }
 }
 
@@ -127,15 +191,19 @@ struct CategoryFilterRow: View {
     @Binding var selection: PlaceCategory?
     var categories: [PlaceCategory] = PlaceCategory.allCases
     var horizontalPadding: CGFloat = 20
+    var floating = false
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                Chip(title: "Tất cả", selected: selection == nil) { selection = nil }
-                ForEach(categories) { c in
-                    Chip(title: c.displayName, category: c, selected: selection == c) { selection = (selection == c ? nil : c) }
+            MPGlassGroup(spacing: 8) {
+                HStack(spacing: 8) {
+                    Chip(title: "Tất cả", selected: selection == nil, floating: floating) { selection = nil }
+                    ForEach(categories) { c in
+                        Chip(title: c.displayName, category: c, selected: selection == c, floating: floating) { selection = (selection == c ? nil : c) }
+                    }
                 }
+                .padding(.horizontal, horizontalPadding)
+                .padding(.vertical, floating ? 6 : 0)
             }
-            .padding(.horizontal, horizontalPadding)
         }
     }
 }
@@ -167,6 +235,8 @@ struct SearchField: View {
     var placeholder: String
     @Binding var text: String
     var focused: FocusState<Bool>.Binding? = nil
+    /// Floating (over map / at the top of a full-screen search) = glass; inline in a list = solid.
+    var floating = false
     var onSubmit: () -> Void = {}
     var body: some View {
         HStack(spacing: 8) {
@@ -186,8 +256,18 @@ struct SearchField: View {
         }
         .padding(.horizontal, 14)
         .frame(height: 44)
-        .background(Theme.surface, in: Capsule())
-        .overlay(Capsule().stroke(Theme.border, lineWidth: 1))
+        .modifier(SearchFill(floating: floating))
+    }
+
+    private struct SearchFill: ViewModifier {
+        var floating: Bool
+        func body(content: Content) -> some View {
+            if floating {
+                content.mpGlass(in: Capsule())
+            } else {
+                content.background(Theme.surface, in: Capsule()).overlay(Capsule().stroke(Theme.border, lineWidth: 1))
+            }
+        }
     }
 
     @ViewBuilder private var field: some View {
@@ -394,8 +474,14 @@ struct ModalBar<Trailing: View>: View {
         ZStack {
             Text(title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1).padding(.horizontal, 80)
             HStack {
-                Button(cancelTitle, action: onCancel).font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
-                    .accessibilityIdentifier("modal.cancel")
+                Button(action: onCancel) {
+                    Text(cancelTitle).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
+                        .padding(.horizontal, 14).frame(height: 34)
+                        .mpGlass(in: Capsule(), interactive: true)
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("modal.cancel")
                 Spacer()
                 trailing
             }
@@ -414,8 +500,7 @@ struct ToastModifier: ViewModifier {
                 Text(message)
                     .font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.textPrimary)
                     .padding(.horizontal, 16).padding(.vertical, 12)
-                    .background(Theme.surfaceHigh, in: Capsule())
-                    .overlay(Capsule().stroke(Theme.border, lineWidth: 1))
+                    .mpGlass(in: Capsule())
                     .padding(.top, 8).padding(.horizontal, 24)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .task(id: message) {
@@ -454,7 +539,7 @@ struct ConfirmCard: View {
     var onCancel: () -> Void
     var body: some View {
         ZStack {
-            Color.black.opacity(0.6).ignoresSafeArea().onTapGesture(perform: onCancel)
+            Color.black.opacity(0.4).ignoresSafeArea().onTapGesture(perform: onCancel)
             VStack(spacing: 14) {
                 Image(systemName: icon).font(.system(size: 20)).foregroundStyle(Theme.danger)
                     .frame(width: 52, height: 52).background(Theme.danger.opacity(0.15), in: Circle())
@@ -465,8 +550,19 @@ struct ConfirmCard: View {
                 Button("Hủy", action: onCancel).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary).padding(.vertical, 6)
             }
             .padding(22)
-            .background(Theme.surfaceHigh, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+            .modifier(AlertFill())
             .padding(.horizontal, 36)
+        }
+    }
+}
+
+/// iOS 26 alerts are glass; earlier keep the solid elevated card.
+private struct AlertFill: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.mpGlass(in: RoundedRectangle(cornerRadius: 32, style: .continuous))
+        } else {
+            content.background(Theme.surfaceHigh, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
         }
     }
 }

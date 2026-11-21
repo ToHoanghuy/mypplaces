@@ -84,6 +84,7 @@ extension View {
     /// Registers every pushable screen on a NavigationStack.
     func appRoutes() -> some View {
         navigationDestination(for: Route.self) { route in
+            Group {
             switch route {
             case .place(let id): PlaceDetailView(placeID: id)
             case .visit(let id): VisitDetailView(visitID: id)
@@ -92,6 +93,8 @@ extension View {
             case .archivedJournals: JournalListView(archivedOnly: true)
             case .sync: SyncView()
             }
+            }
+            .toolbar(.hidden, for: .tabBar)   // detail screens stay full-bleed (Locket-like)
         }
     }
 }
