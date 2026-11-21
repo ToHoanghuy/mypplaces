@@ -80,3 +80,12 @@ toast và `ConfirmCard` (glass như alert iOS 26).
 | Hộp xác nhận, toast | Glass (bo 32) như alert iOS 26; nền mờ phía sau 40%. | — |
 
 Fallback iOS 17–25: vật liệu `ultraThinMaterial` + viền mảnh + bóng nhẹ; khi bật "Giảm độ trong suốt" dùng nền đặc `surfaceHigh` (hoặc màu tô). CTA vẫn là viên đặc màu cam; `CircleIconButton` giữ kiểu cũ; `mpScrollEdgeSoft`/`mpBackgroundExtension` không làm gì.
+
+## 7. Vòng 2 (21/11/2026)
+
+* **Tiêu đề lớn hệ thống ở các tab** Địa điểm, Dòng thời gian, Nhật ký, Cá nhân (`mpTabRootTitle`): tiêu đề thu gọn vào thanh điều hướng khi cuộn (thanh glass trên iOS 26, thanh vật liệu mờ trên iOS 17–25). Nút "+", lọc, cài đặt chuyển vào toolbar (`ToolbarIconButton`), iOS 26 tự đặt chúng lên glass. "Đã lưu trữ" dùng nút quay lại hệ thống.
+* **Địa điểm:** ô tìm chuyển sang `.searchable` (luôn hiện dưới tiêu đề), hàng chip nằm đầu vùng cuộn nên cuộn cùng nội dung.
+* **Bản đồ** giữ nguyên các điều khiển glass nổi, không có thanh điều hướng.
+* **Đồng bộ kiểu nút:** các menu "…" trên ảnh bìa (địa điểm, lần ghé, nhật ký) và nút "Thành viên" trong sheet chia sẻ dùng chung `CircleIconLabel` / `CircleIconButton` (trước đây là vòng tròn đen tự vẽ).
+* **Kiểm tra iOS 18.6** (máy ảo iPhone 16 Pro): tab bar nổi nền mờ, panel Thêm địa điểm là sheet đặc, CTA đặc – đúng như thiết kế dự phòng.
+* **Dynamic Type:** tiêu đề, ô tìm, nút hệ thống phóng to; phần lớn chữ trong thẻ vẫn dùng cỡ cố định (`.system(size:)`) nên chưa phóng to – việc còn lại.

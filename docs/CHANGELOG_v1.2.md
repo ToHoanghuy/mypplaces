@@ -106,3 +106,11 @@ Không thêm cột/bảng nào; không có cột trạng thái hay favorite. Ngu
 - iOS 17–25: tab bar nổi tự vẽ nền vật liệu mờ; CTA viên đặc như cũ; bật "Giảm độ trong suốt" thì mọi nền kính thành nền đặc.
 - Không đổi backend, chuỗi tiếng Việt hay accessibility identifier. Test UI tìm nút tab hệ thống theo vị trí.
 - Ảnh trước/sau (16 màn × sáng/tối): `docs/screenshots/liquid-glass/` (`before_*`, `after_*`), test `I11ScreensUITests`.
+
+## Bổ sung 21/11/2026 – Liquid Glass vòng 2
+
+- Tab Địa điểm / Dòng thời gian / Nhật ký / Cá nhân dùng tiêu đề lớn hệ thống thu gọn khi cuộn; nút trên toolbar; tìm trong Địa điểm bằng `.searchable`; chip cuộn cùng danh sách.
+- Menu "…" trên ảnh bìa và nút Thành viên trong sheet chia sẻ dùng chung nút tròn glass.
+- Đã chạy thử trên máy ảo iOS 18.6 (giao diện dự phòng) và chụp ảnh Dynamic Type cỡ lớn / Giảm độ trong suốt (`I12AccessibilityUITests`).
+- UI test không còn phụ thuộc dữ liệu QA còn sót: B02 test00 tự tạo rồi xoá địa điểm tạm; test01/02 chỉ tạo dữ liệu mẫu còn thiếu (bỏ qua nếu đã có); test04 sửa được cả tên gốc lẫn tên đã đổi; C04 dùng ghi chú gắn mã chạy và tự xoá lần ghé đã tạo; D05 tạo nhật ký tên riêng rồi tự xoá; E07 cho user B rời địa điểm / nhật ký trước khi nhận lời mời lại.
+- Ảnh: `docs/screenshots/liquid-glass/r2_*` (iOS 26), `ios18/` (iOS 18.6, dự phòng), `a11y/` (chữ cỡ lớn, Giảm độ trong suốt).
