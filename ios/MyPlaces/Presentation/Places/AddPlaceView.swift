@@ -48,19 +48,28 @@ struct AddPlaceView: View {
                 .overlay(alignment: .center) { centerPin.offset(y: -170) }
 
             VStack {
-                HStack(spacing: 12) {
-                    Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+                MPGlassGroup(spacing: 10) {
+                HStack(spacing: 10) {
+                    Button { dismiss() } label: {
+                        Text("Hủy").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
+                            .padding(.horizontal, 16).frame(height: 44)
+                            .mpGlass(in: Capsule(), interactive: true)
+                            .contentShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
                     Button { showSearch = true } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
                             Text("Tìm hoặc chạm giữ bản đồ").lineLimit(1)
                             Spacer()
                         }
-                        .font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
-                        .padding(.horizontal, 12).frame(height: 36)
-                        .background(Theme.surface.opacity(0.92), in: Capsule())
+                        .font(.system(size: 14)).foregroundStyle(Theme.textSecondary)
+                        .padding(.horizontal, 14).frame(height: 44)
+                        .mpGlass(in: Capsule(), interactive: true)
+                        .contentShape(Capsule())
                     }
                     .buttonStyle(.plain)
+                }
                 }
                 .padding(.horizontal, 16).padding(.top, 8)
                 Spacer()
@@ -123,8 +132,7 @@ struct AddPlaceView: View {
                 .accessibilityIdentifier("addplace.save")
         }
         .padding(.horizontal, 20).padding(.top, 10).padding(.bottom, 12)
-        .background(Theme.surface, in: UnevenRoundedRectangle(topLeadingRadius: 28, topTrailingRadius: 28))
-        .ignoresSafeArea(edges: .bottom)
+        .modifier(MapPanelFill())
     }
 
     /// BRD §10.1: title 1–100, address <= 500.
@@ -200,6 +208,22 @@ struct LocationPickerView: View {
                 .background(Theme.background.opacity(0.85))
                 Spacer()
             }
+        }
+    }
+}
+
+/// Panel floating over the map. iOS 26: inset Liquid Glass panel (like Maps' sheets); earlier: solid bottom sheet.
+struct MapPanelFill: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .mpGlass(in: RoundedRectangle(cornerRadius: 34, style: .continuous))
+                .padding(.horizontal, 8)
+                .padding(.bottom, 4)
+        } else {
+            content
+                .background(Theme.surface, in: UnevenRoundedRectangle(topLeadingRadius: 28, topTrailingRadius: 28))
+                .ignoresSafeArea(edges: .bottom)
         }
     }
 }

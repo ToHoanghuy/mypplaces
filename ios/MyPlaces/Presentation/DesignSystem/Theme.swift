@@ -7,6 +7,13 @@ import UIKit
 /// Every token is a dynamic color resolved from the current `colorScheme`, so the whole app
 /// follows `AppearanceSettings` (applied with `preferredColorScheme` at the root).
 enum Theme {
+    /// Extra bottom room for the custom floating tab bar (iOS < 26). On iOS 26 the system tab bar
+    /// is part of the safe area, so tab roots need no manual clearance.
+    static var tabInset: CGFloat {
+        if #available(iOS 26.0, *) { return 0 }
+        return 74
+    }
+
     static let background = Color(light: 0xFFFFFF, dark: 0x0E0E10)
     static let surface = Color(light: 0xF2F2F4, dark: 0x1A1A1D)
     static let surfaceHigh = Color(light: 0xE7E7EB, dark: 0x232327)

@@ -21,6 +21,8 @@ struct MapScreen: View {
                 map(size: geo.size)
                     .ignoresSafeArea()
 
+                // Floating controls layer (Liquid Glass on iOS 26): search capsule + category chips.
+                MPGlassGroup(spacing: 10) {
                 VStack(spacing: 10) {
                     Button { showSearch = true } label: {
                         HStack(spacing: 8) {
@@ -29,47 +31,45 @@ struct MapScreen: View {
                             Spacer()
                         }
                         .font(.system(size: 15))
-                        .padding(.horizontal, 14).frame(height: 44)
-                        .background(Theme.surface.opacity(0.92), in: Capsule())
-                        .overlay(Capsule().stroke(Theme.border, lineWidth: 1))
+                        .padding(.horizontal, 16).frame(height: 48)
+                        .mpGlass(in: Capsule(), interactive: true)
+                        .contentShape(Capsule())
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("map.search")
                     .padding(.horizontal, 16)
 
                     if !store.places.isEmpty {
-                        CategoryFilterRow(selection: $category, categories: presentCategories, horizontalPadding: 16)
+                        CategoryFilterRow(selection: $category, categories: presentCategories, horizontalPadding: 16, floating: true)
                     }
+                }
                 }
                 .padding(.top, 6)
 
                 // Right-side controls
+                MPGlassGroup(spacing: 14) {
                 VStack(spacing: 14) {
                     Spacer()
-                    CircleIconButton(systemName: "location", size: 40, background: Theme.surface.opacity(0.92)) { centerOnUser() }
+                    CircleIconButton(systemName: "location", size: 44, background: Theme.surface.opacity(0.92)) { centerOnUser() }
                         .accessibilityIdentifier("map.locate")
                     if !store.places.isEmpty {
-                        Button { addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: false)) } label: {
-                            Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                                .frame(width: 56, height: 56).background(Theme.accent, in: Circle())
-                                .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("map.add")
+                        FloatingActionButton(systemName: "plus") { addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: false)) }
+                            .accessibilityIdentifier("map.add")
                     }
+                }
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .padding(.trailing, 16)
-                .padding(.bottom, (store.hasLoaded && store.places.isEmpty) ? 330 : (selectedPlace == nil ? 96 : 190))
+                .padding(.bottom, Theme.tabInset + ((store.hasLoaded && store.places.isEmpty) ? 256 : (selectedPlace == nil ? 22 : 116)))
 
                 VStack {
                     Spacer()
                     if store.hasLoaded && store.places.isEmpty {
-                        emptyCard.padding(.horizontal, 12).padding(.bottom, 100)
+                        emptyCard.padding(.horizontal, 12).padding(.bottom, 26 + Theme.tabInset)
                     } else if let p = selectedPlace {
                         Button { router.push(.place(p.id)) } label: { PlacePreviewCard(place: p) }
                             .buttonStyle(.plain)
-                            .padding(.horizontal, 16).padding(.bottom, 82)
+                            .padding(.horizontal, 16).padding(.bottom, 10 + Theme.tabInset)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }

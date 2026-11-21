@@ -65,7 +65,7 @@ struct ProfileView: View {
                     .accessibilityIdentifier("profile.signout")
                 }
                 .padding(.horizontal, 20)
-                .padding(.bottom, 110)
+                .padding(.bottom, 36 + Theme.tabInset)
             }
         }
         .screenBackground()

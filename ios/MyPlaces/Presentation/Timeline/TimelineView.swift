@@ -109,7 +109,7 @@ struct TimelineView: View {
                             }
                         }
                     }
-                    .padding(.bottom, 110)
+                    .padding(.bottom, 36 + Theme.tabInset)
                 }
                 .refreshable { await model.reload() }
             }
@@ -121,8 +121,7 @@ struct TimelineView: View {
         .sheet(isPresented: $showFilter) {
             TimelineFilterSheet(filter: $model.filter)
                 .presentationDetents([.height(520)])
-                .presentationBackground(Theme.surface)
-                .presentationCornerRadius(32)
+                .mpSheetBackground(Theme.surface, cornerRadius: 32)
         }
     }
 

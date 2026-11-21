@@ -61,7 +61,7 @@ struct JournalListView: View {
                                message: archivedOnly ? "Nhật ký đã lưu trữ sẽ hiện ở đây." : "Gom các địa điểm và lần ghé của một chuyến đi vào một nhật ký.",
                                actionTitle: archivedOnly ? nil : "Tạo nhật ký") { showCreate = true }
                 Spacer()
-                if !archivedOnly && archivedCount > 0 { archivedRow.padding(.horizontal, 20).padding(.bottom, 100) }
+                if !archivedOnly && archivedCount > 0 { archivedRow.padding(.horizontal, 20).padding(.bottom, 26 + Theme.tabInset) }
             } else if !model.loaded {
                 Spacer(); ProgressView().tint(Theme.textPrimary); Spacer()
             } else {
@@ -75,7 +75,7 @@ struct JournalListView: View {
                         if !archivedOnly && archivedCount > 0 { archivedRow.padding(.top, 8) }
                     }
                     .padding(.horizontal, 12)
-                    .padding(.bottom, 110)
+                    .padding(.bottom, 36 + Theme.tabInset)
                 }
                 .refreshable { await model.load() }
             }

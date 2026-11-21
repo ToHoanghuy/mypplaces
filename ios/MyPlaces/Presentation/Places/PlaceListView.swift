@@ -46,7 +46,7 @@ struct PlaceListView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.bottom, 110)
+                    .padding(.bottom, 36 + Theme.tabInset)
                 }
                 .refreshable { await store.refresh(); await sync.syncNow() }
             }

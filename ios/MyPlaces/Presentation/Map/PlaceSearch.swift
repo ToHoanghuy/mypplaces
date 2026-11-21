@@ -116,9 +116,15 @@ struct PlaceSearchView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                SearchField(placeholder: "Tìm địa điểm", text: $model.query, focused: $focused) { model.search(near: region) }
+                SearchField(placeholder: "Tìm địa điểm", text: $model.query, focused: $focused, floating: true) { model.search(near: region) }
                     .accessibilityIdentifier("search.field")
-                Button("Hủy") { dismiss() }.font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+                Button { dismiss() } label: {
+                    Text("Hủy").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
+                        .padding(.horizontal, 16).frame(height: 44)
+                        .mpGlass(in: Capsule(), interactive: true)
+                        .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
             }
             .padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 10)
 
@@ -194,6 +200,7 @@ struct PlaceSearchView: View {
             }
             .listStyle(.plain)
             .scrollDismissesKeyboard(.immediately)
+            .mpScrollEdgeSoft()
             .scrollContentBackground(.hidden)
             .foregroundStyle(Theme.textPrimary)
         }

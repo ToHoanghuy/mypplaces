@@ -279,12 +279,7 @@ struct JournalDetailView: View {
             .ignoresSafeArea(edges: .top)
 
             if model.role.canContribute && !j.isArchived {
-                Button { showAdd = true } label: {
-                    Image(systemName: "plus").font(.system(size: 22, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                        .frame(width: 56, height: 56).background(Theme.accent, in: Circle())
-                        .shadow(color: Theme.accent.opacity(0.4), radius: 12, y: 6)
-                }
-                .buttonStyle(.plain)
+                FloatingActionButton(systemName: "plus") { showAdd = true }
                 .padding(20)
                 .accessibilityIdentifier("journal.add")
             }
