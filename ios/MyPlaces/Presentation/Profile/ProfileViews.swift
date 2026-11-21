@@ -13,20 +13,11 @@ struct ProfileView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                Text("Cá nhân").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
-                HStack { Spacer()
-                    Button { router.push(.sync) } label: { Image(systemName: "gearshape").font(.system(size: 18)).foregroundStyle(Theme.textPrimary) }
-                        .accessibilityIdentifier("profile.settings")
-                }
-            }
-            .padding(.horizontal, 20).frame(height: 52)
-
             ScrollView {
                 VStack(spacing: 10) {
                     Avatar(name: session.profile?.displayName ?? "?", path: session.profile?.avatarPath, size: 96)
                         .overlay(Circle().stroke(Theme.border, lineWidth: 2))
-                        .padding(.top, 20)
+                        .padding(.top, 4)
                     Text(session.profile?.displayName ?? " ").font(.system(size: 24, weight: .bold)).foregroundStyle(Theme.textPrimary)
                         .accessibilityIdentifier("profile.name")
                     Text(session.email ?? "").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
@@ -69,7 +60,14 @@ struct ProfileView: View {
             }
         }
         .screenBackground()
-        .toolbar(.hidden, for: .navigationBar)
+        .mpTabRootTitle("Cá nhân")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                ToolbarIconButton(systemName: "gearshape") { router.push(.sync) }
+                    .accessibilityIdentifier("profile.settings")
+                    .accessibilityLabel("Cài đặt")
+            }
+        }
         .fullScreenCover(isPresented: $showEdit) { EditProfileView() }
         .sheet(isPresented: $showInvite) { EnterInviteSheet().presentationDetents([.medium]) }
         .confirmationDialog("Đăng xuất khỏi MyPlaces?", isPresented: $confirmSignOut, titleVisibility: .visible) {

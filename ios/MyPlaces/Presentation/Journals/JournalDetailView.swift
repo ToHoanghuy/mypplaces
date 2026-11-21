@@ -174,8 +174,7 @@ struct JournalDetailView: View {
                 Button(role: .destructive) { confirmLeave = true } label: { Label("Rời nhật ký", systemImage: "rectangle.portrait.and.arrow.right") }
             }
         } label: {
-            Image(systemName: "ellipsis").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                .frame(width: 36, height: 36).background(Color.black.opacity(0.45), in: Circle())
+            CircleIconLabel(systemName: "ellipsis")
         }
         .accessibilityIdentifier("journal.more")
     }

@@ -136,3 +136,25 @@ extension View {
         if #available(iOS 26.0, *) { self } else { self.screenBackground() }
     }
 }
+
+// MARK: - Tab roots
+extension View {
+    /// Tab root screens: system large title that collapses into the (glass on iOS 26) navigation bar on scroll.
+    /// iOS 17–25 get the standard large title with the material bar.
+    func mpTabRootTitle(_ title: String) -> some View {
+        self.navigationTitle(title)
+            .navigationBarTitleDisplayMode(.large)
+    }
+}
+
+/// Icon button for a navigation-bar toolbar. iOS 26 puts it on the shared glass toolbar automatically.
+struct ToolbarIconButton: View {
+    var systemName: String
+    var tint: Color = Theme.textPrimary
+    var action: () -> Void
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemName).font(.system(size: 17, weight: .semibold)).foregroundStyle(tint)
+        }
+    }
+}

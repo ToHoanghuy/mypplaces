@@ -80,14 +80,6 @@ struct TimelineView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Text("Dòng thời gian").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
-                Spacer()
-                CircleIconButton(systemName: "slider.horizontal.3", tint: model.filter.isActive ? Theme.accent : Theme.textPrimary, background: Theme.surface) { showFilter = true }
-                    .accessibilityIdentifier("timeline.filter")
-            }
-            .padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 8)
-
             if model.loaded && model.items.isEmpty {
                 Spacer()
                 EmptyStateView(icon: "clock", title: model.filter.isActive ? "Không có lần ghé phù hợp" : "Chưa có lần ghé nào",
@@ -115,7 +107,15 @@ struct TimelineView: View {
             }
         }
         .screenBackground()
-        .toolbar(.hidden, for: .navigationBar)
+        .mpTabRootTitle("Dòng thời gian")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                ToolbarIconButton(systemName: model.filter.isActive ? "line.3.horizontal.decrease.circle.fill" : "slider.horizontal.3",
+                                  tint: model.filter.isActive ? Theme.accent : Theme.textPrimary) { showFilter = true }
+                    .accessibilityIdentifier("timeline.filter")
+                    .accessibilityLabel("Lọc")
+            }
+        }
         .task(id: AppEvents.shared.revision) { await model.reload() }
         .onChange(of: model.filter) { _, _ in Task { await model.reload() } }
         .sheet(isPresented: $showFilter) {

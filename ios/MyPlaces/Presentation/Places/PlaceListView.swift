@@ -10,29 +10,21 @@ struct PlaceListView: View {
     @State private var addSeed: PlaceSeed?
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text("Địa điểm").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
-                Spacer()
-                CircleIconButton(systemName: "plus", tint: Theme.accent, background: Theme.surface) {
-                    addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
-                }
-                .accessibilityIdentifier("places.add")
-            }
-            .padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 12)
-
-            SearchField(placeholder: "Tìm trong địa điểm của bạn", text: $query).padding(.horizontal, 20)
-            CategoryFilterRow(selection: $category).padding(.vertical, 12)
-
+        Group {
             if store.hasLoaded && store.places.isEmpty {
-                Spacer()
-                EmptyStateView(icon: "mappin.and.ellipse", title: "Chưa có nơi nào", message: "Lưu nơi đầu tiên để bắt đầu",
-                               actionTitle: "Thêm địa điểm") {
-                    addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
+                VStack {
+                    Spacer()
+                    EmptyStateView(icon: "mappin.and.ellipse", title: "Chưa có nơi nào", message: "Lưu nơi đầu tiên để bắt đầu",
+                                   actionTitle: "Thêm địa điểm") {
+                        addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .frame(maxWidth: .infinity)
             } else {
                 ScrollView {
+                    // Chips scroll with the content so the large title can collapse into the bar.
+                    CategoryFilterRow(selection: $category).padding(.top, 4).padding(.bottom, 12)
                     LazyVStack(spacing: 10) {
                         ForEach(filtered) { p in
                             Button { router.push(.place(p.id)) } label: { row(p) }
@@ -52,7 +44,17 @@ struct PlaceListView: View {
             }
         }
         .screenBackground()
-        .toolbar(.hidden, for: .navigationBar)
+        .mpTabRootTitle("Địa điểm")
+        .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Tìm trong địa điểm của bạn")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                ToolbarIconButton(systemName: "plus", tint: Theme.accent) {
+                    addSeed = PlaceSeed(coordinate: LocationService.shared.lastLocation?.coordinate ?? MapClustering.hanoi.center)
+                }
+                .accessibilityIdentifier("places.add")
+                .accessibilityLabel("Thêm địa điểm")
+            }
+        }
         .task(id: AppEvents.shared.revision) { await store.refresh() }
         .fullScreenCover(item: $addSeed) { seed in
             AddPlaceView(seed: seed) { id in router.push(.place(id)) }

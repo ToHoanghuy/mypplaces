@@ -44,17 +44,6 @@ struct JournalListView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                if archivedOnly { CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() } }
-                Text(archivedOnly ? "Đã lưu trữ" : "Nhật ký").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
-                Spacer()
-                if !archivedOnly {
-                    CircleIconButton(systemName: "plus", background: Theme.surface) { showCreate = true }
-                        .accessibilityIdentifier("journals.add")
-                }
-            }
-            .padding(.horizontal, 20).padding(.top, 8).padding(.bottom, 12)
-
             if model.loaded && visible.isEmpty {
                 Spacer()
                 EmptyStateView(icon: "book", title: archivedOnly ? "Không có nhật ký lưu trữ" : "Chưa có nhật ký",
@@ -81,7 +70,16 @@ struct JournalListView: View {
             }
         }
         .screenBackground()
-        .toolbar(.hidden, for: .navigationBar)
+        .mpTabRootTitle(archivedOnly ? "Đã lưu trữ" : "Nhật ký")
+        .toolbar {
+            if !archivedOnly {
+                ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarIconButton(systemName: "plus") { showCreate = true }
+                        .accessibilityIdentifier("journals.add")
+                        .accessibilityLabel("Tạo nhật ký")
+                }
+            }
+        }
         .task(id: AppEvents.shared.revision) { await model.load() }
         .fullScreenCover(isPresented: $showCreate) {
             CreateJournalView { id in router.push(.journal(id)) }

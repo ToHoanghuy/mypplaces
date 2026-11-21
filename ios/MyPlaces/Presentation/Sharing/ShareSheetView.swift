@@ -20,9 +20,8 @@ struct ShareSheetView: View {
                 HStack {
                     CircleIconButton(systemName: "xmark", size: 32, background: Theme.surface) { dismiss() }
                     Spacer()
-                    Button { dismiss(); DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { router.push(.members(target)) } } label: {
-                        Image(systemName: "person.2").font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
-                            .frame(width: 32, height: 32).background(Theme.surface, in: Circle())
+                    CircleIconButton(systemName: "person.2", size: 32, background: Theme.surface) {
+                        dismiss(); DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { router.push(.members(target)) }
                     }
                     .accessibilityIdentifier("share.members")
                 }

@@ -103,24 +103,35 @@ struct CircleIconButton: View {
     var action: () -> Void
     var body: some View {
         Button(action: action) {
-            if #available(iOS 26.0, *) {
-                // Floating control: Liquid Glass adapts to the photo / map / background behind it.
-                Image(systemName: systemName)
-                    .font(.system(size: size * 0.42, weight: .semibold))
-                    .foregroundStyle(tint ?? Color.primary)
-                    .frame(width: size, height: size)
-                    .mpGlass(in: Circle(), interactive: true)
-                    .contentShape(Circle())
-            } else {
-                Image(systemName: systemName)
-                    .font(.system(size: size * 0.42, weight: .semibold))
-                    .foregroundStyle(tint ?? (background == nil ? Theme.onAccent : Theme.textPrimary))
-                    .frame(width: size, height: size)
-                    .background(background ?? Color.black.opacity(0.45), in: Circle())
-                    .overlay(Circle().stroke(Theme.border, lineWidth: 0.5))
-            }
+            CircleIconLabel(systemName: systemName, size: size, tint: tint, background: background)
         }
         .buttonStyle(.plain)
+    }
+}
+
+/// The visual of `CircleIconButton`, for `Menu` labels ("…" menus on photo headers).
+struct CircleIconLabel: View {
+    var systemName: String
+    var size: CGFloat = 36
+    var tint: Color? = nil
+    var background: Color? = nil
+    var body: some View {
+        if #available(iOS 26.0, *) {
+            // Floating control: Liquid Glass adapts to the photo / map / background behind it.
+            Image(systemName: systemName)
+                .font(.system(size: size * 0.42, weight: .semibold))
+                .foregroundStyle(tint ?? Color.primary)
+                .frame(width: size, height: size)
+                .mpGlass(in: Circle(), interactive: true)
+                .contentShape(Circle())
+        } else {
+            Image(systemName: systemName)
+                .font(.system(size: size * 0.42, weight: .semibold))
+                .foregroundStyle(tint ?? (background == nil ? Theme.onAccent : Theme.textPrimary))
+                .frame(width: size, height: size)
+                .background(background ?? Color.black.opacity(0.45), in: Circle())
+                .overlay(Circle().stroke(Theme.border, lineWidth: 0.5))
+        }
     }
 }
 
