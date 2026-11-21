@@ -62,6 +62,19 @@ class MPUITestCase: XCTestCase {
         if e.isHittable { e.tap() } else { e.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap() }
     }
 
+    /// Menu item → confirmation dialog that repeats the same label: taps the item, then the dialog's button.
+    func menuThenConfirm(menu id: String, _ label: String) {
+        tap(id)
+        let item = app.buttons[label].firstMatch
+        wait(item, 5); press(item)
+        sleep(1)
+        let all = app.buttons.matching(identifier: label)
+        if all.count > 0 { press(all.element(boundBy: all.count - 1)) }
+    }
+
+    /// Unique suffix so tests that create data never collide with leftovers from earlier runs.
+    var runTag: String { String(Int(Date().timeIntervalSince1970) % 100_000) }
+
     func waitHittable(_ e: XCUIElement, _ t: TimeInterval = 10) {
         let end = Date().addingTimeInterval(t)
         while !e.isHittable && Date() < end { usleep(200_000) }

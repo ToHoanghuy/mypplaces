@@ -15,6 +15,42 @@ final class E07SharingUITests: MPUITestCase {
         return link.label
     }
 
+    /// Idempotent setup: if QA user B is still a member from an earlier run, leave first
+    /// (accept_invitation reactivates LEFT members) so the invite can be accepted again.
+    private func ensureBLeftPlace(_ name: String) {
+        app?.terminate()
+        launch(signedInAs: emailB)
+        waitSignedIn()
+        goTab(1)
+        let row = el("place.row.\(name)")
+        if row.waitForExistence(timeout: 12) {
+            press(row)
+            let leave = el("place.leave")
+            if leave.waitForExistence(timeout: 10) {
+                press(leave)
+                let ok = app.buttons["Rời địa điểm"].firstMatch
+                if ok.waitForExistence(timeout: 5) { press(ok); sleep(3) }
+            }
+        }
+        app.terminate()
+    }
+
+    private func ensureBLeftJournal(_ title: String) {
+        app?.terminate()
+        launch(signedInAs: emailB)
+        waitSignedIn()
+        goTab(3)
+        let card = el("journal.card.\(title)")
+        if card.waitForExistence(timeout: 12) {
+            press(card)
+            if el("journal.more").waitForExistence(timeout: 10) {
+                menuThenConfirm(menu: "journal.more", "Rời nhật ký")
+                sleep(3)
+            }
+        }
+        app.terminate()
+    }
+
     private func accept(as email: String, link: String, shotName: String) {
         app.terminate()
         launch(signedInAs: email, open: link)
@@ -27,6 +63,7 @@ final class E07SharingUITests: MPUITestCase {
     }
 
     func test01ShareJournalAsEditorAndAccept() {
+        ensureBLeftJournal("Hà Nội mùa thu")
         launch(signedInAs: emailA)
         waitSignedIn()
         goTab(3)
@@ -52,6 +89,7 @@ final class E07SharingUITests: MPUITestCase {
     }
 
     func test02SharePlaceAsViewerAndAccept() {
+        ensureBLeftPlace("Phở Bát Đàn")
         launch(signedInAs: emailA)
         waitSignedIn()
         goTab(1)

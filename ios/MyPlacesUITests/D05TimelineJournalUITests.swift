@@ -30,7 +30,9 @@ final class D05TimelineJournalUITests: MPUITestCase {
         wait(el("journal.create"), 10)
     }
 
+    /// Self-cleaning: uses a unique title (never duplicates the shared "Hà Nội mùa thu") and deletes it at the end.
     func test02CreateJournalAndAddItems() {
+        let title = "Chuyến thử \(runTag)"
         launch(signedInAs: emailA)
         waitSignedIn()
         goTab(3)
@@ -40,12 +42,12 @@ final class D05TimelineJournalUITests: MPUITestCase {
         tap("journals.add")
         wait(el("journal.create"))
         tap("journal.cover")
-        type("journal.title", "Hà Nội mùa thu")
+        type("journal.title", title)
         shot("06b_create_journal")
         tap("journal.create")
         // lands in the new journal (06c) or back on the list
         if !el("journal.add").waitForExistence(timeout: 20) {
-            tap("journal.card.Hà Nội mùa thu", 15)
+            tap("journal.card.\(title)", 15)
         }
         tap("journal.add", 20)
         wait(el("addtojournal.save"))
@@ -63,8 +65,11 @@ final class D05TimelineJournalUITests: MPUITestCase {
         sleep(4)
         shot("06c_journal_detail")
         if el("journal.tab.1").exists { tap("journal.tab.1"); sleep(3); shot("06d_journal_map") ; tap("journal.tab.0") }
-        tap("nav.back")
+        // Cleanup: soft-delete the journal (places / visits stay).
+        menuThenConfirm(menu: "journal.more", "Xóa nhật ký")
+        waitGone(el("journal.more"), 20)
         sleep(3)
+        XCTAssertFalse(el("journal.card.\(title)").exists)
         shot("06a_journals")
     }
 }

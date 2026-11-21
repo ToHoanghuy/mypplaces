@@ -3,12 +3,21 @@ import XCTest
 /// Modules 02–03 against the live backend as QA user A.
 final class B02MapPlacesUITests: MPUITestCase {
     /// 03e: soft-delete through Edit → "Xóa địa điểm" → confirm card.
+    /// Self-contained: creates a throwaway place first, so the shared QA places are never deleted.
     func test00DeletePlace() {
-        let name = env["QA_DELETE_TITLE"] ?? "Cà phê Giảng"
+        let name = env["QA_DELETE_TITLE"] ?? "Xóa thử \(Int(Date().timeIntervalSince1970) % 100_000)"
         launch(signedInAs: emailA)
         waitSignedIn()
+        if env["QA_DELETE_TITLE"] == nil {
+            let add = el("map.add")
+            if add.waitForExistence(timeout: 10) { press(add) } else { tap("map.empty.add") }
+            type("addplace.title", name)
+            tap("addplace.save")
+            waitGone(el("addplace.save"), 20)
+            sleep(2)
+        }
         goTab(1)
-        guard el("place.row.\(name)").waitForExistence(timeout: 15) else { return }
+        guard el("place.row.\(name)").waitForExistence(timeout: 15) else { return XCTFail("Missing place.row.\(name)") }
         tap("place.row.\(name)")
         tap("place.more")
         let edit = app.buttons["Sửa địa điểm"].firstMatch
@@ -22,9 +31,13 @@ final class B02MapPlacesUITests: MPUITestCase {
         XCTAssertFalse(el("place.row.\(name)").exists)
     }
 
-    func test01CreateFirstPlaceFromEmptyMap() {
+    /// Seeds "Cà phê Giảng" on a fresh account. Skipped when the seed already exists
+    /// (create + delete is covered by test00 on every run).
+    func test01CreateFirstPlaceFromEmptyMap() throws {
         launch(signedInAs: emailA)
         waitSignedIn()
+        if hasPlace("Cà phê Giảng") { throw XCTSkip("Seed place already present") }
+        goTab(0)
         if el("map.empty.add").waitForExistence(timeout: 8) {
             shot("02a_map_empty")
             tap("map.empty.add")
@@ -57,14 +70,28 @@ final class B02MapPlacesUITests: MPUITestCase {
         sleep(1)
     }
 
-    func test02AddPlacesViaSearch() {
+    /// Seeds the four search-added places; only adds the ones that are missing (Apple titles or renamed titles).
+    func test02AddPlacesViaSearch() throws {
         launch(signedInAs: emailA)
         waitSignedIn()
-        addViaSearch("phở bát đàn", chip: "Ẩm thực", shotName: "02d_map_search")
-        addViaSearch("khách sạn metropole hà nội", chip: "Khách sạn")
-        addViaSearch("nhà thờ lớn hà nội", chip: "Du lịch")
-        addViaSearch("hồ hoàn kiếm", chip: "Du lịch")
+        let seeds: [(query: String, chip: String, titles: [String])] = [
+            ("phở bát đàn", "Ẩm thực", ["Phở Bát Đàn", "Bát Đàn"]),
+            ("khách sạn metropole hà nội", "Khách sạn", ["Khách sạn Metropole", "Khách sạn Metropole Hanoi"]),
+            ("nhà thờ lớn hà nội", "Du lịch", ["Nhà thờ Lớn", "St. Joseph's Cathedral"]),
+            ("hồ hoàn kiếm", "Du lịch", ["Hồ Hoàn Kiếm"]),
+        ]
+        let missing = seeds.filter { seed in !seed.titles.contains { hasPlace($0, timeout: 3) } }
+        if missing.isEmpty { throw XCTSkip("Seed places already present") }
+        goTab(0)
+        for (i, seed) in missing.enumerated() {
+            addViaSearch(seed.query, chip: seed.chip, shotName: i == 0 ? "02d_map_search" : nil)
+        }
         shot("02c_map_pins")
+    }
+
+    private func hasPlace(_ title: String, timeout: TimeInterval = 8) -> Bool {
+        goTab(1)
+        return el("place.row.\(title)").waitForExistence(timeout: timeout)
     }
 
     func test03MapPreviewFilterAndOwnSearch() {
@@ -89,6 +116,11 @@ final class B02MapPlacesUITests: MPUITestCase {
         shot("03c_place_detail_owner")
     }
 
+    private func existing(_ original: String, else renamed: String) -> String {
+        goTab(1)
+        return el("place.row.\(original)").waitForExistence(timeout: 5) ? original : renamed
+    }
+
     private func editPlace(_ current: String, title: String? = nil, address: String? = nil, shotName: String? = nil) {
         goTab(1)
         tap("place.row.\(current)", 20)
@@ -111,9 +143,10 @@ final class B02MapPlacesUITests: MPUITestCase {
         waitSignedIn()
         goTab(1)
         wait(el("place.row.Cà phê Giảng"), 15)
-        editPlace("Khách sạn Metropole Hanoi", title: "Khách sạn Metropole", address: "15 Ngô Quyền, Hoàn Kiếm")
-        editPlace("St. Joseph's Cathedral", title: "Nhà thờ Lớn", address: "40 Nhà Chung, Hoàn Kiếm")
-        editPlace("Ho Hoan Kiem", title: "Hồ Hoàn Kiếm", address: "Đinh Tiên Hoàng, Hoàn Kiếm")
+        // Idempotent: the first run renames the Apple Maps titles; later runs edit the already-renamed places.
+        editPlace(existing("Khách sạn Metropole Hanoi", else: "Khách sạn Metropole"), title: "Khách sạn Metropole", address: "15 Ngô Quyền, Hoàn Kiếm")
+        editPlace(existing("St. Joseph's Cathedral", else: "Nhà thờ Lớn"), title: "Nhà thờ Lớn", address: "40 Nhà Chung, Hoàn Kiếm")
+        editPlace(existing("Ho Hoan Kiem", else: "Hồ Hoàn Kiếm"), title: "Hồ Hoàn Kiếm", address: "Đinh Tiên Hoàng, Hoàn Kiếm")
         editPlace("Cà phê Giảng", address: "39 Nguyễn Hữu Huân, Hoàn Kiếm", shotName: "03d_edit_place")
         goTab(1)
         sleep(2)
