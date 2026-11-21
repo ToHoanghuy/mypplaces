@@ -33,7 +33,7 @@ struct PlaceholderArt: View {
             LinearGradient(colors: [(category?.color ?? Theme.surfaceHigh).opacity(0.35), Theme.surface],
                            startPoint: .topLeading, endPoint: .bottomTrailing)
             if let category {
-                Image(systemName: category.icon).font(.system(size: 18, weight: .medium)).foregroundStyle(category.color.opacity(0.9))
+                Image(systemName: category.icon).font(.mp(18, .medium)).foregroundStyle(category.color.opacity(0.9))
             }
         }
     }

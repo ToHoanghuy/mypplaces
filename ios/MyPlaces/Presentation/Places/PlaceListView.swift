@@ -81,19 +81,19 @@ struct PlaceListView: View {
                 }
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(p.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
+                    Text(p.title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary).mpLineLimit(large: 3)
                     CategoryDot(category: p.category)
                     if let state = sync.state(for: p.id) {
                         Badge(text: state == .failed ? "Lỗi đồng bộ" : "Chưa đồng bộ", tone: state == .failed ? Theme.danger : Theme.textSecondary)
                     }
                 }
                 if let a = p.address, !a.isEmpty {
-                    Text(a).font(.system(size: 13)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                    Text(a).font(.mp(13)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
                 }
-                Text(PlaceCopy.visitCount(p)).font(.system(size: 12)).foregroundStyle(Theme.textTertiary)
+                Text(PlaceCopy.visitCount(p)).font(.mp(12)).foregroundStyle(Theme.textTertiary)
             }
             Spacer(minLength: 0)
-            Image(systemName: "chevron.right").font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.textTertiary)
+            Image(systemName: "chevron.right").font(.mp(12, .semibold)).foregroundStyle(Theme.textTertiary)
         }
         .padding(12)
         .background(Theme.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))

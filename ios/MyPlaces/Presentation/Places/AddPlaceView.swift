@@ -51,8 +51,8 @@ struct AddPlaceView: View {
                 MPGlassGroup(spacing: 10) {
                 HStack(spacing: 10) {
                     Button { dismiss() } label: {
-                        Text("Hủy").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                            .padding(.horizontal, 16).frame(height: 44)
+                        Text("Hủy").font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
+                            .padding(.horizontal, 16).frame(minHeight: 44)
                             .mpGlass(in: Capsule(), interactive: true)
                             .contentShape(Capsule())
                     }
@@ -60,11 +60,11 @@ struct AddPlaceView: View {
                     Button { showSearch = true } label: {
                         HStack(spacing: 8) {
                             Image(systemName: "magnifyingglass")
-                            Text("Tìm hoặc chạm giữ bản đồ").lineLimit(1)
+                            Text("Tìm hoặc chạm giữ bản đồ").mpLineLimit(large: 2)
                             Spacer()
                         }
-                        .font(.system(size: 14)).foregroundStyle(Theme.textSecondary)
-                        .padding(.horizontal, 14).frame(height: 44)
+                        .font(.mp(14)).foregroundStyle(Theme.textSecondary)
+                        .padding(.horizontal, 14).frame(minHeight: 44)
                         .mpGlass(in: Capsule(), interactive: true)
                         .contentShape(Capsule())
                     }
@@ -108,7 +108,7 @@ struct AddPlaceView: View {
         VStack(alignment: .leading, spacing: 18) {
             Capsule().fill(Theme.textTertiary).frame(width: 36, height: 4).frame(maxWidth: .infinity)
             TextField("", text: $title, prompt: Text("Tên địa điểm").foregroundColor(Theme.textTertiary))
-                .font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
+                .font(.mp(26, .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                 .focused($titleFocused)
                 .accessibilityIdentifier("addplace.title")
             CategoryPicker(selection: $category, wrap: false)
@@ -116,15 +116,15 @@ struct AddPlaceView: View {
                 Image(systemName: "mappin.and.ellipse").foregroundStyle(Theme.textSecondary)
                 if editingAddress {
                     TextField("", text: $address, prompt: Text("Nhập địa chỉ").foregroundColor(Theme.textTertiary))
-                        .font(.system(size: 15)).foregroundStyle(Theme.textPrimary)
+                        .font(.mp(15)).foregroundStyle(Theme.textPrimary)
                         .onSubmit { editingAddress = false }
                         .onChange(of: address) { _, _ in addressTouched = true }
                 } else {
-                    Text(address.isEmpty ? "Đang lấy địa chỉ…" : address).font(.system(size: 15)).foregroundStyle(Theme.textPrimary).lineLimit(2)
+                    Text(address.isEmpty ? "Đang lấy địa chỉ…" : address).font(.mp(15)).foregroundStyle(Theme.textPrimary).lineLimit(2)
                 }
                 Spacer()
                 Button(editingAddress ? "Xong" : "Sửa") { editingAddress.toggle() }
-                    .font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.accent)
+                    .font(.mp(14, .semibold)).foregroundStyle(Theme.accent)
             }
             if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger) }
             PrimaryButton(title: "Lưu địa điểm", isLoading: saving, isEnabled: valid) { save() }
@@ -191,7 +191,7 @@ struct LocationPickerView: View {
             Map(position: $position).mapStyle(.standard(emphasis: .muted, pointsOfInterest: .excludingAll))
                 .onMapCameraChange(frequency: .onEnd) { center = $0.region.center }
                 .ignoresSafeArea()
-            Image(systemName: "mappin.circle.fill").font(.system(size: 40)).foregroundStyle(Theme.accent, Theme.textPrimary).offset(y: -20)
+            Image(systemName: "mappin.circle.fill").font(.mp(40)).foregroundStyle(Theme.accent, Theme.textPrimary).offset(y: -20)
                 .allowsHitTesting(false)
             VStack {
                 ModalBar(title: "Đổi vị trí", onCancel: { dismiss() }) {

@@ -114,7 +114,7 @@ struct VisitDetailView: View {
                         Text("KỶ NIỆM").font(.mpSection).tracking(0.6).foregroundStyle(Theme.textSecondary)
                         let notes = model.memories.filter { ($0.body ?? "").isEmpty == false }
                         if notes.isEmpty {
-                            Text("Chưa có kỷ niệm nào. Thêm vài dòng hoặc ảnh để nhớ lần ghé này.").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+                            Text("Chưa có kỷ niệm nào. Thêm vài dòng hoặc ảnh để nhớ lần ghé này.").font(.mp(13)).foregroundStyle(Theme.textSecondary)
                         }
                         ForEach(notes) { m in memoryRow(m) }
                     }
@@ -159,24 +159,24 @@ struct VisitDetailView: View {
                 } label: {
                     HStack(spacing: 6) {
                         if let c = item.placeCategory { CategoryDot(category: c) }
-                        Text(item.title).font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.onAccent.opacity(0.9))
+                        Text(item.title).font(.mp(13, .medium)).foregroundStyle(Theme.onAccent.opacity(0.9))
                     }
-                    .padding(.horizontal, 10).frame(height: 24).background(.black.opacity(0.4), in: Capsule())
+                    .padding(.horizontal, 10).frame(minHeight: 24).background(.black.opacity(0.4), in: Capsule())
                 }
                 .buttonStyle(.plain)
                 Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))")
-                    .font(.system(size: 24, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                    .font(.mp(24, .bold)).foregroundStyle(Theme.textPrimary)
                     .accessibilityIdentifier("visit.date")
                 HStack(alignment: .bottom) {
                     if let note = item.note, !note.isEmpty {
-                        Text(note).font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9)).lineLimit(3)
+                        Text(note).font(.mp(14)).foregroundStyle(Theme.textPrimary.opacity(0.9)).lineLimit(3)
                     }
                     Spacer()
                     if !model.participants.isEmpty { AvatarStack(names: model.participants.map(\.name), size: 24, max: 2) }
                 }
                 if !model.participants.isEmpty {
                     Text("Cùng " + model.participants.map(\.name).joined(separator: ", "))
-                        .font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.7)).lineLimit(1)
+                        .font(.mp(12)).foregroundStyle(Theme.textPrimary.opacity(0.7)).mpLineLimit(large: 2)
                 }
             }
             .padding(18)
@@ -222,10 +222,10 @@ struct VisitDetailView: View {
             Avatar(name: m.author?.displayName ?? "?", path: m.author?.avatarPath, size: 32)
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
-                    Text(isMe ? "Bạn" : (m.author?.displayName ?? "Thành viên")).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary)
-                    Text(VNFormat.relative(m.createdAt)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                    Text(isMe ? "Bạn" : (m.author?.displayName ?? "Thành viên")).font(.mp(14, .semibold)).foregroundStyle(Theme.textPrimary)
+                    Text(VNFormat.relative(m.createdAt)).font(.mp(12)).foregroundStyle(Theme.textSecondary)
                 }
-                Text(m.body ?? "").font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9))
+                Text(m.body ?? "").font(.mp(14)).foregroundStyle(Theme.textPrimary.opacity(0.9))
                 if !m.attachments.isEmpty {
                     HStack(spacing: 6) {
                         ForEach(m.attachments.prefix(3)) { a in

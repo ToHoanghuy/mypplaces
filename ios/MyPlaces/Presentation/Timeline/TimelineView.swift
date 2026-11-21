@@ -91,7 +91,7 @@ struct TimelineView: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0, pinnedViews: []) {
                         ForEach(model.sections, id: \.title) { section in
-                            Text(section.title).font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textSecondary)
+                            Text(section.title).font(.mp(13, .medium)).foregroundStyle(Theme.textSecondary)
                                 .padding(.top, 14).padding(.bottom, 10).padding(.leading, 20)
                             ForEach(section.items) { item in
                                 Button { router.push(.visit(item.visitId)) } label: { row(item) }
@@ -156,12 +156,12 @@ struct TimelineView: View {
         VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 6) {
                 if let c = item.placeCategory { CategoryDot(category: c) }
-                Text(item.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
-                if item.myRole != .owner { Image(systemName: "person.2.fill").font(.system(size: 9)).foregroundStyle(Theme.textSecondary) }
+                Text(item.title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary).mpLineLimit(large: 3)
+                if item.myRole != .owner { Image(systemName: "person.2.fill").font(.mp(9)).foregroundStyle(Theme.textSecondary) }
             }
-            Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))").font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.7))
+            Text("\(VNFormat.weekdayDay(item.local)) · \(VNFormat.time(item.local))").font(.mp(12)).foregroundStyle(Theme.textPrimary.opacity(0.7))
             if let note = item.note, !note.isEmpty {
-                Text(note).font(.system(size: 13)).foregroundStyle(Theme.textPrimary.opacity(0.85)).lineLimit(1)
+                Text(note).font(.mp(13)).foregroundStyle(Theme.textPrimary.opacity(0.85)).mpLineLimit(large: 2)
             }
         }
     }
@@ -175,7 +175,7 @@ struct TimelineFilterSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Lọc").font(.system(size: 22, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                Text("Lọc").font(.mp(22, .bold)).foregroundStyle(Theme.textPrimary)
                 Spacer()
                 CircleIconButton(systemName: "xmark", size: 32, background: Theme.surfaceHigh) { dismiss() }
             }
@@ -200,11 +200,11 @@ struct TimelineFilterSheet: View {
             }
             Spacer()
             HStack {
-                Button("Đặt lại") { draft = TimelineFilter() }.font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
+                Button("Đặt lại") { draft = TimelineFilter() }.font(.mp(15)).foregroundStyle(Theme.textSecondary)
                 Spacer()
                 Button { filter = draft; dismiss() } label: {
-                    Text("Áp dụng").font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                        .padding(.horizontal, 28).frame(height: 48).background(Theme.accent, in: Capsule())
+                    Text("Áp dụng").font(.mp(16, .semibold)).foregroundStyle(Theme.onAccent)
+                        .padding(.horizontal, 28).frame(minHeight: 48).background(Theme.accent, in: Capsule())
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("filter.apply")
@@ -217,11 +217,11 @@ struct TimelineFilterSheet: View {
 
     private func dateField(_ label: String, _ date: Binding<Date>) -> some View {
         HStack {
-            Text(label).font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+            Text(label).font(.mp(13)).foregroundStyle(Theme.textSecondary)
             DatePicker("", selection: date, displayedComponents: .date).labelsHidden().tint(Theme.accent)
                 .environment(\.locale, Locale(identifier: "vi_VN"))
         }
-        .padding(.horizontal, 12).frame(height: 44).frame(maxWidth: .infinity)
+        .padding(.horizontal, 12).frame(minHeight: 44).frame(maxWidth: .infinity)
         .background(Theme.surfaceHigh, in: Capsule())
     }
 }

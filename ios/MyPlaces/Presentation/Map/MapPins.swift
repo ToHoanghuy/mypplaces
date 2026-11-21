@@ -28,7 +28,7 @@ struct PlacePinView: View {
                     }
             } else {
                 Image(systemName: place.category.icon)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.mp(13, .semibold))
                     .foregroundStyle(Theme.textPrimary)
                     .frame(width: selected ? 40 : 32, height: selected ? 40 : 32)
                     .background(place.category.color.opacity(place.visitStatus == .visited ? 0.95 : 0.7), in: Circle())
@@ -36,7 +36,7 @@ struct PlacePinView: View {
             }
             if cluster.count > 1 {
                 Text("+\(cluster.count - 1)")
-                    .font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.background)
+                    .font(.mp(10, .bold)).foregroundStyle(Theme.background)
                     .padding(.horizontal, 5).frame(height: 17)
                     .background(Theme.textPrimary, in: Capsule())
                     .offset(x: 8, y: -6)
@@ -62,16 +62,16 @@ struct PlacePreviewCard: View {
             PlaceThumb(path: place.coverStoragePath, category: place.category, size: 58, corner: 14)
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(place.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
+                    Text(place.title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary).mpLineLimit(large: 3)
                     CategoryDot(category: place.category)
                 }
-                Text(PlaceCopy.visitSummary(place)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                Text(PlaceCopy.visitSummary(place)).font(.mp(12)).foregroundStyle(Theme.textSecondary)
                 if let a = place.address, !a.isEmpty {
-                    Text(a).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                    Text(a).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
                 }
             }
             Spacer(minLength: 0)
-            Image(systemName: "chevron.right").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textSecondary)
+            Image(systemName: "chevron.right").font(.mp(13, .semibold)).foregroundStyle(Theme.textSecondary)
         }
         .padding(12)
         .background(Theme.surface.opacity(0.96), in: RoundedRectangle(cornerRadius: 22, style: .continuous))

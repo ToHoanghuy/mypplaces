@@ -154,7 +154,7 @@ struct ToolbarIconButton: View {
     var action: () -> Void
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName).font(.system(size: 17, weight: .semibold)).foregroundStyle(tint)
+            Image(systemName: systemName).font(.mp(17, .semibold)).foregroundStyle(tint)
         }
     }
 }

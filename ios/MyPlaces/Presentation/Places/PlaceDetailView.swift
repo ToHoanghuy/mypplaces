@@ -130,11 +130,11 @@ struct PlaceDetailView: View {
                     header(p, height: 300, rounded: false)
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 6) { CategoryDot(category: p.category); Text(p.category.displayName).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
-                        Text(p.title).font(.system(size: 28, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                        Text(p.title).font(.mp(28, .bold)).foregroundStyle(Theme.textPrimary)
                             .accessibilityIdentifier("place.title")
                         HStack(spacing: 6) {
-                            Image(systemName: "mappin.and.ellipse").font(.system(size: 12))
-                            Text(p.address ?? "Chưa có địa chỉ").font(.system(size: 13)).lineLimit(1)
+                            Image(systemName: "mappin.and.ellipse").font(.mp(12))
+                            Text(p.address ?? "Chưa có địa chỉ").font(.mp(13)).mpLineLimit(large: 2)
                             Badge(text: MemberRole.owner.displayName)
                             if let s = SyncEngine.shared.state(for: p.id) { Badge(text: s == .failed ? "Lỗi đồng bộ" : "Chưa đồng bộ", tone: s == .failed ? Theme.danger : Theme.textSecondary) }
                         }
@@ -160,7 +160,7 @@ struct PlaceDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             SectionHeader(title: "Lần ghé", count: model.visits.count + model.pendingVisits.count)
             if model.visits.isEmpty && model.pendingVisits.isEmpty {
-                Text("Chưa ghé · muốn đến. Ghi lần ghé đầu tiên khi bạn tới nơi.").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+                Text("Chưa ghé · muốn đến. Ghi lần ghé đầu tiên khi bạn tới nơi.").font(.mp(13)).foregroundStyle(Theme.textSecondary)
             }
             ForEach(model.pendingVisits, id: \.visit.id) { d in
                 visitRow(date: d.visit.visitedAt, tz: d.visit.timezoneId, note: d.visit.note, photo: nil, names: d.participants.compactMap(\.displayNameSnapshot), pending: true)
@@ -181,9 +181,9 @@ struct PlaceDetailView: View {
         HStack(spacing: 12) {
             PlaceThumb(path: photo, category: model.place?.category ?? .other, size: 46, corner: 10)
             VStack(alignment: .leading, spacing: 3) {
-                Text(VNFormat.weekdayDay(date, tz: VNFormat.tz(tz))).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                Text(VNFormat.weekdayDay(date, tz: VNFormat.tz(tz))).font(.mp(14, .semibold)).foregroundStyle(Theme.textPrimary)
                 Text(note?.isEmpty == false ? note! : VNFormat.time(date, tz: VNFormat.tz(tz)))
-                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                    .font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
             }
             Spacer()
             if pending { Badge(text: "Chưa đồng bộ") }
@@ -205,7 +205,7 @@ struct PlaceDetailView: View {
                         }.buttonStyle(.plain)
                     }
                     ForEach(model.memories.filter { $0.attachments.isEmpty }) { m in
-                        Text(m.body ?? "").font(.system(size: 11)).foregroundStyle(Theme.textPrimary).lineLimit(4)
+                        Text(m.body ?? "").font(.mp(11)).foregroundStyle(Theme.textPrimary).lineLimit(4)
                             .padding(8).frame(width: 84, height: 84, alignment: .topLeading)
                             .background(Theme.surface, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
@@ -234,10 +234,10 @@ struct PlaceDetailView: View {
                         Button { router.push(.journal(j.journalId)) } label: {
                             HStack(spacing: 8) {
                                 StorageImage(path: j.journals?.coverPath).frame(width: 22, height: 22).clipShape(Circle())
-                                Text(j.journals?.title ?? "").font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                                Image(systemName: "chevron.right").font(.system(size: 10)).foregroundStyle(Theme.textSecondary)
+                                Text(j.journals?.title ?? "").font(.mp(13, .medium)).foregroundStyle(Theme.textPrimary)
+                                Image(systemName: "chevron.right").font(.mp(10)).foregroundStyle(Theme.textSecondary)
                             }
-                            .padding(.leading, 6).padding(.trailing, 12).frame(height: 36)
+                            .padding(.leading, 6).padding(.trailing, 12).frame(minHeight: 36)
                             .background(Theme.surface, in: Capsule())
                         }.buttonStyle(.plain)
                     }
@@ -256,13 +256,13 @@ struct PlaceDetailView: View {
                     header(p, height: 250, rounded: true).padding(.horizontal, 12).padding(.top, 4)
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 6) { CategoryDot(category: p.category); Text(p.category.displayName).font(.mpCaption).foregroundStyle(Theme.textSecondary) }
-                        Text(p.title).font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                        Text(p.title).font(.mp(26, .bold)).foregroundStyle(Theme.textPrimary)
                             .accessibilityIdentifier("place.title")
-                        if let a = p.address { Text(a).font(.system(size: 14)).foregroundStyle(Theme.textSecondary) }
+                        if let a = p.address { Text(a).font(.mp(14)).foregroundStyle(Theme.textSecondary) }
                         HStack(spacing: 8) {
                             Avatar(name: model.ownerName ?? "?", size: 22)
-                            Image(systemName: "person.2").font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
-                            Text("\(model.ownerName ?? "Ai đó") chia sẻ với bạn").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+                            Image(systemName: "person.2").font(.mp(11)).foregroundStyle(Theme.textSecondary)
+                            Text("\(model.ownerName ?? "Ai đó") chia sẻ với bạn").font(.mp(13)).foregroundStyle(Theme.textSecondary)
                             Spacer()
                             Badge(text: p.role.displayName)
                         }
@@ -271,7 +271,7 @@ struct PlaceDetailView: View {
                     .padding(.horizontal, 20).padding(.top, 16)
 
                     HStack {
-                        Text("Kỷ niệm").font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                        Text("Kỷ niệm").font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary)
                         Spacer()
                         Text("\(model.memories.count) kỷ niệm").font(.mpCaption).foregroundStyle(Theme.textSecondary)
                     }
@@ -301,7 +301,7 @@ struct PlaceDetailView: View {
                     PrimaryButton(title: "Ghi lần ghé", icon: "camera") { showLogVisit = true }
                 }
                 Button("Rời địa điểm chia sẻ") { confirmLeave = true }
-                    .font(.system(size: 13)).foregroundStyle(Theme.textSecondary).padding(.vertical, 8)
+                    .font(.mp(13)).foregroundStyle(Theme.textSecondary).padding(.vertical, 8)
                     .accessibilityIdentifier("place.leave")
             }
             .padding(.horizontal, 20).padding(.bottom, 4)
@@ -315,14 +315,14 @@ struct PlaceDetailView: View {
                 StorageImage(path: a.storagePath, placeholderCategory: category)
                     .onTapGesture { viewerPhoto = a.storagePath }
             } else {
-                Text(m.body ?? "").font(.system(size: 13)).foregroundStyle(Theme.textPrimary).padding(12)
+                Text(m.body ?? "").font(.mp(13)).foregroundStyle(Theme.textPrimary).padding(12)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).background(Theme.surface)
             }
             HStack(spacing: 4) {
                 Avatar(name: m.author?.displayName ?? "?", size: 16)
-                Text(firstName(m.author?.displayName)).font(.system(size: 11, weight: .medium)).foregroundStyle(Theme.onAccent)
+                Text(firstName(m.author?.displayName)).font(.mp(11, .medium)).foregroundStyle(Theme.onAccent)
             }
-            .padding(.horizontal, 6).frame(height: 22).background(.black.opacity(0.55), in: Capsule()).padding(8)
+            .padding(.horizontal, 6).frame(minHeight: 22).background(.black.opacity(0.55), in: Capsule()).padding(8)
         }
         .frame(height: 150)
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))

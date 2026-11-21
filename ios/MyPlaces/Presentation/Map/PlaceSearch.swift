@@ -119,8 +119,8 @@ struct PlaceSearchView: View {
                 SearchField(placeholder: "Tìm địa điểm", text: $model.query, focused: $focused, floating: true) { model.search(near: region) }
                     .accessibilityIdentifier("search.field")
                 Button { dismiss() } label: {
-                    Text("Hủy").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                        .padding(.horizontal, 16).frame(height: 44)
+                    Text("Hủy").font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
+                        .padding(.horizontal, 16).frame(minHeight: 44)
                         .mpGlass(in: Capsule(), interactive: true)
                         .contentShape(Capsule())
                 }
@@ -136,8 +136,8 @@ struct PlaceSearchView: View {
                                 HStack(spacing: 12) {
                                     PlaceThumb(path: p.coverStoragePath, category: p.category, size: 40, corner: 20)
                                     VStack(alignment: .leading, spacing: 2) {
-                                        HStack(spacing: 6) { Text(p.title).font(.system(size: 15, weight: .semibold)); CategoryDot(category: p.category) }
-                                        if let a = p.address { Text(a).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1) }
+                                        HStack(spacing: 6) { Text(p.title).font(.mp(15, .semibold)); CategoryDot(category: p.category) }
+                                        if let a = p.address { Text(a).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2) }
                                     }
                                 }
                             }
@@ -154,9 +154,9 @@ struct PlaceSearchView: View {
                                     Image(systemName: "mappin.and.ellipse").foregroundStyle(Theme.textSecondary)
                                         .frame(width: 40, height: 40).background(Theme.surface, in: Circle())
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(item.name ?? "Địa điểm").font(.system(size: 15, weight: .semibold))
+                                        Text(item.name ?? "Địa điểm").font(.mp(15, .semibold))
                                         if let a = PlaceSeed.address(item.placemark) {
-                                            Text(a).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                                            Text(a).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
                                         }
                                     }
                                     Spacer()
@@ -177,8 +177,8 @@ struct PlaceSearchView: View {
                                     Image(systemName: poi.category.icon).font(.system(size: 15)).foregroundStyle(poi.category.color)
                                         .frame(width: 40, height: 40).background(Theme.surface, in: Circle())
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(poi.name).font(.system(size: 15, weight: .semibold)).lineLimit(1)
-                                        Text(poiSubtitle(poi)).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                                        Text(poi.name).font(.mp(15, .semibold)).mpLineLimit(large: 3)
+                                        Text(poiSubtitle(poi)).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
                                     }
                                     Spacer()
                                     Image(systemName: "plus").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textPrimary)
@@ -188,7 +188,7 @@ struct PlaceSearchView: View {
                             .listRowBackground(Theme.background)
                             .accessibilityIdentifier("search.poi")
                         }
-                        Text(POIAttribution.text).font(.system(size: 11)).foregroundStyle(Theme.textTertiary)
+                        Text(POIAttribution.text).font(.mp(11)).foregroundStyle(Theme.textTertiary)
                             .listRowBackground(Theme.background).listRowSeparator(.hidden)
                             .accessibilityIdentifier("search.attribution")
                     } header: { sectionTitle("Gợi ý thêm") }

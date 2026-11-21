@@ -48,8 +48,8 @@ struct EditPlaceView: View {
                         .overlay(alignment: .bottomTrailing) {
                             Button { showPicker = true } label: {
                                 HStack(spacing: 6) { Image(systemName: "mappin.and.ellipse").foregroundStyle(Theme.accent); Text("Đổi vị trí") }
-                                    .font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                                    .padding(.horizontal, 12).frame(height: 30).background(.black.opacity(0.7), in: Capsule())
+                                    .font(.mp(12, .semibold)).foregroundStyle(Theme.onAccent)
+                                    .padding(.horizontal, 12).frame(minHeight: 30).background(.black.opacity(0.7), in: Capsule())
                             }
                             .buttonStyle(.plain).padding(10)
                         }
@@ -63,7 +63,7 @@ struct EditPlaceView: View {
                         if let error { Text(error).font(.mpCaption).foregroundStyle(Theme.danger) }
 
                         Button { askDelete() } label: {
-                            Text("Xóa địa điểm").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.danger)
+                            Text("Xóa địa điểm").font(.mp(15, .semibold)).foregroundStyle(Theme.danger)
                                 .frame(maxWidth: .infinity).padding(.vertical, 20)
                         }
                         .buttonStyle(.plain)
@@ -90,7 +90,7 @@ struct EditPlaceView: View {
     }
 
     private func label(_ t: String) -> some View {
-        Text(t).font(.system(size: 13)).foregroundStyle(Theme.textSecondary).padding(.leading, 6).padding(.bottom, -8)
+        Text(t).font(.mp(13)).foregroundStyle(Theme.textSecondary).padding(.leading, 6).padding(.bottom, -8)
     }
 
     private var valid: Bool {

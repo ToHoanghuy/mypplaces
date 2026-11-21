@@ -22,9 +22,9 @@ struct AddToJournalView: View {
             HStack(spacing: 0) {
                 ForEach(Array(["Địa điểm", "Lần ghé"].enumerated()), id: \.offset) { i, t in
                     Button { tab = i } label: {
-                        Text(t).font(.system(size: 13, weight: tab == i ? .semibold : .regular))
+                        Text(t).font(.mp(13, tab == i ? .semibold : .regular))
                             .foregroundStyle(tab == i ? Theme.textPrimary : Theme.textSecondary)
-                            .frame(maxWidth: .infinity).frame(height: 34)
+                            .frame(maxWidth: .infinity).frame(minHeight: 34)
                             .background(tab == i ? Theme.surfaceHigh : .clear, in: Capsule())
                     }.buttonStyle(.plain)
                 }
@@ -40,9 +40,9 @@ struct AddToJournalView: View {
                         } label: {
                             HStack(spacing: 14) {
                                 Image(systemName: "plus").foregroundStyle(Theme.textPrimary).frame(width: 40, height: 40).background(Theme.surface, in: Circle())
-                                Text("Tạo địa điểm mới").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
+                                Text("Tạo địa điểm mới").font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
                                 Spacer()
-                                Image(systemName: "chevron.right").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                                Image(systemName: "chevron.right").font(.mp(12)).foregroundStyle(Theme.textSecondary)
                             }
                             .padding(.vertical, 10)
                         }.buttonStyle(.plain)
@@ -93,7 +93,7 @@ struct AddToJournalView: View {
     private var visitList: [TimelineItem] { visits.filter { matches($0.title) } }
 
     private func hint(_ t: String) -> some View {
-        Text(t).font(.system(size: 13)).foregroundStyle(Theme.textSecondary).padding(.vertical, 20)
+        Text(t).font(.mp(13)).foregroundStyle(Theme.textSecondary).padding(.vertical, 20)
     }
 
     private func toggle(_ set: inout Set<UUID>, _ id: UUID) {
@@ -105,12 +105,12 @@ struct AddToJournalView: View {
             HStack(spacing: 12) {
                 PlaceThumb(path: path, category: category, size: 40, corner: 20)
                 VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 6) { Text(title).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary); CategoryDot(category: category) }
-                    if let subtitle { Text(subtitle).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1) }
+                    HStack(spacing: 6) { Text(title).font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary); CategoryDot(category: category) }
+                    if let subtitle { Text(subtitle).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2) }
                 }
                 Spacer()
                 Image(systemName: selected ? "checkmark.circle.fill" : "circle")
-                    .font(.system(size: 22)).foregroundStyle(disabled ? Theme.textTertiary : (selected ? Theme.accent : Theme.textTertiary))
+                    .font(.mp(22)).foregroundStyle(disabled ? Theme.textTertiary : (selected ? Theme.accent : Theme.textTertiary))
             }
             .padding(.vertical, 10)
             .opacity(disabled ? 0.5 : 1)

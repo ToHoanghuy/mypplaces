@@ -47,7 +47,7 @@ struct PhotoTile: View {
             if uploading {
                 ZStack {
                     Color.black.opacity(0.5)
-                    VStack(spacing: 6) { ProgressView().tint(Theme.accent); Text("Đang tải lên…").font(.system(size: 11)).foregroundStyle(Theme.textPrimary) }
+                    VStack(spacing: 6) { ProgressView().tint(Theme.accent); Text("Đang tải lên…").font(.mp(11)).foregroundStyle(Theme.textPrimary) }
                 }
             }
             if let onRemove, !uploading {

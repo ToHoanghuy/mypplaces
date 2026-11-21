@@ -52,11 +52,12 @@ struct MembersView: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 12) {
                 CircleIconButton(systemName: "chevron.left", background: Theme.surface) { dismiss() }.accessibilityIdentifier("nav.back")
-                Text("Thành viên").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary)
-                Spacer()
+                Text("Thành viên").font(.mpLargeTitle).foregroundStyle(Theme.textPrimary).minimumScaleFactor(0.8)
+                Spacer(minLength: 8)
                 HStack(spacing: 4) { Image(systemName: "person.2"); Text("\(model.members.count + 1) người") }
-                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
-                    .padding(.horizontal, 10).frame(height: 28).background(Theme.surface, in: Capsule())
+                    .font(.mp(12)).foregroundStyle(Theme.textSecondary)
+                    .lineLimit(1).fixedSize()
+                    .padding(.horizontal, 10).frame(minHeight: 28).background(Theme.surface, in: Capsule())
             }
             .padding(.horizontal, 20).padding(.top, 8)
 
@@ -83,12 +84,12 @@ struct MembersView: View {
                                     Image(systemName: inv.inviteeEmailNormalized == nil ? "link" : "envelope").foregroundStyle(Theme.textSecondary)
                                         .frame(width: 40, height: 40).background(Theme.surfaceHigh, in: Circle())
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text(inv.inviteeEmailNormalized ?? "Liên kết mời").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                                        Text("\(inv.role.displayName) · \(VNFormat.expiresIn(inv.expiresAt))").font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                                        Text(inv.inviteeEmailNormalized ?? "Liên kết mời").font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
+                                        Text("\(inv.role.displayName) · \(VNFormat.expiresIn(inv.expiresAt))").font(.mp(12)).foregroundStyle(Theme.textSecondary)
                                     }
                                     Spacer()
                                     Button("Thu hồi") { act { try await MyPlacesAPI.shared.revokeInvitation(inv.id) } }
-                                        .font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.danger)
+                                        .font(.mp(13, .semibold)).foregroundStyle(Theme.danger)
                                         .accessibilityIdentifier("invite.revoke")
                                 }
                                 .padding(12)
@@ -112,10 +113,10 @@ struct MembersView: View {
                         Button("Ngừng chia sẻ") { confirmUnshare = true }.foregroundStyle(Theme.danger)
                             .disabled(model.members.isEmpty && model.invitations.isEmpty)
                     }
-                    .font(.system(size: 13))
+                    .font(.mp(13))
                 } else if model.loaded {
                     Button("Rời \(target.type.noun)") { confirmLeave = true }
-                        .font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.danger).padding(.vertical, 10)
+                        .font(.mp(14, .medium)).foregroundStyle(Theme.danger).padding(.vertical, 10)
                 }
             }
             .padding(.horizontal, 20).padding(.bottom, 8)
@@ -155,8 +156,8 @@ struct MembersView: View {
         HStack(spacing: 12) {
             Avatar(name: name, size: 40)
             VStack(alignment: .leading, spacing: 2) {
-                Text(name).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
-                Text(subtitle).font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                Text(name).font(.mp(15, .semibold)).foregroundStyle(Theme.textPrimary)
+                Text(subtitle).font(.mp(12)).foregroundStyle(Theme.textSecondary)
             }
             Spacer()
             if model.isOwner && role != .owner {
@@ -171,9 +172,9 @@ struct MembersView: View {
                         Label("Xóa khỏi \(target.type.noun)", systemImage: "person.badge.minus")
                     }
                 } label: {
-                    HStack(spacing: 4) { Text(role.displayName); Image(systemName: "chevron.down").font(.system(size: 9)) }
-                        .font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                        .padding(.horizontal, 10).frame(height: 28).background(Theme.surfaceHigh, in: Capsule())
+                    HStack(spacing: 4) { Text(role.displayName); Image(systemName: "chevron.down").font(.mp(9)) }
+                        .font(.mp(12, .medium)).foregroundStyle(Theme.textPrimary)
+                        .padding(.horizontal, 10).frame(minHeight: 28).background(Theme.surfaceHigh, in: Capsule())
                 }
                 .accessibilityIdentifier("member.role.\(name)")
             } else {

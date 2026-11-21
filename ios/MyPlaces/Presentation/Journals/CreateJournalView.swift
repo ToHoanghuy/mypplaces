@@ -29,10 +29,10 @@ struct CreateJournalView: View {
                     .accessibilityIdentifier("journal.cover")
 
                     TextField("", text: $title, prompt: Text("Tiêu đề nhật ký").foregroundColor(Theme.textTertiary))
-                        .font(.system(size: 26, weight: .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
+                        .font(.mp(26, .bold)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                         .accessibilityIdentifier("journal.title")
                     TextField("", text: $description, prompt: Text("Mô tả (tùy chọn)").foregroundColor(Theme.textTertiary), axis: .vertical)
-                        .font(.system(size: 15)).foregroundStyle(Theme.textPrimary).tint(Theme.accent).lineLimit(1...5)
+                        .font(.mp(15)).foregroundStyle(Theme.textPrimary).tint(Theme.accent).lineLimit(1...5)
 
                     HStack(spacing: 10) {
                         datePill(icon: "calendar", text: start.map { "Từ \(VNFormat.numeric($0))" } ?? "Từ ngày") { editing = .start }
@@ -81,7 +81,7 @@ struct CreateJournalView: View {
             VStack(spacing: 10) {
                 Image(systemName: "photo.badge.plus").font(.system(size: 18)).foregroundStyle(Theme.textSecondary)
                     .frame(width: 44, height: 44).background(Theme.surfaceHigh, in: Circle())
-                Text("Thêm ảnh bìa").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+                Text("Thêm ảnh bìa").font(.mp(13)).foregroundStyle(Theme.textSecondary)
             }
             .frame(maxWidth: .infinity).frame(height: 210)
             .background {
@@ -94,8 +94,8 @@ struct CreateJournalView: View {
 
     private func datePill(icon: String, text: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            HStack(spacing: 8) { Image(systemName: icon).font(.system(size: 12)); Text(text).font(.system(size: 13)) }
-                .foregroundStyle(Theme.textPrimary).frame(maxWidth: .infinity).frame(height: 44)
+            HStack(spacing: 8) { Image(systemName: icon).font(.mp(12)); Text(text).font(.mp(13)) }
+                .foregroundStyle(Theme.textPrimary).frame(maxWidth: .infinity).frame(minHeight: 44)
                 .background(Theme.surface, in: RoundedRectangle(cornerRadius: 14))
         }.buttonStyle(.plain)
     }

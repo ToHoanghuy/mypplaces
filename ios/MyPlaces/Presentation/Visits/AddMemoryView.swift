@@ -21,9 +21,9 @@ struct AddMemoryView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 6) {
                         Circle().fill(Theme.accent).frame(width: 5, height: 5)
-                        Text(contextLabel).font(.system(size: 12)).foregroundStyle(Theme.textSecondary).lineLimit(1)
+                        Text(contextLabel).font(.mp(12)).foregroundStyle(Theme.textSecondary).mpLineLimit(large: 2)
                     }
-                    .padding(.horizontal, 12).frame(height: 28).background(Theme.surface, in: Capsule())
+                    .padding(.horizontal, 12).frame(minHeight: 28).background(Theme.surface, in: Capsule())
 
                     if !photos.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -35,7 +35,7 @@ struct AddMemoryView: View {
                         }
                     }
                     TextField("", text: $text, prompt: Text("Viết vài dòng…").foregroundColor(Theme.textTertiary), axis: .vertical)
-                        .font(.system(size: 17)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
+                        .font(.mp(17)).foregroundStyle(Theme.textPrimary).tint(Theme.accent)
                         .lineLimit(3...12).focused($focused)
                         .accessibilityIdentifier("memory.text")
                     if text.count > 1800 {
@@ -49,8 +49,8 @@ struct AddMemoryView: View {
                 HStack(spacing: 10) {
                     PhotoPickButton(maxCount: 10 - photos.count, onPicked: { photos.append(contentsOf: $0) }) {
                         HStack(spacing: 6) { Image(systemName: "photo.on.rectangle"); Text("Thư viện") }
-                            .font(.system(size: 13, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                            .padding(.horizontal, 14).frame(height: 36).background(Theme.surface, in: Capsule())
+                            .font(.mp(13, .medium)).foregroundStyle(Theme.textPrimary)
+                            .padding(.horizontal, 14).frame(minHeight: 36).background(Theme.surface, in: Capsule())
                     }
                     .accessibilityIdentifier("memory.library")
                     Image(systemName: "camera").font(.system(size: 14)).foregroundStyle(UIImagePickerController.isSourceTypeAvailable(.camera) ? Theme.textPrimary : Theme.textTertiary)

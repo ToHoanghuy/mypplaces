@@ -183,9 +183,9 @@ struct JournalDetailView: View {
         HStack(spacing: 0) {
             ForEach(Array(["Dòng thời gian", "Bản đồ"].enumerated()), id: \.offset) { i, t in
                 Button { withAnimation(.easeInOut(duration: 0.2)) { tab = i } } label: {
-                    Text(t).font(.system(size: 13, weight: tab == i ? .semibold : .regular))
+                    Text(t).font(.mp(13, tab == i ? .semibold : .regular))
                         .foregroundStyle(tab == i ? Theme.textPrimary : Theme.textSecondary)
-                        .frame(maxWidth: .infinity).frame(height: 34)
+                        .frame(maxWidth: .infinity).frame(minHeight: 34)
                         .background(tab == i ? Theme.surfaceHigh : .clear, in: Capsule())
                 }
                 .buttonStyle(.plain)
@@ -210,8 +210,8 @@ struct JournalDetailView: View {
                                 if !model.members.isEmpty { Text("·"); Image(systemName: "person.2") }
                                 if j.isArchived { Text("· Đã lưu trữ") }
                             }
-                            .font(.system(size: 12)).foregroundStyle(Theme.textPrimary.opacity(0.75))
-                            Text(j.title).font(.system(size: 28, weight: .bold)).foregroundStyle(Theme.textPrimary)
+                            .font(.mp(12)).foregroundStyle(Theme.textPrimary.opacity(0.75))
+                            Text(j.title).font(.mp(28, .bold)).foregroundStyle(Theme.textPrimary)
                                 .accessibilityIdentifier("journal.title.label")
                             HStack(spacing: 6) {
                                 AvatarStack(names: model.allPeople, size: 24, max: 4)
@@ -237,7 +237,7 @@ struct JournalDetailView: View {
 
                     if model.timelineSections.isEmpty {
                         Text(model.role.canContribute ? "Chưa có địa điểm nào. Bấm + để thêm địa điểm hoặc lần ghé." : "Nhật ký chưa có địa điểm nào.")
-                            .font(.system(size: 13)).foregroundStyle(Theme.textSecondary).padding(20)
+                            .font(.mp(13)).foregroundStyle(Theme.textSecondary).padding(20)
                     }
                     ForEach(model.timelineSections, id: \.title) { s in
                         Text(s.title).font(.mpSection).tracking(0.5).foregroundStyle(Theme.textSecondary)
@@ -247,7 +247,7 @@ struct JournalDetailView: View {
 
                     if !model.memories.isEmpty || model.role.canContribute {
                         HStack {
-                            Text("Kỷ niệm & ghi chú").font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                            Text("Kỷ niệm & ghi chú").font(.mp(15, .semibold)).foregroundStyle(Theme.textPrimary)
                             Spacer()
                             if model.role.canContribute && !j.isArchived {
                                 Button { showAddMemory = true } label: { Image(systemName: "plus").foregroundStyle(Theme.textSecondary) }
@@ -260,10 +260,10 @@ struct JournalDetailView: View {
                                 Avatar(name: m.author?.displayName ?? "?", size: 28)
                                 VStack(alignment: .leading, spacing: 3) {
                                     HStack(spacing: 6) {
-                                        Text(m.authorId == MyPlacesAPI.shared.userID ? "Bạn" : (m.author?.displayName ?? "")).font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                                        Text(m.authorId == MyPlacesAPI.shared.userID ? "Bạn" : (m.author?.displayName ?? "")).font(.mp(13, .semibold)).foregroundStyle(Theme.textPrimary)
                                         Text(VNFormat.relative(m.createdAt)).font(.mpCaption).foregroundStyle(Theme.textSecondary)
                                     }
-                                    if let b = m.body { Text(b).font(.system(size: 14)).foregroundStyle(Theme.textPrimary.opacity(0.9)) }
+                                    if let b = m.body { Text(b).font(.mp(14)).foregroundStyle(Theme.textPrimary.opacity(0.9)) }
                                     if let a = m.attachments.first {
                                         StorageImage(path: a.storagePath).frame(height: 160).clipShape(RoundedRectangle(cornerRadius: 14))
                                     }
@@ -296,14 +296,14 @@ struct JournalDetailView: View {
             HStack(spacing: 12) {
                 PlaceThumb(path: own?.coverStoragePath, category: row.category, size: 48, corner: 12)
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 6) { CategoryDot(category: row.category); Text(row.title).font(.system(size: 15, weight: .semibold)).foregroundStyle(Theme.textPrimary) }
+                    HStack(spacing: 6) { CategoryDot(category: row.category); Text(row.title).font(.mp(15, .semibold)).foregroundStyle(Theme.textPrimary) }
                     HStack(spacing: 6) {
                         Text(row.subtitle)
                         Text("•")
                         Avatar(name: model.name(of: row.addedBy), size: 16)
                         Text(model.name(of: row.addedBy).split(separator: " ").last.map(String.init) ?? "")
                     }
-                    .font(.system(size: 12)).foregroundStyle(Theme.textSecondary)
+                    .font(.mp(12)).foregroundStyle(Theme.textSecondary)
                 }
                 Spacer()
             }
@@ -330,10 +330,10 @@ struct JournalDetailView: View {
                             ZStack(alignment: .topLeading) {
                                 PlaceThumb(path: PlacesStore.shared.place(stop.placeId)?.coverStoragePath, category: stop.category, size: 40, corner: 20)
                                     .overlay(Circle().stroke(Theme.onAccent, lineWidth: 2))
-                                Text("\(i + 1)").font(.system(size: 10, weight: .bold)).foregroundStyle(Theme.background)
+                                Text("\(i + 1)").font(.mp(10, .bold)).foregroundStyle(Theme.background)
                                     .frame(width: 18, height: 18).background(Theme.textPrimary, in: Circle()).offset(x: -6, y: -6)
                             }
-                            Text(stop.title).font(.system(size: 10, weight: .medium)).foregroundStyle(Theme.onAccent)
+                            Text(stop.title).font(.mp(10, .medium)).foregroundStyle(Theme.onAccent)
                                 .padding(.horizontal, 6).padding(.vertical, 2).background(.black.opacity(0.6), in: Capsule())
                         }
                     }
@@ -348,8 +348,8 @@ struct JournalDetailView: View {
                     CircleIconButton(systemName: "chevron.left") { dismiss() }
                     Spacer()
                     VStack(spacing: 2) {
-                        Text(j.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary)
-                        Text("\(j.dateRange ?? "") · \(stops.count) địa điểm").font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
+                        Text(j.title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary)
+                        Text("\(j.dateRange ?? "") · \(stops.count) địa điểm").font(.mp(11)).foregroundStyle(Theme.textSecondary)
                     }
                     Spacer()
                     moreMenu(j)
@@ -362,9 +362,9 @@ struct JournalDetailView: View {
                             HStack(spacing: 10) {
                                 PlaceThumb(path: PlacesStore.shared.place(stop.placeId)?.coverStoragePath, category: stop.category, size: 52, corner: 12)
                                 VStack(alignment: .leading, spacing: 2) {
-                                    HStack(spacing: 4) { CategoryDot(category: stop.category); Text(stop.category.displayName).font(.system(size: 11)).foregroundStyle(Theme.textSecondary) }
-                                    Text(stop.title).font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1)
-                                    Text(stop.dateLine).font(.system(size: 11)).foregroundStyle(Theme.textSecondary)
+                                    HStack(spacing: 4) { CategoryDot(category: stop.category); Text(stop.category.displayName).font(.mp(11)).foregroundStyle(Theme.textSecondary) }
+                                    Text(stop.title).font(.mp(14, .semibold)).foregroundStyle(Theme.textPrimary).mpLineLimit(large: 3)
+                                    Text(stop.dateLine).font(.mp(11)).foregroundStyle(Theme.textSecondary)
                                 }
                             }
                             .padding(10).frame(width: 230, alignment: .leading)

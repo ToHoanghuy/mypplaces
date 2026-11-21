@@ -13,10 +13,16 @@ struct ShareSheetView: View {
     @State private var created: CreatedInvitation?
     @State private var copied = false
 
+    @Environment(\.dynamicTypeSize) private var typeSize
+
     var body: some View {
+        // Scrolls at large text sizes; at normal sizes it fills the sheet so the CTA stays at the bottom.
+        GeometryReader { geo in
+        ScrollView {
         VStack(alignment: .leading, spacing: 16) {
             ZStack {
-                Text("Chia sẻ \(target.type.noun)").font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                Text("Chia sẻ \(target.type.noun)").font(.mp(17, .semibold)).foregroundStyle(Theme.textPrimary)
+                    .multilineTextAlignment(.center).padding(.horizontal, 40)
                 HStack {
                     CircleIconButton(systemName: "xmark", size: 32, background: Theme.surface) { dismiss() }
                     Spacer()
@@ -30,7 +36,7 @@ struct ShareSheetView: View {
 
             HStack(spacing: 12) {
                 PlaceThumb(path: target.coverPath, category: target.category ?? .other, size: 48, corner: 12)
-                Text(target.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(2)
+                Text(target.title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(2)
                 if let c = target.category { CategoryDot(category: c) }
                 Spacer()
             }
@@ -40,23 +46,28 @@ struct ShareSheetView: View {
         }
         .padding(.horizontal, 20)
         .padding(.bottom, 8)
+        .frame(minHeight: geo.size.height, alignment: .top)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        }
         .screenBackground()
         .presentationDetents([.large])
     }
 
     private var form: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Quyền").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+            Text("Quyền").font(.mp(13)).foregroundStyle(Theme.textSecondary)
             roleRow(.viewer, title: "Người xem – Chỉ xem")
             roleRow(.editor, title: "Biên tập – Thêm kỷ niệm")
             InputField(placeholder: "Email (tùy chọn)", text: $email, keyboard: .emailAddress, leadingIcon: "envelope", identifier: "share.email")
-            Text("Hết hạn sau").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
-            HStack(spacing: 8) {
+            Text("Hết hạn sau").font(.mp(13)).foregroundStyle(Theme.textSecondary)
+            let ttlLayout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))
+            ttlLayout {
                 ForEach([1, 7, 30], id: \.self) { d in
                     Button { ttl = d } label: {
-                        Text("\(d) ngày").font(.system(size: 14, weight: ttl == d ? .semibold : .regular))
+                        Text("\(d) ngày").font(.mp(14, ttl == d ? .semibold : .regular))
                             .foregroundStyle(ttl == d ? Theme.background : Theme.textPrimary)
-                            .frame(maxWidth: .infinity).frame(height: 40)
+                            .frame(maxWidth: .infinity).frame(minHeight: 40)
                             .background(ttl == d ? Theme.textPrimary : Theme.surface, in: Capsule())
                     }
                     .buttonStyle(.plain)
@@ -78,9 +89,9 @@ struct ShareSheetView: View {
             HStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
                 Text("Đã tạo liên kết mời · \(role.displayName) · \(VNFormat.expiresIn(inv.expiresAt))")
-                    .font(.system(size: 13)).foregroundStyle(Theme.textPrimary)
+                    .font(.mp(13)).foregroundStyle(Theme.textPrimary)
             }
-            Text(inv.link.absoluteString).font(.system(size: 12, design: .monospaced)).foregroundStyle(Theme.textSecondary)
+            Text(inv.link.absoluteString).font(.system(.caption, design: .monospaced)).foregroundStyle(Theme.textSecondary)
                 .lineLimit(2).truncationMode(.middle)
                 .padding(12).frame(maxWidth: .infinity, alignment: .leading)
                 .background(Theme.surface, in: RoundedRectangle(cornerRadius: 14))
@@ -89,15 +100,15 @@ struct ShareSheetView: View {
             Spacer()
             ShareLink(item: inv.link, message: Text("Mời bạn xem \(target.type.noun) “\(target.title)” trên MyPlaces")) {
                 HStack { Image(systemName: "square.and.arrow.up"); Text("Gửi liên kết") }
-                    .font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.onAccent)
-                    .frame(maxWidth: .infinity).frame(height: 52).background(Theme.accent, in: Capsule())
+                    .font(.mp(16, .semibold)).foregroundStyle(Theme.onAccent)
+                    .frame(maxWidth: .infinity).frame(minHeight: 52).background(Theme.accent, in: Capsule())
             }
             Button {
                 UIPasteboard.general.string = inv.link.absoluteString
                 copied = true
             } label: {
-                Text(copied ? "Đã sao chép" : "Sao chép liên kết").font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                    .frame(maxWidth: .infinity).frame(height: 44)
+                Text(copied ? "Đã sao chép" : "Sao chép liên kết").font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
+                    .frame(maxWidth: .infinity).frame(minHeight: 44)
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("share.copy")
@@ -115,12 +126,12 @@ struct ShareSheetView: View {
     private func roleRow(_ r: MemberRole, title: String) -> some View {
         Button { role = r } label: {
             HStack {
-                Text(title).font(.system(size: 15)).foregroundStyle(role == r ? Theme.textPrimary : Theme.textSecondary)
+                Text(title).font(.mp(15)).foregroundStyle(role == r ? Theme.textPrimary : Theme.textSecondary)
                 Spacer()
                 Image(systemName: role == r ? "largecircle.fill.circle" : "circle")
                     .foregroundStyle(role == r ? Theme.accent : Theme.textTertiary)
             }
-            .padding(.horizontal, 16).frame(height: 52)
+            .padding(.horizontal, 16).frame(minHeight: 52)
             .background(Theme.surface, in: RoundedRectangle(cornerRadius: 18))
             .overlay(RoundedRectangle(cornerRadius: 18).stroke(role == r ? Theme.accent : .clear, lineWidth: 1.5))
         }

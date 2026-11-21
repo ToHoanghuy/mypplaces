@@ -23,8 +23,8 @@ struct PrimaryButton: View {
                 if isLoading {
                     ProgressView().tint(foreground)
                 } else {
-                    if let icon { Image(systemName: icon).font(.system(size: 15, weight: .semibold)) }
-                    Text(title).font(.system(size: 16, weight: .semibold))
+                    if let icon { Image(systemName: icon).font(.mp(15, .semibold)) }
+                    Text(title).font(.mp(16, .semibold))
                 }
             }
             .frame(maxWidth: .infinity)
@@ -79,11 +79,11 @@ struct PillButton: View {
     var body: some View {
         Button(action: action) {
             Group {
-                if isLoading { ProgressView().tint(Theme.onAccent).scaleEffect(0.8) } else { Text(title).font(.system(size: 14, weight: .semibold)) }
+                if isLoading { ProgressView().tint(Theme.onAccent).scaleEffect(0.8) } else { Text(title).font(.mp(14, .semibold)) }
             }
             .foregroundStyle(Theme.onAccent)
             .padding(.horizontal, 16)
-            .frame(height: 34)
+            .frame(minHeight: 34)
             .modifier(PrimaryFill(tone: .accent, color: Theme.accent))
             .contentShape(Capsule())
         }
@@ -169,11 +169,11 @@ struct Chip: View {
         Button(action: action) {
             HStack(spacing: 6) {
                 if let category { CategoryDot(category: category) }
-                Text(title).font(.system(size: 13, weight: selected ? .semibold : .medium))
-                if showCheck && selected { Image(systemName: "checkmark").font(.system(size: 10, weight: .bold)) }
+                Text(title).font(.mp(13, selected ? .semibold : .medium))
+                if showCheck && selected { Image(systemName: "checkmark").font(.mp(10, .bold)) }
             }
             .padding(.horizontal, 14)
-            .frame(height: 32)
+            .frame(minHeight: 32)
             .foregroundStyle(selected ? Theme.background : Theme.textPrimary)
             .modifier(ChipFill(selected: selected, floating: floating))
             .contentShape(Capsule())
@@ -251,9 +251,9 @@ struct SearchField: View {
     var onSubmit: () -> Void = {}
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass").font(.system(size: 15)).foregroundStyle(Theme.textSecondary)
+            Image(systemName: "magnifyingglass").font(.mp(15)).foregroundStyle(Theme.textSecondary)
             field
-                .font(.system(size: 15))
+                .font(.mp(15))
                 .foregroundStyle(Theme.textPrimary)
                 .tint(Theme.accent)
                 .submitLabel(.search)
@@ -266,7 +266,7 @@ struct SearchField: View {
             }
         }
         .padding(.horizontal, 14)
-        .frame(height: 44)
+        .frame(minHeight: 44)
         .modifier(SearchFill(floating: floating))
     }
 
@@ -309,7 +309,7 @@ struct InputField: View {
                     TextField("", text: $text, prompt: Text(placeholder).foregroundColor(Theme.textSecondary))
                 }
             }
-            .font(.system(size: 15))
+            .font(.mp(15))
             .foregroundStyle(Theme.textPrimary)
             .tint(Theme.accent)
             .keyboardType(keyboard)
@@ -327,7 +327,7 @@ struct InputField: View {
             if let trailing { trailing }
         }
         .padding(.horizontal, 16)
-        .frame(height: 52)
+        .frame(minHeight: 52)
         .background(Theme.surface, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).stroke(Theme.border, lineWidth: 1))
     }
@@ -365,7 +365,7 @@ struct AvatarStack: View {
         HStack(spacing: -size * 0.3) {
             ForEach(Array(names.prefix(max).enumerated()), id: \.offset) { _, n in Avatar(name: n, size: size) }
             if names.count > max {
-                Text("+\(names.count - max)").font(.system(size: 10, weight: .semibold)).foregroundStyle(Theme.textPrimary)
+                Text("+\(names.count - max)").font(.mp(10, .semibold)).foregroundStyle(Theme.textPrimary)
                     .padding(.leading, size * 0.4)
             }
         }
@@ -379,13 +379,13 @@ struct SectionHeader: View {
     var body: some View {
         HStack {
             Text(uppercase ? title.uppercased() : title)
-                .font(uppercase ? .mpSection : .system(size: 15, weight: .semibold))
+                .font(uppercase ? .mpSection : .mp(15, .semibold))
                 .foregroundStyle(uppercase ? Theme.textSecondary : Theme.textPrimary)
                 .tracking(uppercase ? 0.6 : 0)
             Spacer()
             if let count {
-                Text("\(count)").font(.system(size: 12, weight: .medium)).foregroundStyle(Theme.textSecondary)
-                    .padding(.horizontal, 8).frame(height: 20).background(Theme.surface, in: Capsule())
+                Text("\(count)").font(.mp(12, .medium)).foregroundStyle(Theme.textSecondary)
+                    .padding(.horizontal, 8).frame(minHeight: 20).background(Theme.surface, in: Capsule())
             }
         }
     }
@@ -397,12 +397,12 @@ struct Badge: View {
     var tone: Color = Theme.textSecondary
     var body: some View {
         HStack(spacing: 4) {
-            if let icon { Image(systemName: icon).font(.system(size: 9, weight: .semibold)) }
-            Text(text).font(.system(size: 11, weight: .medium))
+            if let icon { Image(systemName: icon).font(.mp(9, .semibold)) }
+            Text(text).font(.mp(11, .medium))
         }
         .foregroundStyle(tone)
         .padding(.horizontal, 8)
-        .frame(height: 20)
+        .frame(minHeight: 20)
         .background(Theme.surfaceHigh, in: Capsule())
     }
 }
@@ -412,8 +412,8 @@ struct InfoNote: View {
     var icon = "lock"
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
-            Image(systemName: icon).font(.system(size: 11)).padding(.top, 2)
-            Text(text).font(.system(size: 12)).fixedSize(horizontal: false, vertical: true)
+            Image(systemName: icon).font(.mp(11)).padding(.top, 2)
+            Text(text).font(.mp(12)).fixedSize(horizontal: false, vertical: true)
         }
         .foregroundStyle(Theme.textSecondary)
     }
@@ -429,7 +429,7 @@ struct EmptyStateView: View {
         VStack(spacing: 10) {
             Image(systemName: icon).font(.system(size: 20)).foregroundStyle(Theme.textPrimary)
                 .frame(width: 48, height: 48).background(Theme.surfaceHigh, in: Circle())
-            Text(title).font(.system(size: 18, weight: .bold)).foregroundStyle(Theme.textPrimary)
+            Text(title).font(.mp(18, .bold)).foregroundStyle(Theme.textPrimary)
             Text(message).font(.mpCallout).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
             if let actionTitle, let action {
                 PrimaryButton(title: actionTitle, icon: "plus", action: action).padding(.top, 10)
@@ -483,11 +483,11 @@ struct ModalBar<Trailing: View>: View {
     @ViewBuilder var trailing: Trailing
     var body: some View {
         ZStack {
-            Text(title).font(.system(size: 16, weight: .semibold)).foregroundStyle(Theme.textPrimary).lineLimit(1).padding(.horizontal, 80)
+            Text(title).font(.mp(16, .semibold)).foregroundStyle(Theme.textPrimary).mpLineLimit(large: 2).padding(.horizontal, 80)
             HStack {
                 Button(action: onCancel) {
-                    Text(cancelTitle).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary)
-                        .padding(.horizontal, 14).frame(height: 34)
+                    Text(cancelTitle).font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary)
+                        .padding(.horizontal, 14).frame(minHeight: 34)
                         .mpGlass(in: Capsule(), interactive: true)
                         .contentShape(Capsule())
                 }
@@ -498,7 +498,7 @@ struct ModalBar<Trailing: View>: View {
             }
         }
         .padding(.horizontal, 20)
-        .frame(height: 52)
+        .frame(minHeight: 52)
     }
 }
 
@@ -509,7 +509,7 @@ struct ToastModifier: ViewModifier {
         content.overlay(alignment: .top) {
             if let message {
                 Text(message)
-                    .font(.system(size: 14, weight: .medium)).foregroundStyle(Theme.textPrimary)
+                    .font(.mp(14, .medium)).foregroundStyle(Theme.textPrimary)
                     .padding(.horizontal, 16).padding(.vertical, 12)
                     .mpGlass(in: Capsule())
                     .padding(.top, 8).padding(.horizontal, 24)
@@ -554,11 +554,11 @@ struct ConfirmCard: View {
             VStack(spacing: 14) {
                 Image(systemName: icon).font(.system(size: 20)).foregroundStyle(Theme.danger)
                     .frame(width: 52, height: 52).background(Theme.danger.opacity(0.15), in: Circle())
-                Text(title).font(.system(size: 19, weight: .bold)).foregroundStyle(Theme.textPrimary).multilineTextAlignment(.center)
-                Text(message).font(.system(size: 13)).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
+                Text(title).font(.mp(19, .bold)).foregroundStyle(Theme.textPrimary).multilineTextAlignment(.center)
+                Text(message).font(.mp(13)).foregroundStyle(Theme.textSecondary).multilineTextAlignment(.center)
                 PrimaryButton(title: confirmTitle, tone: .danger, isLoading: isLoading, height: 48, action: onConfirm)
                     .padding(.top, 6).accessibilityIdentifier("confirm.ok")
-                Button("Hủy", action: onCancel).font(.system(size: 15, weight: .medium)).foregroundStyle(Theme.textPrimary).padding(.vertical, 6)
+                Button("Hủy", action: onCancel).font(.mp(15, .medium)).foregroundStyle(Theme.textPrimary).padding(.vertical, 6)
             }
             .padding(22)
             .modifier(AlertFill())

@@ -30,8 +30,8 @@ struct MapScreen: View {
                             Text("Tìm địa điểm").foregroundStyle(Theme.textSecondary)
                             Spacer()
                         }
-                        .font(.system(size: 15))
-                        .padding(.horizontal, 16).frame(height: 48)
+                        .font(.mp(15))
+                        .padding(.horizontal, 16).frame(minHeight: 48)
                         .mpGlass(in: Capsule(), interactive: true)
                         .contentShape(Capsule())
                     }
@@ -167,8 +167,8 @@ struct MapScreen: View {
         VStack(spacing: 8) {
             Image(systemName: "mappin.and.ellipse").font(.system(size: 18)).foregroundStyle(Theme.textPrimary)
                 .frame(width: 44, height: 44).background(Theme.surfaceHigh, in: Circle())
-            Text("Chưa có nơi nào").font(.system(size: 19, weight: .bold)).foregroundStyle(Theme.textPrimary).padding(.top, 4)
-            Text("Lưu nơi đầu tiên để thấy nó trên bản đồ").font(.system(size: 13)).foregroundStyle(Theme.textSecondary)
+            Text("Chưa có nơi nào").font(.mp(19, .bold)).foregroundStyle(Theme.textPrimary).padding(.top, 4)
+            Text("Lưu nơi đầu tiên để thấy nó trên bản đồ").font(.mp(13)).foregroundStyle(Theme.textSecondary)
             PrimaryButton(title: "Thêm địa điểm", icon: "plus") {
                 addSeed = PlaceSeed(coordinate: seedCoordinate(preferUser: true))
             }
