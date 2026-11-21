@@ -78,12 +78,4 @@ extension PlaceCategory {
     }
 }
 
-extension Font {
-    static let mpLargeTitle = Font.system(size: 28, weight: .bold)
-    static let mpTitle = Font.system(size: 22, weight: .bold)
-    static let mpHeadline = Font.system(size: 17, weight: .semibold)
-    static let mpBody = Font.system(size: 15)
-    static let mpCallout = Font.system(size: 14)
-    static let mpCaption = Font.system(size: 12)
-    static let mpSection = Font.system(size: 12, weight: .semibold)
-}
+// Font tokens live in Typography.swift (Inter + Dynamic Type).

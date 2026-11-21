@@ -18,6 +18,7 @@ struct MyPlacesApp: App {
         }
         SyncEngine.shared.configure(container: container)
         QAHooks.prepare()
+        AppFont.configureAppearance()
     }
 
     var body: some Scene {
