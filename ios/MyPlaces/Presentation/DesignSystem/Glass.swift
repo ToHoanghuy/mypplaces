@@ -117,3 +117,22 @@ extension View {
         if #available(iOS 26.0, *) { backgroundExtensionEffect() } else { self }
     }
 }
+
+// MARK: - Sheets
+extension View {
+    /// Partial-height sheets get the system Liquid Glass sheet on iOS 26; earlier versions use a solid colour + corner radius.
+    @ViewBuilder func mpSheetBackground(_ fallback: Color, cornerRadius: CGFloat? = nil) -> some View {
+        if #available(iOS 26.0, *) {
+            self
+        } else if let cornerRadius {
+            self.presentationBackground(fallback).presentationCornerRadius(cornerRadius)
+        } else {
+            self.presentationBackground(fallback)
+        }
+    }
+
+    /// Content of a partial-height sheet: transparent on iOS 26 so the glass shows, solid screen background earlier.
+    @ViewBuilder func mpSheetContentBackground() -> some View {
+        if #available(iOS 26.0, *) { self } else { self.screenBackground() }
+    }
+}

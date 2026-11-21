@@ -91,7 +91,7 @@ struct VisitDetailView: View {
                 }
             }
             .presentationDetents([.medium, .large])
-            .presentationBackground(Theme.background)
+            .mpSheetBackground(Theme.background)
         }
         .confirmationDialog("Xóa lần ghé này?", isPresented: $confirmDelete, titleVisibility: .visible) {
             Button("Xóa lần ghé", role: .destructive) { delete() }

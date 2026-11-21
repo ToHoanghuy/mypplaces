@@ -162,6 +162,6 @@ struct EnterInviteSheet: View {
             .accessibilityIdentifier("invite.open")
         }
         .padding(.horizontal, 20).padding(.bottom, 8)
-        .screenBackground()
+        .mpSheetContentBackground()
     }
 }

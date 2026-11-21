@@ -67,7 +67,7 @@ struct CreateJournalView: View {
             }
             .padding(20)
             .presentationDetents([.medium])
-            .presentationBackground(Theme.surface)
+            .mpSheetBackground(Theme.surface)
         }
     }
 
